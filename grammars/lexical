@@ -1,0 +1,13 @@
+letter -> [a-zA-Z]
+digit -> [0-9]
+
+id -> letter(letter|digit)*
+number -> digit(.digit)?
+
+integer -> (+|-)?(digit)+
+real -> (+|-)?(digit)?.(digit)+
+
+op_comp -> <|<=|>|>=|==|!=
+op_arit -> +|-|*|/
+
+token -> id|number|op_comp|op_arit|;|::|(|)|{|}|=|&|if|else|while|INTEGER|REAL|PARAMETER|PROGRAM|CHARACTER|READ|WRITE|IMPLICIT|NONE|END
