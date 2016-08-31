@@ -1,7 +1,11 @@
+
+Lexic
+
 letter -> [a-z]|[A-Z]
+symbol -> 
 digit -> [0-9]
 
-id -> letter(letter|digit)*
+id -> letter(letter|digit|_)*
 number -> digit(.digit)?
 
 integer -> (+|-)?(digit)+
@@ -10,4 +14,30 @@ real -> (+|-)?(digit)?.(digit)+
 op_comp -> <|<=|>|>=|==|!=
 op_arit -> +|-|*|/
 
-token -> id|number|op_comp|op_arit|;|::|(|)|{|}|=|&|if|else|while|INTEGER|REAL|PARAMETER|PROGRAM|CHARACTER|READ|WRITE|IMPLICIT|NONE|END
+token -> id|number|op_comp|op_arit|!|;|::|(|)|{|}|=|&|if|else|while|INTEGER|REAL|PARAMETER|PROGRAM|CHARACTER|READ|WRITE|IMPLICIT|NONE|END
+
+__________________________________________________________________________________________________________________________________________
+
+Syntactic
+
+PROGRAM ::= program id EOL (STATEMENT)* end program id EOL
+
+STATEMENT ::= (EXPRESSION| DECLARATION| CONTROL FLOW) EOL | STATEMENT STATEMENT
+
+OP   ::= op_comp | op_arit
+TYPE ::= integer, real, character
+
+EXPRESSION ::= number | id | EXPRESSION OP EXPRESSION | OP EXPRESSION 
+
+NUMBER_LITERAL     ::= number
+CHARACTER_LITERAL  ::= letter | symbol
+
+DECLARATION        ::= TYPE :: DECLARED_VARIABLES
+DECLARED_VARIABLES ::= VARNAME | VARNAME*number | DECLARED_VARIABLES , DECLARED_VARIABLES
+VARNAME            ::= id
+
+ASSIGNMENT 				 ::= VARNAME = NUMBER_LITERAL
+
+WHITESPACE         ::= space | tab
+SEPARATOR          ::= COMMENT | WHITESPACE | EOL
+COMMENT            ::= ! graphic* EOL
