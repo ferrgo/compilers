@@ -21,7 +21,7 @@ EOT -> "\0000"
 LP -> (
 RP -> )
 
-token -> id|op_comp|op_arit|;|::|LP|RP|=|&|if|else|while|INTEGER|PROGRAM|CHARACTER|PRINT|READ|WRITE|IMPLICIT|NONE|END|EOL|EOT
+token -> id|op_comp|op_arit|;|::|LP|RP|=|&|if|else|while|INTEGER|PROGRAM|CHARACTER|LOGICAL|PRINT|READ|WRITE|IMPLICIT|NONE|END|EOL|EOT
 
 __________________________________________________________________________________________________________________________________________
 //If then problem
