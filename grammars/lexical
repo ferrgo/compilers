@@ -14,7 +14,9 @@ real -> (+|-)?(digit)?.(digit)+
 op_comp -> <|<=|>|>=|==|!=
 op_arit -> +|-|*|/
 
-EOL -> \n\r | \n
+EOL -> "\n\r" | "\n"  #EOL = End of Line?
+
+EOT -> "\0000" #EOT = End of Text or End of File
 
 token -> id|number|op_comp|op_arit|!|;|::|(|)|{|}|=|&|if|else|while|INTEGER|REAL|PARAMETER|PROGRAM|CHARACTER|READ|WRITE|IMPLICIT|NONE|END|EOL
 
@@ -40,6 +42,6 @@ VARNAME            ::= id
 
 ASSIGNMENT 				 ::= VARNAME = EXPRESSION
 
-WHITESPACE         ::= space | tab
-SEPARATOR          ::= COMMENT | WHITESPACE | EOL
+#WHITESPACE         ::= space | tab
+#SEPARATOR          ::= COMMENT | WHITESPACE | EOL
 COMMENT            ::= ! graphic* EOL
