@@ -20,8 +20,8 @@ LP          -> (
 RP          -> )
 
 TOKEN   		->  ID | LIT_INTEGER | LIT_LOGICAL| OP_COMP | OP_ARIT |;| :: | = | LP | RP  
-							| IF | THEN | ELSE | END IF | ELSE IF | DO WHILE | END DO | EXIT | LOGICAL | INTEGER 
-							| PROGRAM | END PROGRAM | FUNCTION | END FUNCTION | SUBROUTINE| END SUBROUTINE | PRINT
+			   | IF | THEN | ELSE | END IF | ELSE IF | DO WHILE | END DO | EXIT | LOGICAL | INTEGER 
+			   | PROGRAM | END PROGRAM | FUNCTION | END FUNCTION | SUBROUTINE| END SUBROUTINE | PRINT
 __________________________________________________________________________________________________________________________________________
 
 Syntactic
