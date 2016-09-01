@@ -2,7 +2,7 @@
 Lexic
 
 letter -> [a-z]|[A-Z]
-symbol -> 
+symbol ->
 digit -> [0-9]
 
 id -> letter(letter|digit|_)*
@@ -14,7 +14,9 @@ real -> (+|-)?(digit)?.(digit)+
 op_comp -> <|<=|>|>=|==|!=
 op_arit -> +|-|*|/
 
-token -> id|number|op_comp|op_arit|!|;|::|(|)|{|}|=|&|if|else|while|INTEGER|REAL|PARAMETER|PROGRAM|CHARACTER|READ|WRITE|IMPLICIT|NONE|END
+EOL -> \n\r | \n
+
+token -> id|number|op_comp|op_arit|!|;|::|(|)|{|}|=|&|if|else|while|INTEGER|REAL|PARAMETER|PROGRAM|CHARACTER|READ|WRITE|IMPLICIT|NONE|END|EOL
 
 __________________________________________________________________________________________________________________________________________
 
@@ -25,9 +27,9 @@ PROGRAM ::= program id EOL (STATEMENT)* end program id EOL
 STATEMENT ::= (EXPRESSION| DECLARATION| CONTROL FLOW) EOL | STATEMENT STATEMENT
 
 OP   ::= op_comp | op_arit
-TYPE ::= integer, real, character
+TYPE ::= integer | real | character
 
-EXPRESSION ::= number | id | (EXPRESSION) | EXPRESSION OP EXPRESSION | OP EXPRESSION 
+EXPRESSION ::= number | id | (EXPRESSION) | EXPRESSION OP EXPRESSION | OP EXPRESSION
 
 NUMBER_LITERAL     ::= number
 CHARACTER_LITERAL  ::= "letter" | "symbol"
