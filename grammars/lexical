@@ -1,49 +1,46 @@
 Lexic
 
-letter -> [a-z]|[A-Z]
-symbol ->
-digit -> [0-9]
+// Na nossa linguagem, os comentários começam com ! e vão até o fim da linha
 
-id -> letter(letter|digit|_)*
+LETTER  		->  [a-z]|[A-Z]
+DIGIT   		->  [0-9]
+ID      		->  LETTER(LETTER|DIGIT|_)*
 
-integer -> (digit)+
-logical -> .true. | .false.
+LIT_INTEGER ->  DIGIT+
+LIT_LOGICAL ->  .true. | .false.
+LITERAL			->  LIT_INTEGER | LIT_LOGICAL
 
-literal -> integer|logical
+OP_COMP 		->  <|<=|>|>=|==|!=
+OP_ARIT 		->  +|-|*|/
 
-op_comp -> <|<=|>|>=|==|!=
-op_arit -> +|-|*|/
+EOL         -> "\n\r" | "\n"
+EOT         -> "\0000"
 
-EOL -> "\n\r" | "\n"
+LP          -> (
+RP          -> )
 
-EOT -> "\0000"
-
-LP -> (
-RP -> )
-
-token -> id|op_comp|op_arit|;|::|LP|RP|=|&|if|else|while|INTEGER|PROGRAM|CHARACTER|LOGICAL|PRINT|READ|WRITE|IMPLICIT|NONE|END|EOL|EOT
-
+TOKEN   		->  ID | LIT_INTEGER | LIT_LOGICAL| OP_COMP | OP_ARIT |;| :: | = | LP | RP  
+							| IF | THEN | ELSE | END IF | ELSE IF | DO WHILE | END DO | EXIT | LOGICAL | INTEGER 
+							| PROGRAM | END PROGRAM | FUNCTION | END FUNCTION | SUBROUTINE| END SUBROUTINE | PRINT
 __________________________________________________________________________________________________________________________________________
-//If then problem
-//Dangling else
 
 Syntactic
 
-PROGRAM ::= program id EOL (STATEMENT)* end program id EOL
+PROG_BASE     ::= PROGRAM ID EOL (STATEMENT)* END PROGRAM ID EOL EOT
+STATEMENT     ::= (EXPRESSION | DECLARATION | ASSIGNMENT | IF_STATEMENT | LOOP) EOL
 
-STATEMENT ::= (EXPRESSION| DECLARATION| CONTROL FLOW) EOL | STATEMENT STATEMENT
+IF_STATEMENT  ::= IF EXPRESSION THEN EOL (STATEMENT)* ( (ELSE | ELSE IF EXPRESSION) (STATEMENT)*)? END IF EOL
+LOOP 				  ::= DO WHILE LP EXPRESSION RP EOL (STATEMENT)* END DO EOL
 
-OP   ::= op_comp | op_arit
-TYPE ::= integer|real|character
+DECLARATION   ::= TYPE :: DECLARED_VARS
+DECLARED_VARS ::= ID (,ID)*
+ASSIGNMENT 		::= ID = EXPRESSION
 
-EXPRESSION ::= EXPRESSION (+|-) TERM | TERM
-TERM ::= TERM (*|/) FACTOR | FACTOR
-FACTOR ::= ID | NUM | (EXPRESSION)
+EXPRESSION    ::= EXPRESSION (+|-) TERM | TERM
+TERM          ::= TERM (*|/) FACTOR | FACTOR
+FACTOR        ::= ID | LITERAL | FUNCTION_CALL | ID | LP EXPRESSION RP 
 
-PRINTSTMT ::= print *, (id|literal)
+FUNCTION_CALL ::= ID(EXPRESSION(,EXPRESSION)*) 
+FUNCTION_DECL ::= TYPE ID ((ID(,ID)*)?) EOL (STATEMENT)* END FUNCTION
 
-DECLARATION        ::= TYPE :: DECLARED_VARIABLES
-DECLARED_VARIABLES ::= VARNAME | DECLARED_VARIABLES , DECLARED_VARIABLES
-VARNAME            ::= id
-
-ASSIGNMENT 				 ::= VARNAME = EXPRESSION
+PRINT_STMT  ::= PRINT *, ID (,ID)*
