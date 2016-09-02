@@ -23,8 +23,8 @@ TOKEN   		->  ID | LIT_INTEGER | LIT_LOGICAL| OP_COMP | OP_ARIT | ; | :: | = | L
 			   | IF | THEN | ELSE | END | ELSE | DO | WHILE | EXIT | LOGICAL | INTEGER
 			   | PROGRAM | FUNCTION | SUBROUTINE | PRINT | EOT
 
-** Nem todos os simbolos estao como tipo de token (ex.: EOT) - DONE
-** Verificar se todas as palavras reservadas aqui sao usadas na sintatica e vice-versa (ex.: SUBROUTINE)
+//** Nem todos os simbolos estao como tipo de token (ex.: EOT) - DONE
+//** Verificar se todas as palavras reservadas aqui sao usadas na sintatica e vice-versa (ex.: SUBROUTINE)
 
 __________________________________________________________________________________________________________________________________________
 
@@ -32,20 +32,20 @@ Syntactic
 
 PROGRAM       ::= (FUNCTION_DECL)* PROGR_MAIN (FUNCTION_DECL)* EOT
 
-** Simplifica e considera que todas as funcoes como declaradas antes da main.
-** Não precisa usar EOL para marcar o final de linha. - DONE
-** Existem linguagens que o EOL é um token, mas no nosso caso, vamos ignorar. - DONE
-** Sua gramatica permite a declaracao de variaveis globais?!
+//** Simplifica e considera que todas as funcoes como declaradas antes da main.
+//** Não precisa usar EOL para marcar o final de linha. - DONE
+//** Existem linguagens que o EOL é um token, mas no nosso caso, vamos ignorar. - DONE
+//** Sua gramatica permite a declaracao de variaveis globais?!
 
 PROG_MAIN     ::= PROGRAM ID (STATEMENT)* END PROGRAM ID EOT
 STATEMENT     ::= (EXPRESSION | DECLARATION | ASSIGNMENT | IF_STATEMENT | LOOP)
 
-** Qual o sentido de uma expressao sozinha como um statement?
-** Faltam comandos como: chamada de funcao, retornar um valor (exp), break e continue... olhar o que é pedido
+//** Qual o sentido de uma expressao sozinha como um statement?
+//** Faltam comandos como: chamada de funcao, retornar um valor (exp), break e continue... olhar o que é pedido
 
 IF_STATEMENT  ::= IF EXPRESSION THEN (STATEMENT)* ( ELSE STATEMENT)* END IF EOT
 
-** Pode simplificar e considerar somente estruturas do tipo if-else. - DONE
+//** Pode simplificar e considerar somente estruturas do tipo if-else. - DONE
 
 LOOP 				  ::= DO WHILE LP EXPRESSION RP (STATEMENT)* END DO EOT
 
@@ -58,19 +58,19 @@ EXPRESSION_ARIT    ::= EXPRESSION_ARIT (+|-) TERM | TERM
 TERM          ::= TERM (*|/) FACTOR | FACTOR
 FACTOR        ::= ID | LITERAL | FUNCTION_CALL | LP EXPRESSION_ARIT RP
 
-** Falta suporte para expressoes booleanas (comparativas)
+//** Falta suporte para expressoes booleanas (comparativas)
 
-FUNCTION_CALL ::= ID LP EXPRESSION(,EXPRESSION)* RP
+FUNCTION_CALL ::= ID LP (EXPRESSION(,EXPRESSION)*)* RP
 
-** E se a funcao nao tiver parametros?
+//** E se a funcao nao tiver parametros? - DONE
 
 FUNCTION_DECL ::= TYPE ID LP (ID(,ID)*)? RP (STATEMENT)* END FUNCTION
 
-** Qual o tipo dos parametros?
+//** Qual o tipo dos parametros?
 
 //DECL = declaration
 
 PRINT_STMT    ::= PRINT *, ID (,ID)*
 // 	STMT = statement
 
-** Pode fazer o print de somente um valor por vez (expressao)
+//** Pode fazer o print de somente um valor por vez (expressao)
