@@ -9,9 +9,9 @@ Lexic
 
 // Na nossa linguagem, os comentários começam com ! e vão até o fim da linha
 
+ID           ->  LETTER(LETTER|DIGIT|_)*
 LETTER       ->  [a-z]|[A-Z]
 DIGIT        ->  [0-9]
-ID           ->  LETTER(LETTER|DIGIT|_)*
 
 LIT_INTEGER  ->  DIGIT+
 LIT_LOGICAL  ->  .true. | .false.
@@ -35,10 +35,10 @@ ________________________________________________________________________________
 
 Syntactic
 
-PROGRAM         ::= (DECL_ASSIGNMENT)* (FUNCTION_DECL)* PROG_MAIN EOT
+PROGRAM         ::= (DECL_ASG)* (FUNCTION_DECL)* PROG_MAIN EOT
 
 PROG_MAIN       ::= PROGRAM ID (STATEMENT)* END PROGRAM ID
-STATEMENT       ::= ( DECL_ASSIGNMENT | ASSIGNMENT | IF_STATEMENT | LOOP | FUNCTION_CALL)
+STATEMENT       ::= ( DECL_ASG | DECL_NO_ASG | ASSIGNMENT | IF_STATEMENT | LOOP | FUNCTION_CALL)
 
 IF_STATEMENT    ::= IF EXPRESSION THEN (STATEMENT)* ( ELSE STATEMENT*)? END IF
 
@@ -48,10 +48,10 @@ LOOP_BREAK      ::= EXIT
 LOOP_CONTINUE   ::= CONTINUE
 
 DECL_NO_ASG     ::= TYPE :: ID (,ID)*
-DECL_ASSIGNMENT ::= TYPE :: DECLARED_VARS
+DECL_ASG        ::= TYPE :: DECLARED_VARS
 DECLARED_VARS   ::= ID (= EXPRESSION)? (,ID (= EXPRESSION)?)*
 
-ASSIGNMENT       ::= ID = EXPRESSION
+ASSIGNMENT      ::= ID = EXPRESSION
 
 EXPRESSION      ::= EXP (OP_COMP EXP)?
 EXP             ::= TERM EXPRESSION_ARIT
