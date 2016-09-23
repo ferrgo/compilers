@@ -35,7 +35,7 @@ ________________________________________________________________________________
 
 Syntactic
 
-PROGRAM         ::= (DECL_ASG)* (FUNCTION_DECL)* PROG_MAIN EOT
+PROG         ::= (DECL_ASG)* (FUNCTION_DECL)* PROG_MAIN EOT
 
 PROG_MAIN       ::= PROGRAM ID (STATEMENT)* END PROGRAM ID
 STATEMENT       ::= ( DECL_ASG | ASSIGNMENT | IF_STATEMENT | LOOP | FUNCTION_CALL)
