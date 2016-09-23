@@ -19,7 +19,7 @@ LITERAL	     ->  LIT_INTEGER | LIT_LOGICAL
 
 TYPE         -> INTEGER | LOGICAL
 
-OP_COMP      ->  <|<=|>|>=|==|!=
+OP_LOGICAL   ->  <|<=|>|>=|==|!=
 
 EOT          -> "\0000"
 
