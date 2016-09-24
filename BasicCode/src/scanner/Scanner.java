@@ -20,7 +20,7 @@ public class Scanner {
 	// The last char read from the source code
 	private char currentChar;
 	// The kind of the current token
-	private int currentKind;
+	private GrammarSymbol currentKind;
 	// Buffer to append characters read from file. I've changed that into StringBuilder
 	// because the java documentation recommends that over StringBuffer for a single-threaded context.
 	private StringBuilder currentSpelling;
@@ -42,13 +42,24 @@ public class Scanner {
 	 * @return
 	 */ //TODO
 	public Token getNextToken() {
+			currentSpelling = new StringBuilder();
+			getNextChar();
+			while(isSeparator(currentChar)){
+				scanSeparator();
+			}
+			currentSpelling.setLength(0);
 
+			int startLine = line;
+			int startColumn = column;
+
+			currentKind = scanToken();
+			Token rv = new Token(currentKind,currentSpelling,startLine,startColumn);
+			return rv;
 			// Initializes the string buffer
 			// Ignores separators
 			// Clears the string buffer
 			// Scans the next token
 		 // Creates and returns a token for the lexema identified
-		return null;
 	}
 
 	/**
@@ -72,7 +83,7 @@ public class Scanner {
 
 		if(isSeparator(currentChar)){
 			// Do nothing, I guess ¯\_(ツ)_/¯
-		}	else if(currentChar=='!'){
+		}else if(currentChar=='!'){
 			getNextChar();
 			while(isGraphic(currentChar) || currentChar=='\t'){ //Because apparently \t is somewhere else in the character table
 				//TODO put eot here as well?
@@ -205,7 +216,7 @@ public class Scanner {
 					}else{ // Lexical Error
 						automatonState=16;
 					}
-					getNextCharacter();
+					getNextChar();
 					break;
 				case(1):// \000
 					return EOT;
@@ -246,7 +257,7 @@ public class Scanner {
 					return OP_LOGICAL;
 				case(12): //.true. or .false.
 					while(isLetter(currentChar)){
-						getNextCharacter();
+						getNextChar();
 					}
 					if(currentSpelling.toString().equals(".true") || currentSpelling.toString().equals(".false")){
 						if (currentChar=='.'){
@@ -266,12 +277,12 @@ public class Scanner {
 
 				case(14):
 					while(isDigit(currentChar)){
-						getNextCharacter();
+						getNextChar();
 					}
 					return LIT_INTEGER;
 				case(15):
 					while(isLetter(currentChar) || isDigit(currentChar) || currentChar=='_'){
-						getNextCharacter();
+						getNextChar();
 					}
 					String alias = currentSpelling.toString();
 					if(alias.equals("INTEGER") || alias.equals("LOGICAL")){

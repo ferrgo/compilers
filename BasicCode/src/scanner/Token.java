@@ -10,12 +10,12 @@ package scanner;
 public class Token {
 
 	// The token kind
-	private int kind;
+	private GrammarSymbol kind;
 	// The token spelling
 	private String spelling;
 	// The line and column that the token was found
 	private int line, column;
-	
+
 	/**
 	 * Default constructor
 	 * @param kind
@@ -23,7 +23,7 @@ public class Token {
 	 * @param line
 	 * @param column
 	 */
-	public Token(int kind, String spelling, int line, int column) {
+	public Token(GrammarSymbol kind, String spelling, int line, int column) {
 		this.kind = kind;
 		this.spelling = spelling;
 		this.line = line;
@@ -34,7 +34,7 @@ public class Token {
 	 * Returns token kind
 	 * @return
 	 */
-	public int getKind() {
+	public GrammarSymbol getKind() {
 		return kind;
 	}
 
@@ -57,9 +57,9 @@ public class Token {
 	/**
 	 * Returns the column where the token was found
 	 * @return
-	 */	
+	 */
 	public int getColumn() {
 		return column;
 	}
-	
+
 }
