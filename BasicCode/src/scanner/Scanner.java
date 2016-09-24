@@ -74,7 +74,8 @@ public class Scanner {
 			// Do nothing, I guess ¯\_(ツ)_/¯
 		}	else if(currentChar=='!'){
 			getNextChar();
-			while(isGraphic(currentChar) || currentChar=='\t'){ //Because apparently \t is somewhere else in the character table //TODO put eot here as well?
+			while(isGraphic(currentChar) || currentChar=='\t'){ //Because apparently \t is somewhere else in the character table
+				//TODO put eot here as well?
 				getNextChar();
 				if(currentChar=='\n') return; // Also not sure if \n is in the spectrum, so better safe than sorry  ¯\_(ツ)_/¯
 			}
@@ -167,7 +168,6 @@ public class Scanner {
 		//TODO do i have to make a gnc here in case i dont do it before returns?
 		int automatonState=0;
 		currentSpelling.setLength(0); // Clearing the buffer so that we can use it below
-		//TODO clean the buffer
 		while(true){
 			//TODO we could remove cases 1-6 and insert return statements instead of the corresponding state changes.
 			//NOTE Case 11 is rather unnecessary and redundant for case 10 but makes 8 and 9 more organized
@@ -175,52 +175,37 @@ public class Scanner {
 				case(0): //Initial State
 					if(currentChar=='\000'){
 						automatonState=1;
-						getNextCharacter();
 					}else if(currentChar=='('){
 						automatonState=2;
-						getNextCharacter();
 					}else if(currentChar==')'){
 						automatonState=3;
-						getNextCharacter();
 					}else if(currentChar==','){
 						automatonState=4;
-						getNextCharacter();
 					}else if(currentChar=='+'){
 						automatonState=5;
-						getNextCharacter();
 					}else if(currentChar=='-'){
 						automatonState=6;
-						getNextCharacter();
 					}else if(currentChar=='*'){
 						automatonState=7;
-						getNextCharacter();
 					}else if(currentChar=='/'){
 						automatonState=8;
-						getNextCharacter();
 					}else if(currentChar=='='){
 						automatonState=9;
-						getNextCharacter();
 					}else if(currentChar=='<' || currentChar=='>'){
 						automatonState=10;
-						getNextCharacter();
 					//State 11 is only accessible from states 8, 9 and 10. We didn't forget about it.
 					}else if(currentChar=='.'){
 						automatonState=12;
-						getNextCharacter();
 					}else if(currentChar==':'){
 						automatonState=13;
-						getNextCharacter();
 					}else if(isDigit(currentChar)){
 						automatonState=14;
-						getNextCharacter();
 					}else if(isLetter(currentChar)){
 						automatonState=15;
-						getNextCharacter();
 					}else{ // Lexical Error
 						automatonState=16;
-						getNextCharacter();
 					}
-					//TODO put gnc here rather than in the else ifs
+					getNextCharacter();
 					break;
 				case(1):// \000
 					return EOT;
@@ -278,7 +263,7 @@ public class Scanner {
 						automatonState=16; //Lexical Error
 						break;
 					}
-					
+
 				case(14):
 					while(isDigit(currentChar)){
 						getNextCharacter();
