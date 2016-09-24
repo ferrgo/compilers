@@ -1,6 +1,5 @@
 package parser;
 
-
 /**
  * This class contains codes for each grammar terminal
  * @version 2010-september-04
@@ -8,32 +7,58 @@ package parser;
  * @author Gustavo H P Carvalho
  * @email gustavohpcarvalho@ecomp.poli.br
  */
-public class GrammarSymbols {
-	//TODO Mudar a implementação pra um enum? Fica mais elegante galere 8D
+ 
+public enum GrammarSymbols {
+	/*
+	We changed the implementation to an enum rather than a class full of constants because,
+	well, that's what enums are here for ^_^
 
-	// Language terminals (starts from 0)
-	public static final int ID = 0;
+	Note:
+	The print statement in fortran has a non-arithmethic use for the symbol '*'.
+	We cannot, therefore, include it in some "OP_ARIT" terminal. For OCD reasons
+	I'm separating each arithmetic operation as a different terminal too.
+	*/
 
-	public static final int LETTER = 1;
+	//Identifiers, variables, values etc
+	ID,
+	LIT_INTEGER,
+	LIT_LOGICAL,
+	TYPE,
 
-	public static final int DIGIT = 2;
+	//Operators
+	PLUS,
+	MINUS,
+	TIMES,
+	DIV,
+	OP_LOGICAL,
 
-	public static final int LIT_INTEGER = 3;
+	//"Punctuation"
+	LP,
+	RP,
+	COMMA,
+	DOUBLECOLON,
+	ASSIGNMENT,
 
-	public static final int LIT_LOGICAL = 4;
+	//Conditionals
+	IF,
+	THEN,
+	ELSE,
 
-	public static final int LITERAL = 5;
+	//Loops
+	DO,
+	WHILE,
+	EXIT,
+	CONTINUE,
 
-	public static final int TYPE = 6;
+	//Subroutines etc
+	PROGRAM,
+	FUNCTION,
+	RETURN,
 
-	public static final int OP_COMP =
+	//Printing
+	PRINT,
 
-	public static final int
-
-	public static final int
-
-
-	//TODO
-	public static final int EOT = 1000;
+	//End of text
+	EOT
 
 }
