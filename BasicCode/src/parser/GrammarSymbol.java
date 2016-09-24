@@ -28,7 +28,7 @@ public enum GrammarSymbol {
 	//Operators
 	PLUS,
 	MINUS,
-	TIMES,
+	MULT,
 	DIV,
 	OP_LOGICAL,
 
