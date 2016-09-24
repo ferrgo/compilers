@@ -43,7 +43,7 @@ public class Scanner {
 	 */ //TODO
 	public Token getNextToken() {
 			currentSpelling = new StringBuilder();
-			getNextChar();
+			//getNextChar();
 			while(isSeparator(currentChar)){
 				scanSeparator();
 			}
