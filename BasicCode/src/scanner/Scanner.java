@@ -312,7 +312,7 @@ public class Scanner {
 					}else{
 						return ID;
 					}
-				case(16):
+				case(16): //LEXICAL ERROR (╯°□°）╯︵ ┻━┻
 					throw new LexicalException("Oh come on, are you seriously incapable of lexical correctness?");
 				default:
 					throw new LexicalException("There is something weird that the scanner doesnt contemplate");

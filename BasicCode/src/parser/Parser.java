@@ -31,7 +31,7 @@ public class Parser {
 	 * @param kind
 	 * @throws SyntacticException
 	 */ //TODO
-	private void accept(int kind) throws SyntacticException {
+	private void accept(GrammarSymbol kind) throws SyntacticException {
 		// If the current token kind is equal to the expected
 		if(currentToken.getNextToken()==kind){
 			// Gets next token
