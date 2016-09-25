@@ -17,7 +17,7 @@ public class Parser {
 	private Token currentToken = null;
 	// The scanner
 	private Scanner scanner = null;
-	
+
 	/**
 	 * Parser constructor
 	 */
@@ -25,7 +25,7 @@ public class Parser {
 		// Initializes the scanner object
 		this.scanner = new Scanner();
 	}
-	
+
 	/**
 	 * Veririfes if the current token kind is the expected one
 	 * @param kind
@@ -33,15 +33,21 @@ public class Parser {
 	 */ //TODO
 	private void accept(int kind) throws SyntacticException {
 		// If the current token kind is equal to the expected
+		if(currentToken.getNextToken()==kind){
 			// Gets next token
+			currentToken = scanner.getNextToken();
+		}
 		// If not
+		else{
 			// Raises an exception
+		}
 	}
-	
+
 	/**
 	 * Gets next token
 	 */ //TODO
 	private void acceptIt() {
+		currentToken = scanner.getNextToken();
 	}
 
 	/**
@@ -51,5 +57,5 @@ public class Parser {
 	public AST parse() throws SyntacticException {
 		return null;
 	}
-	
+
 }
