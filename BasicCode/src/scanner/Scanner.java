@@ -22,7 +22,7 @@ public class Scanner {
 	// The kind of the current token
 	private GrammarSymbol currentKind;
 	// Buffer to append characters read from file. I've changed that into StringBuilder
-	// because the java documentation recommends that over StringBuffer for a single-threaded context.
+	// because the java documentation recommends that over StringBuffer in a single-threaded context.
 	private StringBuilder currentSpelling;
 	// Current line and column in the source file
 	private int line, column;
@@ -40,8 +40,14 @@ public class Scanner {
 	/**
 	 * Returns the next token
 	 * @return
-	 */ //TODO
+	 */
 	public Token getNextToken() {
+		// Initializes the string buffer
+		// Ignores separators
+		// Clears the string buffer
+		// Scans the next token
+		// Creates and returns a token for the lexema identified
+
 			currentSpelling = new StringBuilder();
 			//getNextChar();
 			while(isSeparator(currentChar)){
@@ -53,13 +59,9 @@ public class Scanner {
 			int startColumn = column;
 
 			currentKind = scanToken();
+			getNextChar(); //TODO Pra nao ficar parado num char que ja leu ? Nao sei se é necessário
 			Token rv = new Token(currentKind,currentSpelling,startLine,startColumn);
 			return rv;
-			// Initializes the string buffer
-			// Ignores separators
-			// Clears the string buffer
-			// Scans the next token
-		 // Creates and returns a token for the lexema identified
 	}
 
 	/**
@@ -81,10 +83,10 @@ public class Scanner {
 	 */
 	private void scanSeparator() throws LexicalException {
 
+		getNextChar();
 		if(isSeparator(currentChar)){
 			// Do nothing, I guess ¯\_(ツ)_/¯
 		}else if(currentChar=='!'){
-			getNextChar();
 			while(isGraphic(currentChar) || currentChar=='\t'){ //Because apparently \t is somewhere else in the character table
 				//TODO put eot here as well?
 				getNextChar();
@@ -176,11 +178,11 @@ public class Scanner {
 	 * @throws LexicalException
 	 */
 	private GrammarSymbol scanToken() throws LexicalException {
-		//TODO do i have to make a gnc here in case i dont do it before returns?
-		int automatonState=0;
+
 		currentSpelling.setLength(0); // Clearing the buffer so that we can use it below
+		int automatonState=0;
+
 		while(true){
-			//TODO we could remove cases 1-6 and insert return statements instead of the corresponding state changes.
 			//NOTE Case 11 is rather unnecessary and redundant for case 10 but makes 8 and 9 more organized
 			switch(automatonState){
 				case(0): //Initial State
@@ -264,8 +266,7 @@ public class Scanner {
 							return LIT_LOGICAL;
 						}
 					}
-					//In case one of the above conditionals fails, we have ourselves an error here D:
-					automatonState=16;
+					automatonState=16;//In case one of the above conditionals fails, we have ourselves an error here.
 					break;
 				case(13): // ::
 					if(currentChar==':'){
@@ -275,12 +276,12 @@ public class Scanner {
 						break;
 					}
 
-				case(14):
+				case(14): //Integer literal
 					while(isDigit(currentChar)){
 						getNextChar();
 					}
 					return LIT_INTEGER;
-				case(15):
+				case(15): //ID or reserved words
 					while(isLetter(currentChar) || isDigit(currentChar) || currentChar=='_'){
 						getNextChar();
 					}
@@ -314,10 +315,9 @@ public class Scanner {
 					}
 				case(16): //LEXICAL ERROR (╯°□°）╯︵ ┻━┻
 					throw new LexicalException("Oh come on, are you seriously incapable of lexical correctness?");
-				default:
+				default: // I DON'T EVEN KNOW WHAT HAPPENED (ノಠ益ಠ)ノ彡┻━┻
 					throw new LexicalException("There is something weird that the scanner doesnt contemplate");
 			}//switch
 		}//while loop
 	}//method
-
 }//class
