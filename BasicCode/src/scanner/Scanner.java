@@ -83,24 +83,19 @@ public class Scanner {
 	 */
 	private void scanSeparator() throws LexicalException {
 
-		if(isSeparator(currentChar)){
-			if(currentChar=='!') {
-				while (isGraphic(currentChar) || currentChar == '\t') { //Because apparently \t is somewhere else in the character table
-					//TODO put eot here as well?
-					getNextChar();
-					if (currentChar == '\n'){
-						getNextChar(); // goes to next line
-						return;
-					}
+		if(currentChar=='!') { // If the separator is a !, gnore the entire comment
+			while (isGraphic(currentChar) || currentChar == '\t') { //Because apparently \t is somewhere else in the character table
+				getNextChar();
+				if (currentChar == '\n' || currentChar =='\000'){
+					getNextChar(); // goes to next line
+					return;
 				}
-				//If you get here, it's because you got a non-graphical character in the comment.
-				throw LexicalException("You've got some weird character in your comment sir. Please learn how to write.");
 			}
-			// Do nothing, I guess ¯\_(ツ)_/¯
-			// I guess, I guess what you're guessing, then I guess we simply get a next char...
-			getNextChar(); //I believe we should only go to the next after dealing with the one we first got here with...
-		}else{
-			throw LexicalException("This is not even a separator sir, why the fornication did your compiler end up here? Please learn how to code.");
+			//If you end up here, you-ve got a non-grapic symbol in the comment:
+			throw LexicalException("You've got some weird non-graphical character in your comment sir. Please learn how to write.");
+
+		}else{ //In case the separator is merely a space, a tab or a newline
+			getNextChar();
 		}
 
 	}
