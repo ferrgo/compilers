@@ -52,6 +52,7 @@ public enum GrammarSymbol {
 
 	//Subroutines etc
 	PROGRAM,
+	SUBPROGRAM,
 	FUNCTION,
 	RETURN,
 

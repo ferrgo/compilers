@@ -28,14 +28,14 @@ RP           -> )
 
 TOKEN        ->  ID | LIT_INTEGER | LIT_LOGICAL| OP_COMP | , | :: | = | LP | RP
                | IF | THEN | ELSE | END | ELSE | DO | WHILE | EXIT | CONTINUE
-               | LIT_LOGICAL | LIT_INTEGER | PROGRAM | FUNCTION | PRINT | EOT | RETURN | TYPE
-               | + | - | * | /
+               | LIT_LOGICAL | LIT_INTEGER | PROGRAM | FUNCTION | SUBPROGRAM
+               | PRINT | EOT | RETURN | TYPE | + | - | * | /
 
 __________________________________________________________________________________________________________________________________________
 
 Syntactic
 
-PROG         ::= (DECL_ASG)* (FUNCTION_DECL)* PROG_MAIN EOT
+PROG            ::= (DECL_ASG)* (FUNCTION_DECL | SUBPROGRAM_DECL)*  PROG_MAIN EOT
 
 PROG_MAIN       ::= PROGRAM ID (STATEMENT)* END PROGRAM ID
 STATEMENT       ::= ( DECL_ASG | ASSIGNMENT | IF_STATEMENT | LOOP | FUNCTION_CALL)
@@ -60,7 +60,9 @@ TERM'           ::= (*|/) FACTOR TERM' | epsilon
 FACTOR          ::= ID (FUNCTION_CALL)? | LITERAL | LP EXP RP
 
 FUNCTION_CALL   ::= LP (EXPRESSION(,EXPRESSION)*)? RP
-FUNCTION_DECL   ::= TYPE ID LP (ID (,ID)*)? RP (STATEMENT|RETURN_STMT)* END FUNCTION
+
 RETURN_STMT     ::= RETURN ID
+FUNCTION_DECL   ::= FUNCTION TYPE ID LP (ID (,ID)*)? RP (STATEMENT|RETURN_STMT)* END FUNCTION
+SUBPROGRAM_DECL ::= SUBPROGRAM ID LP (ID (,ID)*)? RP (STATEMENT)* END SUBPROGRAM
 
 PRINT_STMT      ::= PRINT *, EXPRESSION

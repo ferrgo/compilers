@@ -22,30 +22,25 @@ public class Parser {
 	 * Parser constructor
 	 */
 	public Parser() {
-		// Initializes the scanner object
-		this.scanner = new Scanner();
+		this.scanner = new Scanner(); // Initializes the scanner object
 	}
 
 	/**
 	 * Veririfes if the current token kind is the expected one
 	 * @param kind
 	 * @throws SyntacticException
-	 */ //TODO
-	private void accept(GrammarSymbol kind) throws SyntacticException {
-		// If the current token kind is equal to the expected
-		if(currentToken.getNextToken()==kind){
-			// Gets next token
-			currentToken = scanner.getNextToken();
-		}
-		// If not
-		else{
-			// Raises an exception
+	 */
+	private void accept(GrammarSymbol expectedKind) throws SyntacticException {
+		if(currentToken.getNextToken()==expectedKind){
+			acceptIt();	// Gets next token and returns
+		}else{
+			throw new SyntacticException("Current token's kind is not the expected kind");
 		}
 	}
 
 	/**
 	 * Gets next token
-	 */ //TODO
+	 */
 	private void acceptIt() {
 		currentToken = scanner.getNextToken();
 	}
@@ -55,7 +50,17 @@ public class Parser {
 	 * @throws SyntacticException
 	 */ //TODO
 	public AST parse() throws SyntacticException {
-		return null;
+		//currentToken = Scanner.getNextToken(); Shouldnt this go in the 1st line of parseProgram?
+		ASTProgram programTree = parsePROG();
+		//TODO
+		//accept(EOT); ??
+
+		return programTree;
 	}
 
+	public ASTProgram parseProgram(){
+		while(currentToken.getKind()!=EOT){
+			accept()
+		}
+	}
 }

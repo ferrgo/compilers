@@ -286,6 +286,7 @@ public class Scanner {
 						getNextChar();
 					}
 					String alias = currentSpelling.toString();
+					//TODO this can be a switch on a string
 					if(alias.equals("INTEGER") || alias.equals("LOGICAL")){
 						return TYPE;
 					}else if(alias.equals("IF")){
@@ -303,6 +304,8 @@ public class Scanner {
 					}else if(alias.equals("CONTINUE")){
 						return CONTINUE;
 					}else if(alias.equals("PROGRAM")){
+						return PROGRAM;
+					}else if(alias.equals("SUBPROGRAM")){
 						return PROGRAM;
 					}else if(alias.equals("FUNCTION")){
 						return FUNCTION;
