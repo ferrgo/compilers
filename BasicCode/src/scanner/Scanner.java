@@ -70,7 +70,7 @@ public class Scanner {
 	 * @return
 	 */
 	private boolean isSeparator(char c) {
-		if ( c == '!' || c == ' ' || c == '\n' || c == '\t' ) {
+		if (  c == ' ' || c == '\n' || c == '\t' ) {
 			return true;
 		} else {
 			return false;
@@ -207,7 +207,7 @@ public class Scanner {
 					}else if(currentChar=='<' || currentChar=='>'){
 						automatonState=10;
 					//State 11 is only accessible from states 8, 9 and 10. We didn't forget about it.
-					}else if(currentChar=='.'){
+					}else if(currentChar=='.'){  // logical literal
 						automatonState=12;
 					}else if(currentChar==':'){
 						automatonState=13;
