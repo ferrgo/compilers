@@ -70,7 +70,7 @@ public class Scanner {
 	 * @return
 	 */
 	private boolean isSeparator(char c) {
-		if (  c == ' ' || c == '\n' || c == '\t' ) {
+		if ( c=='!' || c == ' ' || c == '\n' || c == '\t' ) {
 			return true;
 		} else {
 			return false;
@@ -84,12 +84,14 @@ public class Scanner {
 	private void scanSeparator() throws LexicalException {
 
 		if(isSeparator(currentChar)){
-			if(currentChar=='!') { // isSeparator returns true for '!' as well and sadly we must deal with it...
+			if(currentChar=='!') {
 				while (isGraphic(currentChar) || currentChar == '\t') { //Because apparently \t is somewhere else in the character table
 					//TODO put eot here as well?
 					getNextChar();
-					if (currentChar == '\n')
-						return; // Also not sure if \n is in the spectrum, so better safe than sorry  ¯\_(ツ)_/¯
+					if (currentChar == '\n'){
+						getNextChar(); // goes to next line
+						return;
+					}
 				}
 				//If you get here, it's because you got a non-graphical character in the comment.
 				throw LexicalException("You've got some weird character in your comment sir. Please learn how to write.");
@@ -318,7 +320,7 @@ public class Scanner {
 					}
 				case(16): //LEXICAL ERROR (╯°□°）╯︵ ┻━┻
 					throw new LexicalException("Oh come on, are you seriously incapable of lexical correctness?");
-				default: // I DON'T EVEN KNOW WHAT HAPPENED (ノಠ益ಠ)ノ彡┻━┻
+				default: // It should be impossible to get here, SO I DON'T EVEN KNOW WHAT HAPPENED (ノಠ益ಠ)ノ彡┻━┻
 					throw new LexicalException("There is something weird that the scanner doesnt contemplate");
 			}//switch
 		}//while loop
