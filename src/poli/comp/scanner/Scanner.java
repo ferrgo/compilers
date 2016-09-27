@@ -39,14 +39,6 @@ public class Scanner {
 		this.currentChar = this.file.readChar();
 	}
 
-	public Scanner(String[] args) {
-		this.file = new Arquivo(Properties.sourceCodeLocation);
-		this.line = 0;
-		this.column = 0;
-		this.currentChar = this.file.readChar();
-	}
-	}
-
 	/**
 	 * Returns the next token
 	 * @return

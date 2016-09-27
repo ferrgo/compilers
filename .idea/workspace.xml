@@ -2,24 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="3a7d196c-6f22-48ba-aee8-5759af7dab06" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/testFiles/program1.fmm" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/poli/comp/Main.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/poli/comp/parser/GrammarSymbols.java" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/poli/comp/compiler/Compiler.java" afterPath="$PROJECT_DIR$/src/poli/comp/compiler/Compiler.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/poli/comp/compiler/Properties.java" afterPath="$PROJECT_DIR$/src/poli/comp/compiler/Properties.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/poli/comp/parser/Parser.java" afterPath="$PROJECT_DIR$/src/poli/comp/parser/Parser.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/poli/comp/scanner/LexicalException.java" afterPath="$PROJECT_DIR$/src/poli/comp/scanner/LexicalException.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/poli/comp/scanner/Scanner.java" afterPath="$PROJECT_DIR$/src/poli/comp/scanner/Scanner.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/poli/comp/scanner/Token.java" afterPath="$PROJECT_DIR$/src/poli/comp/scanner/Token.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/poli/comp/util/AST/ASTEndOfText.java" afterPath="$PROJECT_DIR$/src/poli/comp/util/AST/ASTEndOfText.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/poli/comp/util/AST/ASTIdentifier.java" afterPath="$PROJECT_DIR$/src/poli/comp/util/AST/ASTIdentifier.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/poli/comp/util/AST/ASTIntegerLiteral.java" afterPath="$PROJECT_DIR$/src/poli/comp/util/AST/ASTIntegerLiteral.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/poli/comp/util/AST/ASTLeftParenthesis.java" afterPath="$PROJECT_DIR$/src/poli/comp/util/AST/ASTLeftParenthesis.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/poli/comp/util/AST/ASTLogicalLiteral.java" afterPath="$PROJECT_DIR$/src/poli/comp/util/AST/ASTLogicalLiteral.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/poli/comp/util/AST/ASTLogicalOperation.java" afterPath="$PROJECT_DIR$/src/poli/comp/util/AST/ASTLogicalOperation.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/poli/comp/util/AST/ASTProgram.java" afterPath="$PROJECT_DIR$/src/poli/comp/util/AST/ASTProgram.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/poli/comp/util/AST/ASTType.java" afterPath="$PROJECT_DIR$/src/poli/comp/util/AST/ASTType.java" />
     </list>
     <ignored path="fortran.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -45,7 +30,7 @@
         <entry file="file://$PROJECT_DIR$/src/poli/comp/compiler/Compiler.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="142">
-              <caret line="29" column="0" selection-start-line="29" selection-start-column="0" selection-end-line="29" selection-end-column="0" />
+              <caret line="29" column="27" selection-start-line="29" selection-start-column="27" selection-end-line="29" selection-end-column="27" />
               <folding />
             </state>
           </provider>
@@ -84,9 +69,11 @@
       <file leaf-file-name="Scanner.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/poli/comp/scanner/Scanner.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="240">
-              <caret line="44" column="24" selection-start-line="44" selection-start-column="24" selection-end-line="44" selection-end-column="24" />
-              <folding />
+            <state relative-caret-position="202">
+              <caret line="34" column="22" selection-start-line="34" selection-start-column="22" selection-end-line="34" selection-end-column="22" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -94,13 +81,11 @@
       <file leaf-file-name="Parser.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/poli/comp/parser/Parser.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="253">
-              <caret line="34" column="38" selection-start-line="34" selection-start-column="38" selection-end-line="34" selection-end-column="38" />
+            <state relative-caret-position="163">
+              <caret line="27" column="5" selection-start-line="27" selection-start-column="5" selection-end-line="27" selection-end-column="5" />
               <folding>
                 <element signature="e#558#559#0" expanded="true" />
                 <element signature="e#627#628#0" expanded="true" />
-                <element signature="e#739#740#0" expanded="true" />
-                <element signature="e#812#813#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -128,9 +113,10 @@
       <list>
         <option value="$PROJECT_DIR$/testFiles/program1.fmm" />
         <option value="$PROJECT_DIR$/src/poli/comp/compiler/Properties.java" />
+        <option value="$PROJECT_DIR$/src/poli/comp/scanner/Scanner.java" />
         <option value="$PROJECT_DIR$/src/poli/comp/compiler/Compiler.java" />
         <option value="$PROJECT_DIR$/src/poli/comp/parser/Parser.java" />
-        <option value="$PROJECT_DIR$/src/poli/comp/scanner/Scanner.java" />
+        <option value="$PROJECT_DIR$/src/poli/comp/Main.java" />
       </list>
     </option>
   </component>
@@ -610,7 +596,7 @@
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3288889" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
@@ -662,35 +648,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/poli/comp/Main.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="30">
-          <caret line="2" column="13" selection-start-line="2" selection-start-column="13" selection-end-line="2" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/poli/comp/compiler/Compiler.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="142">
-          <caret line="29" column="0" selection-start-line="29" selection-start-column="0" selection-end-line="29" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/poli/comp/parser/Parser.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="253">
-          <caret line="34" column="38" selection-start-line="34" selection-start-column="38" selection-end-line="34" selection-end-column="38" />
-          <folding>
-            <element signature="e#558#559#0" expanded="true" />
-            <element signature="e#627#628#0" expanded="true" />
-            <element signature="e#739#740#0" expanded="true" />
-            <element signature="e#812#813#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/poli/comp/util/Arquivo.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="75">
@@ -699,11 +656,40 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/poli/comp/parser/Parser.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="163">
+          <caret line="27" column="5" selection-start-line="27" selection-start-column="5" selection-end-line="27" selection-end-column="5" />
+          <folding>
+            <element signature="e#558#559#0" expanded="true" />
+            <element signature="e#627#628#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/poli/comp/compiler/Compiler.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="142">
+          <caret line="29" column="27" selection-start-line="29" selection-start-column="27" selection-end-line="29" selection-end-column="27" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/poli/comp/Main.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/poli/comp/scanner/Scanner.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="240">
-          <caret line="44" column="24" selection-start-line="44" selection-start-column="24" selection-end-line="44" selection-end-column="24" />
-          <folding />
+        <state relative-caret-position="202">
+          <caret line="34" column="22" selection-start-line="34" selection-start-column="22" selection-end-line="34" selection-end-column="22" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

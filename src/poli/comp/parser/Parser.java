@@ -28,14 +28,6 @@ public class Parser {
 	}
 
 	/**
-	 * Constructor getting args from command line...
-	 * @param args
-     */
-	public Parser(String[] args) {
-		this.scanner = new Scanner(args); // Initializes the scanner object
-	}
-
-	/**
 	 * Veririfes if the current token kind is the expected one
 	 * @param expectedKind
 	 * @throws SyntacticException
