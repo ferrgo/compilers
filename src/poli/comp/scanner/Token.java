@@ -1,5 +1,7 @@
 package poli.comp.scanner;
 
+import poli.comp.parser.GrammarSymbol;
+
 /**
  * Token class
  * @version 2010-september-04

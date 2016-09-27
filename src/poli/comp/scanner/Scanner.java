@@ -3,8 +3,10 @@ package poli.comp.scanner;
 import poli.comp.compiler.Properties;
 import poli.comp.compiler.Compiler;
 
-import parser.GrammarSymbols;
+import poli.comp.parser.GrammarSymbol;
 import poli.comp.util.Arquivo;
+
+
 
 /**
  * Scanner class
@@ -37,11 +39,19 @@ public class Scanner {
 		this.currentChar = this.file.readChar();
 	}
 
+	public Scanner(String[] args) {
+		this.file = new Arquivo(Properties.sourceCodeLocation);
+		this.line = 0;
+		this.column = 0;
+		this.currentChar = this.file.readChar();
+	}
+	}
+
 	/**
 	 * Returns the next token
 	 * @return
 	 */
-	public Token getNextToken() {
+	public Token getNextToken() throws LexicalException {
 		// Initializes the string buffer
 		// Ignores separators
 		// Clears the string buffer
@@ -60,7 +70,8 @@ public class Scanner {
 
 			currentKind = scanToken();
 			getNextChar(); //TODO Pra nao ficar parado num char que ja leu ? Nao sei se é necessário
-			Token rv = new Token(currentKind,currentSpelling,startLine,startColumn);
+
+			Token rv = new Token(currentKind,currentSpelling.toString(),startLine,startColumn);
 			return rv;
 	}
 
@@ -92,7 +103,7 @@ public class Scanner {
 				}
 			}
 			//If you end up here, you-ve got a non-grapic symbol in the comment:
-			throw LexicalException("You've got some weird non-graphical character in your comment sir. Please learn how to write.");
+			throw new LexicalException("You've got some weird non-graphical character in your comment sir. Please learn how to write.", currentChar, line, column);
 
 		}else{ //In case the separator is merely a space, a tab or a newline
 			getNextChar();
@@ -221,56 +232,56 @@ public class Scanner {
 					getNextChar();
 					break;
 				case(1):// \000
-					return EOT;
+					return GrammarSymbol.EOT;
 				case(2):// (
-					return LP;
+					return GrammarSymbol.LP;
 				case(3):// )
-					return RP;
+					return GrammarSymbol.RP;
 				case(4): // ,
-					return COMMA;
+					return GrammarSymbol.COMMA;
 				case(5): // +
-					return PLUS;
+					return GrammarSymbol.PLUS;
 				case(6): // -
-					return MINUS;
+					return GrammarSymbol.MINUS;
 				case(7): // *
-					return MULT;
+					return GrammarSymbol.MULT;
 				case(8): // /
 					if(currentChar=='='){ //It might be a /=
 						automatonState = 11;
 					}else{
-						return DIV;
+						return GrammarSymbol.DIV;
 					}
 					break;
 				case(9): // =
 					if(currentChar=='='){//It might be a ==
 						automatonState = 11;
 					}else{
-						return ASSIGNMENT;
+						return GrammarSymbol.ASSIGNMENT;
 					}
 					break;
 				case(10): // < >
 					if(currentChar=='='){
 						automatonState = 11;
 					}else{
-						return OP_LOGICAL;
+						return GrammarSymbol.OP_LOGICAL;
 					}
 					break;
 				case(11): // < > <= >= == /=
-					return OP_LOGICAL;
+					return GrammarSymbol.OP_LOGICAL;
 				case(12): //.true. or .false.
 					while(isLetter(currentChar)){
 						getNextChar();
 					}
 					if(currentSpelling.toString().equals(".true") || currentSpelling.toString().equals(".false")){
 						if (currentChar=='.'){
-							return LIT_LOGICAL;
+							return GrammarSymbol.LIT_LOGICAL;
 						}
 					}
 					automatonState=16;//In case one of the above conditionals fails, we have ourselves an error here.
 					break;
 				case(13): // ::
 					if(currentChar==':'){
-						return DOUBLECOLON;
+						return GrammarSymbol.DOUBLECOLON;
 					}else{
 						automatonState=16; //Lexical Error
 						break;
@@ -280,7 +291,7 @@ public class Scanner {
 					while(isDigit(currentChar)){
 						getNextChar();
 					}
-					return LIT_INTEGER;
+					return GrammarSymbol.LIT_INTEGER;
 				case(15): //ID or reserved words
 					while(isLetter(currentChar) || isDigit(currentChar) || currentChar=='_'){
 						getNextChar();
@@ -288,38 +299,38 @@ public class Scanner {
 					String alias = currentSpelling.toString();
 					//TODO this can be a switch on a string
 					if(alias.equals("INTEGER") || alias.equals("LOGICAL")){
-						return TYPE;
+						return GrammarSymbol.TYPE;
 					}else if(alias.equals("IF")){
-						return IF;
+						return GrammarSymbol.IF;
 					}else if(alias.equals("THEN")){
-						return THEN;
+						return GrammarSymbol.THEN;
 					}else if(alias.equals("ELSE")){
-						return ELSE;
+						return GrammarSymbol.ELSE;
 					}else if(alias.equals("DO")){
-						return DO;
+						return GrammarSymbol.DO;
 					}else if(alias.equals("WHILE")){
-						return WHILE;
+						return GrammarSymbol.WHILE;
 					}else if(alias.equals("EXIT")){
-						return EXIT;
+						return GrammarSymbol.EXIT;
 					}else if(alias.equals("CONTINUE")){
-						return CONTINUE;
+						return GrammarSymbol.CONTINUE;
 					}else if(alias.equals("PROGRAM")){
-						return PROGRAM;
+						return GrammarSymbol.PROGRAM;
 					}else if(alias.equals("SUBPROGRAM")){
-						return PROGRAM;
+						return GrammarSymbol.PROGRAM;
 					}else if(alias.equals("FUNCTION")){
-						return FUNCTION;
+						return GrammarSymbol.FUNCTION;
 					}else if(alias.equals("RETURN")){
-						return RETURN;
+						return GrammarSymbol.RETURN;
 					}else if(alias.equals("PRINT")){
-						return PRINT;
+						return GrammarSymbol.PRINT;
 					}else{
-						return ID;
+						return GrammarSymbol.ID;
 					}
 				case(16): //LEXICAL ERROR (╯°□°）╯︵ ┻━┻
-					throw new LexicalException("Oh come on, are you seriously incapable of lexical correctness?");
+					throw new LexicalException("Oh come on, are you seriously incapable of lexical correctness?", currentChar, line, column);
 				default: // It should be impossible to get here, SO I DON'T EVEN KNOW WHAT HAPPENED (ノಠ益ಠ)ノ彡┻━┻
-					throw new LexicalException("There is something weird that the scanner doesnt contemplate");
+					throw new LexicalException("There is something weird that the scanner doesnt contemplate", currentChar, line, column);
 			}//switch
 		}//while loop
 	}//method

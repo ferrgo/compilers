@@ -29,7 +29,7 @@ public class LexicalException extends Exception {
 		this.line = line;
 		this.column = column;
 	}
-	
+
 	/**
 	 * Creates the error report
 	 */	

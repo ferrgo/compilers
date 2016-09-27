@@ -1,9 +1,10 @@
 package poli.comp.compiler;
 
-import parser.Parser;
-import parser.SyntacticException;
-import util.AST.AST;
-import util.symbolsTable.IdentificationTable;
+import poli.comp.parser.Parser;
+import poli.comp.parser.SyntacticException;
+import poli.comp.scanner.LexicalException;
+import poli.comp.util.AST.AST;
+import poli.comp.util.symbolsTable.IdentificationTable;
 
 /**
  * Compiler driver
@@ -26,7 +27,7 @@ public class Compiler {
 		Compiler.initIdentificationTable();
 		
 		// Creates the parser object
-		Parser p = new Parser();
+		Parser p = new Parser(args);
 		
 		// Creates the AST object
 		AST astRoot = null;
@@ -38,9 +39,12 @@ public class Compiler {
 			if ( astRoot != null ) {
 				System.out.println(astRoot.toString(0));
 			}
-		} catch (SyntacticException e) {
+		} catch (SyntacticException s) {
 			// Shows the syntactic/lexical error stack trace 
-			e.printStackTrace();
+			s.printStackTrace();
+		} catch (LexicalException l) {
+			//
+			l.printStackTrace();
 		}
 	}
 	

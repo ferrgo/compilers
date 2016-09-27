@@ -4,5 +4,8 @@
 #iml
 fortran.iml
 
+#Compiled Files
+out/
+
 #logs
 *.log
