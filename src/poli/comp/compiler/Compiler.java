@@ -6,6 +6,8 @@ import poli.comp.scanner.LexicalException;
 import poli.comp.util.AST.AST;
 import poli.comp.util.symbolsTable.IdentificationTable;
 
+import java.io.File;
+
 /**
  * Compiler driver
  * @version 2010-september-04
@@ -40,10 +42,10 @@ public class Compiler {
 				System.out.println(astRoot.toString(0));
 			}
 		} catch (SyntacticException s) {
-			// Shows the syntactic/lexical error stack trace 
+			// Shows the syntactic/lexical error stack trace
 			s.printStackTrace();
 		} catch (LexicalException l) {
-			//
+
 			l.printStackTrace();
 		}
 	}

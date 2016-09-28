@@ -56,6 +56,9 @@ public enum GrammarSymbol {
 	FUNCTION,
 	RETURN,
 
+	//END
+	END,
+
 	//Printing
 	PRINT,
 

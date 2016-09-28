@@ -40,6 +40,16 @@ public class Scanner {
 	}
 
 	/**
+	 * Default constructor
+	 */
+	public Scanner(String filepath) {
+		this.file = new Arquivo(filepath);
+		this.line = 0;
+		this.column = 0;
+		this.currentChar = this.file.readChar();
+	}
+
+	/**
 	 * Returns the next token
 	 * @return
 	 */
@@ -61,7 +71,8 @@ public class Scanner {
 			int startColumn = column;
 
 			currentKind = scanToken();
-			getNextChar(); //TODO Pra nao ficar parado num char que ja leu ? Nao sei se é necessário
+//			getNextChar(); //TODO Pra nao ficar parado num char que ja leu ? Nao sei se é necessário
+		//getNextChar here is getdting multiple parenteses together so LP comes as () if in the file is such as "asd()asd"
 
 			Token rv = new Token(currentKind,currentSpelling.toString(),startLine,startColumn);
 			return rv;
