@@ -27,6 +27,11 @@ public class Parser {
 		this.scanner = new Scanner(); // Initializes the scanner object
 	}
 
+	//O acceptIt deve ser usado quando ja sabemos q o token eh o esperado
+	//o accept é quando esperamos que os proximos tokens sejam de certo tipo,
+	// e caso nao sejam é pq deu merda. por exemplo, se o ultimo token foi a
+	// palavra PROGRAM, vamos precisar de um accept(ID)
+
 	/**
 	 * Veririfes if the current token kind is the expected one
 	 * @param expectedKind
@@ -59,18 +64,44 @@ public class Parser {
 	 */ //TODO
 	public AST parse() throws SyntacticException, LexicalException{
 		//currentToken = Scanner.getNextToken(); Shouldnt this go in the 1st line of parseProgram?
-		ASTProgram programTree = parsePROG();
+		//ASTProgram programTree = parsePROG();
 		//TODO
-		//accept(EOT); ??
-
-		return programTree;
+		parsePogram();
+		accept(EOT);
+		//return programTree;
 	}
 
-	public ASTProgram parsePROG(){
-		while(currentToken.getKind()!=GrammarSymbol.EOT){
-			//TODO
-			break;
+	public ASTProgram parseProgram(){
+
+		List<ASTDeclaration> l_d;
+		List<ASTSubprogramDeclaration> l_sd; // ( ͡◉ ͜ʖ ͡◉)
+		List<ASTFunctionDeclaration> l_fd;
+		ASTMainProgram mp;
+
+		//parse declaration assignments
+		while( currentToken.getKind()!=FUNCTION && currentToken.getKind()!=SUBPROGRAM){
+			parseDeclaration();
 		}
-		return null;
+		//parse function and subprogram declarations
+		while(currentToken.getKind()!=PROGRAM){
+
+			if(currentToken.getKind()==SUBPROGRAM){
+				parseSubprogramDeclaration();
+			}else if (currentToken.getKind == FUNCTION){
+				parseFunctionDeclaration();
+			}
+
+		}
+		parseMainProgram();
+		ASTProgram rv = new ASTProgram();
+		return rv; //return an ASTPROG
 	}
+
+	public void parseMainProgram(){
+
+	}
+
+	// accept(TYPE);
+	// accept(DOUBLECOLON);
+	// parseDeclaredVariables();
 }
