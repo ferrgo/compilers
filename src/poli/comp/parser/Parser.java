@@ -131,6 +131,7 @@ public class Parser {
 	}
 
 	public ASTStatement parseStatement(){
+
 		ASTStatement rv;
 
 		//Parsing variable declarations
@@ -168,6 +169,10 @@ public class Parser {
 		else if(currentToken.getKind()==RETURN){
 			rv = parseReturnStatement();
 		}
+		else if(currentToken.getKind()==PRINT){
+			rv = parsePrintStatement();
+		}
+
 
 	}
 
@@ -217,8 +222,11 @@ public class Parser {
 
 		};
 
-		ASTDeclaration rv = new ASTDeclaration(t,l_ids,l_asg);
+		ASTDeclaration rv = new ASTDeclaration(t,l_ids,l_asg); //TODO mayb
 		return rv;
+
+		//TODO talvez retrabalhar pra que isso retorne uma lista de declaracoes que vao
+		// ficar no program ou funcao ou subprogram?
 	}
 
 	public parseExpression(){ // EXPRESSION ::= EXP' (OP_COMP EXP')?
@@ -274,7 +282,102 @@ public class Parser {
 
 	}
 
+	public ASTPrintStatement parsePrintStatement(){
 
+		ASTExpression exp;
+
+		accept(PRINT);
+		accept(MULT);
+		accept(COMMA);
+		exp = parseExpression();
+		return new ASTPrintStatement(exp);
+
+	}
+
+	//TODO micro-optimization: Maybe make a common method for parsing functions and sbps
+	// since the 2 methods are so similar. We can make an abstract ASTSubroutineDeclaration
+	// class and input a boolean to pick the return type in the common method.
+	public ASTFunctionDeclaration parseFunctionDeclaration(){
+		ASTType t;
+		ASTIdentifier functionName;
+		List<ASTDeclarationr> l_args = new ArrayList<ASTDeclaration>(); //TODO seriam declaracoes mesmo?
+		List<ASTStatement>    l_s;   = new ArrayList<ASTStatement>();
+
+		//Parsing name etc
+		accept(FUNCTION);
+		t = parseType();
+		functionName = parseIdentifier();
+		accept(LP);
+
+		//Parsing args
+		boolean comma_flag;
+		while(currentToken.getKind() != RP){ //I think we cant simply call parseDeclaration() cause it would allow for ='s
+
+			if(comma_flag) accept(COMMA); //TODO do that for declarations too
+
+			ASTType temp_type = parseType();
+
+			accept(DOUBLECOLON);
+
+			ASTIdentifier temp_id = parseIdentifier();
+
+			l_args.add(new ASTDeclaration(temp_type,temp_id));
+
+			comma_flag=true;
+		}
+		accept(RP);
+
+		//Parsing Statements
+		while(currentToken.getKind()!=END){
+			l_s.add(parseStatement());
+		}
+		accept(END);
+		accept(FUNCTION);
+		rv = new ASTFunctionDeclaration(t, functionName, l_args, l_s);
+		return rv;
+	}
+
+	public ASTSubprogramDeclaration parseFunctionDeclaration(){
+
+		ASTIdentifier sbpName;
+		List<ASTDeclarationr> l_args = new ArrayList<ASTDeclaration>(); //TODO seriam declaracoes mesmo?
+		List<ASTStatement>    l_s;   = new ArrayList<ASTStatement>();
+
+		//Parsing name etc
+		accept(SUBPROGRAM);
+		functionName = parseIdentifier();
+		accept(LP);
+
+		//Parsing args
+		boolean comma_flag;
+		while(currentToken.getKind() != RP){ //I think we cant simply call parseDeclaration() cause it would allow for ='s
+
+			if(comma_flag) accept(COMMA); //TODO do that for declarations too
+
+			ASTType temp_type = parseType();
+
+			accept(DOUBLECOLON);
+
+			ASTIdentifier temp_id = parseIdentifier();
+
+			l_args.add(new ASTDeclaration(temp_type,temp_id));
+
+			comma_flag=true;
+		}
+		accept(RP);
+
+		//Parsing Statements
+		while(currentToken.getKind()!=END){
+			l_s.add(parseStatement());
+		}
+
+		//Parsing end
+		accept(END);
+		accept(SUBPROGRAM);
+
+		rv = new ASTSubprogramDeclaration(sbpName, l_args, l_s);
+		return rv;
+	}
 
 
 
