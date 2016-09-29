@@ -146,43 +146,63 @@ public class Parser {
 			String idText = currentToken.getSpelling();
 			acceptIt();
 			if(currentToken.getKind()==EQUALS){
-				parseAssignment(idText);
+				rv = parseAssignment(idText);
 			}else if(currentToken.getKind()==LP){
-				parseFunctionCall(idText);
+				rv = parseFunctionCall(idText);
 			}
 
 		}
 		//Parsing loop control statements
 		else if(currentToken.getKind()==EXIT ||currentToken.getKind()==CONTINUE){
-			parseLoopControlStatement();
+			rv = parseLoopControlStatement();
 		}
 		//Parsing loops
 		else if(currentToken.getKind()==DO){
-			parseLoop();
+			rv = parseLoop();
 		}
 		//Parsing if statements
 		else if(currentToken.getKind()==IF){
-			parseIfStatement();
+			rv = parseIfStatement();
 		}
 		//Parsing return statements
 		else if(currentToken.getKind()==RETURN){
-			parseReturnStatement();
+			rv = parseReturnStatement();
 		}
 
 	}
 
 	public parseAssignment(String varName){
 
+		ASTExpression exp;
+
+		accept(EQUALS);
+
+		exp = parseExpression();
+
+		ASTAssignment rv = new ASTAssignment(varName, exp);
+		return rv;
+	}
+
+	public ASTDeclaration parseDeclaration(){
+
+		ASTType t;
+		ASTExpression exp;
+		t = parseType();
+		accept(DOUBLECOLON);
+		exp = parseExpression();
+
+		ASTDeclaration rv = new ASTDeclaration(t,exp);
+		return rv;
 	}
 
 	public parseFunctionCall(String functionName){
 
 	}
 
-	public ASTDeclaration parseDeclaration(){
-
-		// accept(TYPE);
-		// accept(DOUBLECOLON);
-		// parseDeclaredVariables();
+	public parseIfStatement(){
+		//Talvez alterar a gramatica pra diferenciar grupos
+		//de statements que contenham else para evitar
+		//o dangling else problem?
 	}
+
 }
