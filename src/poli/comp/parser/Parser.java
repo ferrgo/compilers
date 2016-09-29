@@ -6,6 +6,9 @@ import poli.comp.scanner.Scanner;
 import poli.comp.scanner.Token;
 import poli.comp.util.AST.*;
 
+import java.util.List;
+import java.util.ArrayList;
+
 /**
  * Parser class
  * @version 2010-august-29
@@ -61,39 +64,43 @@ public class Parser {
 	/**
 	 * Verifies if the source program is syntactically correct
 	 * @throws SyntacticException
-	 */ //TODO
+	 */
 	public AST parse() throws SyntacticException, LexicalException{
-		//currentToken = Scanner.getNextToken(); Shouldnt this go in the 1st line of parseProgram?
-		//ASTProgram programTree = parsePROG();
-		//TODO
-		parsePogram();
+		currentToken = Scanner.getNextToken();
+		ASTProgram programTree = parsePogram();
 		accept(EOT);
-		//return programTree;
+		return programTree;
+		//TODO do we have to do anything else here?
 	}
 
 	public ASTProgram parseProgram(){
 
-		List<ASTDeclaration> l_d;
-		List<ASTSubprogramDeclaration> l_sd; // ( ͡◉ ͜ʖ ͡◉)
-		List<ASTFunctionDeclaration> l_fd;
-		ASTMainProgram mp;
+		List<ASTSubprogramDeclaration> l_sd = new ArrayList<ASTSubprogramDeclaration>(); // ( ͡◉ ͜ʖ ͡◉) ~trippy
+		List<ASTFunctionDeclaration> l_fd = new ArrayList<ASTFunctionDeclaration>();
+		List<ASTDeclaration> l_d = new ArrayList<ASTDeclaration>();
+		ASTMainProgram mp = null;
 
-		//parse declaration assignments
+		//parsing global declarations
 		while( currentToken.getKind()!=FUNCTION && currentToken.getKind()!=SUBPROGRAM){
-			parseDeclaration();
+			l_d.add(parseDeclaration());
 		}
-		//parse function and subprogram declarations
+		//parsing function and subprogram declarations
 		while(currentToken.getKind()!=PROGRAM){
 
+			//parsing subprogram(procedure) declarations
 			if(currentToken.getKind()==SUBPROGRAM){
-				parseSubprogramDeclaration();
-			}else if (currentToken.getKind == FUNCTION){
-				parseFunctionDeclaration();
+				l_sd.add(parseSubprogramDeclaration());
+			}
+			//parsing function declarations
+			else if (currentToken.getKind == FUNCTION){
+				l_fd.add(parseFunctionDeclaration());
 			}
 
 		}
-		parseMainProgram();
-		ASTProgram rv = new ASTProgram();
+		//parsing the core of the program (kind of a "main" method)
+		mp = parseMainProgram();
+
+		ASTProgram rv = new ASTProgram(l_d,l_sd,l_fd,mp);
 		return rv; //return an ASTPROG
 	}
 
