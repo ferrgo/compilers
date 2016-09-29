@@ -47,13 +47,12 @@ LOOP_CONTROL    ::= LOOP_BREAK | LOOP_CONTINUE
 LOOP_BREAK      ::= EXIT
 LOOP_CONTINUE   ::= CONTINUE
 
-DECLARATION       ::= TYPE :: DECLARED_VARS
-DECLARED_VARS   ::= ID (= EXPRESSION)? (,ID (= EXPRESSION)?)*
+DECLARATION     ::= TYPE :: ID (= EXPRESSION)? (,ID (= EXPRESSION)? )*
 
 ASSIGNMENT      ::= ID = EXPRESSION
 
-EXPRESSION      ::= EXP (OP_COMP EXP)?
-EXP             ::= TERM EXP_ARIT
+EXPRESSION      ::= EXP' (OP_COMP EXP')?
+EXP'            ::= TERM EXP_ARIT
 EXP_ARIT        ::= (+|-) TERM EXP_ARIT | epsilon
 TERM            ::= FACTOR TERM'
 TERM'           ::= (*|/) FACTOR TERM' | epsilon

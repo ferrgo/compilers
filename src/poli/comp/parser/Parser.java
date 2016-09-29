@@ -171,7 +171,7 @@ public class Parser {
 
 	}
 
-	public parseAssignment(String varName){
+	public ASTAssignment parseAssignment(String varName){
 
 		ASTExpression exp;
 
@@ -181,23 +181,102 @@ public class Parser {
 
 		ASTAssignment rv = new ASTAssignment(varName, exp);
 		return rv;
+
 	}
 
 	public ASTDeclaration parseDeclaration(){
 
+		//NOTE Podem ter várias declaracoes do mesmo tipo, sendo que algumas
+		//são inicializadas e outras não. Vamos armazenar uma lista com
+		//todos os identificadores e uma com todos os assignments. Na
+		//fase de geracao de codigo cada inicializacao vai virar uma
+		//declaracao seguida de um assignment, imagino.
+		//TODO pedir feedback de gustavo sobre isso,
+		// nao acho que seja a melhor solucao.
+
 		ASTType t;
-		ASTExpression exp;
+		List<ASTIdentifier> l_ids; // For declarations
+		List<ASTAssignment> l_asg; // Only for the initialized declarations
 		t = parseType();
 		accept(DOUBLECOLON);
-		exp = parseExpression();
 
-		ASTDeclaration rv = new ASTDeclaration(t,exp);
+		//For every declaration
+		while(currentToken.getNextToken()==ID){
+
+			//Parse the Identifier
+			ASTIdentifier currentId = parseIdentifier();
+			l_ids.add(currentId);
+
+			//Parse the assignment, if thats the case
+			if(currentToken.getNextToken()==EQUALS){
+				acceptIt();
+				ASTExpression currentExpression = parseExpression();
+				ASTAssignment currentAssignment = new ASTAssignment (currentId, currentExpression);
+				l_asg.add(currentAssignment);
+			}
+
+		};
+
+		ASTDeclaration rv = new ASTDeclaration(t,l_ids,l_asg);
 		return rv;
 	}
 
-	public parseFunctionCall(String functionName){
+	public parseExpression(){ // EXPRESSION ::= EXP' (OP_COMP EXP')?
+		ASTExpressionPrime
+
 
 	}
+
+	public ASTLoop parseLoop(){
+
+		ASTBooleanExpression be; //TODO criar expression bool na gramatica pra usar aqui?
+		List<ASTStatement> l_s = new ArrayList<ASTStatement>();
+		accept(DO);
+		accept(WHILE);
+		accept(LP);
+		be = parseBooleanExpression();
+		accept(RP);
+		while(currentToken!=END){ //the inner ends will be accepted by parseStatement, so this should be END DO
+			l_s.add(parseStatement());
+		}
+		accept(END);
+		accept(DO);
+
+		ASTLoop rv = new ASTLoop(be,l_s);
+		return rv;
+	}
+
+	public ASTLoopControl parseLoopControl(){ //TODO the ASTLoopControl class should be abstract
+															//TODO also do the other 2 that inherit it
+		if(currentToken.getKind()==EXIT){
+			acceptIt();
+			return new ASTLoopExit();
+		}else if (currentToken.getKind()==CONTINUE){
+			acceptIt();
+			return new ASTLoopContinue();
+		}
+
+	}
+
+	public ASTFunctionCall parseFunctionCall(String functionName){
+
+	}
+
+	public ASTReturnStatement parseReturnStatement(){ //TODO remember to create the 2 return classes ^_^
+
+		accept(RETURN);
+		if(currentToken.getKind()==EXPRESSION){
+			ASTExpression exp = parseExpression();
+			return new ASTReturnFromFunction(exp);
+		}else{
+			return new ASTReturnFromSubprogram();
+		}
+
+	}
+
+
+
+
 
 	public parseIfStatement(){
 		//Talvez alterar a gramatica pra diferenciar grupos
