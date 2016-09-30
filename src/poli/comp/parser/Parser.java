@@ -119,8 +119,10 @@ public class Parser {
 		Boolean isFunction = false;
 		ASTType t;
 		ASTIdentifier subroutineName;
+
 		List<ASTDeclaration>  l_args = new ArrayList<ASTDeclaration>(); //TODO seriam declaracoes mesmo?
 		List<ASTStatement>    l_s    = new ArrayList<ASTStatement>();
+
 		ASTSubroutineDeclaration rv;
 
 		if(currentToken.getKind()==FUNCTION){
@@ -130,24 +132,28 @@ public class Parser {
 		//Parsing name etc
 		if(isFunction){
 			accept(FUNCTION);
-			if(currentToken.getKind()==INTERGER){
+
+			if(currentToken.getKind()==INTEGER){
 				acceptIt();
 				t = new ASTType(INTEGER);
 			}else{
 				accept(LOGICAL);
 				t = new ASTType(LOGICAL);
+
 			}
 		}else{
 			accept(SUBPROGRAM);
 		}
 
+
 		subroutineName = new ASTIdentifier(currentToken.getSpelling());
-		accept(ID);
+		accept(ID); //TODO sempre dar accept no terminal dps q ler ele pra ast
 		accept(LP);
 
 		//Parsing args
 
 		//TODO add ast declarations and fix the flag thing
+
 		boolean comma_flag;
 		if(currentToken.getKind()!=RP) comma_flag = true; //if there is not RP we must have a list of declarations
 		while(comma_flag){ //I think we cant simply call parseDeclaration() cause it would allow for ='s
@@ -173,7 +179,9 @@ public class Parser {
 			rv = new ASTFunctionDeclaration(t, subroutineName, l_args, l_s);
 		}else{
 			accept(SUBPROGRAM);
+
 			rv = new ASTSubprogramDeclaration( subroutineName, l_args, l_s);
+
 		}
 		return rv;
 	}
@@ -189,6 +197,7 @@ public class Parser {
 		accept(PROGRAM);
 		id= new ASTIdentifier(currentToken.getSpelling());
 		accept(ID);
+
 
 		//Parses each statement
 		while(currentToken.getKind() != END){ // will this work?
@@ -213,8 +222,10 @@ public class Parser {
 		//Parsing assignments and function calls
 		else if(currentToken.getKind()==ID){
 
+
 			ASTIdentifier id = new ASTIdentifier(currentToken.getSpelling());
 			accept(ID);
+
 
 			if(currentToken.getKind()==EQUALS){
 				acceptIt();
