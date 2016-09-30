@@ -111,7 +111,66 @@ public class Parser {
 		return rv; //return an ASTPROG
 	}
 
-	private ASTSubprogramDeclaration parseSubprogramDeclaration() {
+	/**
+	 * Following the idea of a Soubroutine superclass and single method
+	 * @return
+     */
+	private ASTSubroutineDeclaration parseSubroutineDeclaration() throws SyntacticException, LexicalException {
+		Boolean isFunction = false;
+		ASTType t;
+		ASTIdentifier subroutineName;
+		List<ASTDeclaration> l_args = new ArrayList<ASTDeclaration>(); //TODO seriam declaracoes mesmo?
+		List<ASTStatement>    l_s;   = new ArrayList<ASTStatement>();
+		ASTSubroutineDeclaration rv;
+
+		if(currentToken.getKind()==FUNCTION){
+			isFunction=true;
+		}
+
+		//Parsing name etc
+		if(isFunction){
+			accept(FUNCTION);
+//			t = parseType();
+			if(currentToken.getKind()==INTERGER){
+				accept(INTERGER);
+			}else{
+				accept(LOGICAL);
+			}
+		}else{
+			accept(SUBPROGRAM);
+		}
+		subroutineName = new ASTIdentifier(currentToken.getSpelling());
+		accept(LP);
+
+		//Parsing args
+		boolean comma_flag;
+		if(currentToken.getKind()!=RP) comma_flag = true; //if there is not RP we must have a list of declarations
+		while(comma_flag){ //I think we cant simply call parseDeclaration() cause it would allow for ='s
+			//If inside the LP RP we must have the structur TYPE :: ID,....
+			accept(TYPE);
+			accept(DOUBLECOLON);
+			accept(ID);
+			if(currentToken.getKind()!=COMMA) comma_flag = false; //
+			if(comma_flag) accept(COMMA); //TODO do that for declarations too
+
+			//TODO Not sure how to handle the parameter declaration list
+//			l_args.add();
+		}
+		accept(RP);
+
+		//Parsing Statements
+		while(currentToken.getKind()!=END){
+			l_s.add(parseStatement());
+		}
+		accept(END);
+		if (isFunction){
+			accept(FUNCTION);
+			rv = new ASTFunctionDeclaration(t, subroutineName, l_args, l_s);
+		}else{
+			accept(SUBPROGRAM);
+			rv = new ASTSubprogramDeclaration(t, subroutineName, l_args, l_s);
+		}
+		return rv;
 	}
 
 
@@ -349,7 +408,11 @@ public class Parser {
 		return rv;
 	}
 
-	public ASTSubprogramDeclaration parseFunctionDeclaration(){
+	/**
+	 * Changed name to SubprogramDeclaration but didn't change the function itself
+	 * @return
+     */
+	public ASTSubprogramDeclaration parseSubprogramDeclaration(){
 
 		ASTIdentifier sbpName;
 		List<ASTDeclarationr> l_args = new ArrayList<ASTDeclaration>(); //TODO seriam declaracoes mesmo?

@@ -8,7 +8,7 @@ import poli.comp.parser.GrammarSymbol
  * Created by root on 27/09/16.
  */
 class ScannerTest extends groovy.util.GroovyTestCase {
-    Scanner sc;
+    poli.comp.scanner.Scanner sc;
 
 
     void setUp() throws Exception{
@@ -27,7 +27,7 @@ class ScannerTest extends groovy.util.GroovyTestCase {
         }
         System.out.println(listOfTests.toString());
 
-        sc = new Scanner(listOfTests.get(2).toString())
+        sc = new poli.comp.scanner.Scanner(listOfTests.get(2).toString())
     }
 
     void tearDown() {
