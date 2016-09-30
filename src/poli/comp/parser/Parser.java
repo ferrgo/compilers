@@ -123,7 +123,7 @@ public class Parser {
 
 		//Parses PROGRAM ID
 		accept(PROGRAM);
-		id=parseIdentifier();
+		id= new ASTIdentifier(currentToken.getSpelling());
 
 		//Parses each statement
 		while(currentToken.getKind() != END){ // will this work?
@@ -152,7 +152,7 @@ public class Parser {
 			//Saving the id, then checking what kind of statement this is and treating it properly.
 			//TODO should we refactor the grammar so that
 			// we dont have to do this gambiarra?
-			ASTIdentifier id = parseIdentifier();
+			ASTIdentifier id = new ASTIdentifier(currentToken.getSpelling());
 
 			if(currentToken.getKind()==EQUALS){
 				ASTExpression exp = parseExpression();
@@ -221,7 +221,7 @@ public class Parser {
 		while(currentToken.getNextToken()==ID){
 
 			//Parse the Identifier
-			ASTIdentifier currentId = parseIdentifier();
+			ASTIdentifier currentId = ASTIdentifier(currentToken.getSpelling());
 			l_ids.add(currentId);
 
 			//Parse the assignment, if thats the case
@@ -318,7 +318,7 @@ public class Parser {
 		//Parsing name etc
 		accept(FUNCTION);
 		t = parseType();
-		functionName = parseIdentifier();
+		functionName = new ASTIdentifier(currentToken.getSpelling());
 		accept(LP);
 
 		//Parsing args
@@ -331,7 +331,7 @@ public class Parser {
 
 			accept(DOUBLECOLON);
 
-			ASTIdentifier temp_id = parseIdentifier();
+			ASTIdentifier temp_id = ASTIdentifier(currentToken.getSpelling());
 
 			l_args.add(new ASTDeclaration(temp_type,temp_id));
 
@@ -357,7 +357,7 @@ public class Parser {
 
 		//Parsing name etc
 		accept(SUBPROGRAM);
-		functionName = parseIdentifier();
+		functionName = new ASTIdentifier(currentToken.getSpelling());
 		accept(LP);
 
 		//Parsing args
@@ -370,7 +370,7 @@ public class Parser {
 
 			accept(DOUBLECOLON);
 
-			ASTIdentifier temp_id = parseIdentifier();
+			ASTIdentifier temp_id = new ASTIdentifier(currentToken.getSpelling());
 
 			l_args.add(new ASTDeclaration(temp_type,temp_id));
 
