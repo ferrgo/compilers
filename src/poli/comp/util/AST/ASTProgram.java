@@ -4,7 +4,6 @@ import java.util.List;
 
 public class ASTProgram extends AST {
 
-//   public List<ASTDeclarationWithAssignment> l_dwa;//WaT? TODO Check..
     public  List<ASTDeclaration> l_dwa;
     public List<ASTFunctionDeclaration> l_fd;
     public List<ASTSubprogramDeclaration> l_sd; //trippy

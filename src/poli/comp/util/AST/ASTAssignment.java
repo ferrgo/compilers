@@ -27,6 +27,8 @@ public abstract class ASTAssignment extends ASTStatement {
 		return str.toString();
 	}
 
-	public abstract String toString(int level);
-
+		@Override
+		public String toString(int level) {
+				return null;
+		}
 }
