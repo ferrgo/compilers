@@ -1,0 +1,16 @@
+! this should fail
+!!
+!!!!!!!!!!!!!
+ !!
+            !!!
+            !
+//////////
+            !!
+
+            PRINT *, 'Solution of a quadratic equation ax^2+bx+c=0:'
+
+
+! \n jdisofjsidojfodisjfoidsjfioj
+!                //
+
+!//                        //
