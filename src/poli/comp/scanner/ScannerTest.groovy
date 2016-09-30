@@ -2,13 +2,15 @@ package poli.comp.scanner
 
 import poli.comp.parser.GrammarSymbol
 
-import java.util.logging.FileHandler
+//import java.util.logging.FileHandler
 
 /**
  * Created by root on 27/09/16.
  */
 class ScannerTest extends groovy.util.GroovyTestCase {
     Scanner sc;
+
+
     void setUp() throws Exception{
         super.setUp()
         System.out.println("Setting up test files");
@@ -25,7 +27,7 @@ class ScannerTest extends groovy.util.GroovyTestCase {
         }
         System.out.println(listOfTests.toString());
 
-        sc = new Scanner(listOfTests.get(0).toString())
+        sc = new Scanner(listOfTests.get(2).toString())
     }
 
     void tearDown() {
@@ -37,7 +39,7 @@ class ScannerTest extends groovy.util.GroovyTestCase {
         now = sc.getNextToken();
         int count = 0
         while (now.getKind() != GrammarSymbol.EOT) {
-            System.out.println(now.getKind().toString() + "....." + now.getSpelling().toString());
+            System.out.println(now.getKind().toString() + " ..... " + now.getSpelling().toString());
             now = sc.getNextToken()
         }
 

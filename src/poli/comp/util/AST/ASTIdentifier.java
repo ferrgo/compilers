@@ -2,7 +2,7 @@ package poli.comp.util.AST;
 
 public class ASTIdentifier extends ASTTerminal {
 
-   public Identifier(String s){
+   public ASTIdentifier(String s){
       super.contents = s;
    }
 

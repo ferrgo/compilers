@@ -1,6 +1,6 @@
 package poli.comp.parser;
 
-import jdk.nashorn.internal.ir.LexicalContext;
+//import jdk.nashorn.internal.ir.LexicalContext;
 import poli.comp.scanner.LexicalException;
 import poli.comp.scanner.Scanner;
 import poli.comp.scanner.Token;
@@ -8,6 +8,8 @@ import poli.comp.util.AST.*;
 
 import java.util.List;
 import java.util.ArrayList;
+
+import static poli.comp.parser.GrammarSymbol.*;
 
 /**
  * Parser class
@@ -66,8 +68,8 @@ public class Parser {
 	 * @throws SyntacticException
 	 */
 	public AST parse() throws SyntacticException, LexicalException{
-		currentToken = Scanner.getNextToken();
-		ASTProgram programTree = parsePogram();
+		currentToken = scanner.getNextToken();
+		ASTProgram programTree = parseProgram();
 		accept(EOT);
 		return programTree;
 		//TODO do we have to do anything else here?
@@ -95,9 +97,11 @@ public class Parser {
 				l_sd.add(parseSubprogramDeclaration());
 			}
 			//parsing function declarations
-			else if (currentToken.getKind() == FUNCTION){
+			//"if" we don't get into the first if and also not get into the else
+			// then we got ourselves a mindblowing overflow
+//			else if (currentToken.getKind() == FUNCTION){
 				l_fd.add(parseFunctionDeclaration());
-			}
+//			}
 
 		}
 		//parsing the core of the program (kind of a "main" method)
@@ -105,6 +109,9 @@ public class Parser {
 
 		ASTProgram rv = new ASTProgram(l_d,l_sd,l_fd,mp);
 		return rv; //return an ASTPROG
+	}
+
+	private ASTSubprogramDeclaration parseSubprogramDeclaration() {
 	}
 
 

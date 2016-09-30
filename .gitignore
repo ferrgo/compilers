@@ -6,6 +6,7 @@ fortran.iml
 
 #Compiled Files
 out/
+*.class
 
 #logs
 *.log

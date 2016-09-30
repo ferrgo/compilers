@@ -1,7 +1,7 @@
 package poli.comp.scanner;
 
 import poli.comp.compiler.Properties;
-import poli.comp.compiler.Compiler;
+//import poli.comp.compiler.Compiler;
 
 import poli.comp.parser.GrammarSymbol;
 import poli.comp.util.Arquivo;
@@ -277,6 +277,7 @@ public class Scanner {
 					}
 					if(currentSpelling.toString().equals(".true") || currentSpelling.toString().equals(".false")){
 						if (currentChar=='.'){
+							getNextChar();
 							return GrammarSymbol.LIT_LOGICAL;
 						}
 					}
@@ -300,36 +301,38 @@ public class Scanner {
 						getNextChar();
 					}
 					String alias = currentSpelling.toString();
-					//TODO this can be a switch on a string
-					if(alias.equals("INTEGER") || alias.equals("LOGICAL")){
-						return GrammarSymbol.TYPE;
-					}else if(alias.equals("IF")){
-						return GrammarSymbol.IF;
-					}else if(alias.equals("THEN")){
-						return GrammarSymbol.THEN;
-					}else if(alias.equals("ELSE")){
-						return GrammarSymbol.ELSE;
-					}else if(alias.equals("DO")){
-						return GrammarSymbol.DO;
-					}else if(alias.equals("WHILE")){
-						return GrammarSymbol.WHILE;
-					}else if(alias.equals("EXIT")){
-						return GrammarSymbol.EXIT;
-					}else if(alias.equals("CONTINUE")){
-						return GrammarSymbol.CONTINUE;
-					}else if(alias.equals("PROGRAM")){
-						return GrammarSymbol.PROGRAM;
-					}else if(alias.equals("SUBPROGRAM")){
-						return GrammarSymbol.PROGRAM;
-					}else if(alias.equals("FUNCTION")){
-						return GrammarSymbol.FUNCTION;
-					}else if(alias.equals("RETURN")){
-						return GrammarSymbol.RETURN;
-					}else if(alias.equals("PRINT")){
-						return GrammarSymbol.PRINT;
-					}else{
-						return GrammarSymbol.ID;
-					}
+					switch (alias){
+						case ("INTEGER"):
+							return GrammarSymbol.TYPE;
+						case ("LOGICAL"):
+							return GrammarSymbol.TYPE;
+						case ("IF"):
+							return GrammarSymbol.IF;
+						case("THEN"):
+							return GrammarSymbol.THEN;
+						case("ELSE"):
+							return GrammarSymbol.ELSE;
+						case ("DO"):
+							return GrammarSymbol.DO;
+						case ("WHILE"):
+							return GrammarSymbol.WHILE;
+						case ("EXIT"):
+							return GrammarSymbol.EXIT;
+						case ("CONTINUE"):
+							return GrammarSymbol.CONTINUE;
+						case("PROGRAM"):
+							return GrammarSymbol.PROGRAM;
+						case("SUBPROGRAM"):
+							return GrammarSymbol.SUBPROGRAM;
+						case ("FUNCTION"):
+							return GrammarSymbol.FUNCTION;
+						case("RETURN"):
+							return GrammarSymbol.RETURN;
+						case("PRINT"):
+							return GrammarSymbol.PRINT;
+						default:
+							return GrammarSymbol.ID;
+					}//SwitchInsideSwitch...
 				case(16): //LEXICAL ERROR (╯°□°）╯︵ ┻━┻
 					throw new LexicalException("Oh come on, are you seriously incapable of lexical correctness?", currentChar, line, column);
 				default: // It should be impossible to get here, SO I DON'T EVEN KNOW WHAT HAPPENED (ノಠ益ಠ)ノ彡┻━┻
