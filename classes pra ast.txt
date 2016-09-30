@@ -1,0 +1,44 @@
+
+
+
+
+
+ASTProgram extends AST
+
+ASTMainProgram extends AST
+
+abstract ASTSubroutineDeclaration extends AST
+	ASTFunctionDeclaration extends ASTSubroutineDeclaration
+	ASTSubprogramDeclaration extends ASTSubroutineDeclaration
+
+(mudar gramatica pra refletir isso^. adicionar:)
+SUBROUTINE_DECL ::= FUNCTION_DECL | SUBPROGRAM_DECL
+
+abstract ASTStatement extends AST
+	ASTIfStatement extends ASTStatement
+		ASTSimpleIfStatement extends ASTIfStatement
+		ASTIfStatementWithElse extends ASTIfStatement
+	ASTDeclaration extends ASTStatement
+	ASTAssignment extends ASTStatement
+	ASTFunctionCall extends ASTStatement
+	ASTReturnStatement extends ASTStatement
+	ASTPrintStatement extends ASTStatement
+	ASTLoop extends ASTStatement
+	abstract ASTLoopControl extends ASTStatement
+	 	ASTLoopContinue extends ASTLoopControl
+		ASTLoopExit     extends ASTLoopControl
+
+//nao precisa de parseTerminal, faz direto dentro de parse___ (como por ex parseExpression)
+abstract ASTTerminal extends AST
+	ASTIdentifier extends ASTTerminal
+	ASTIntegerLiteral extends ASTTerminal
+	ASTLogicalLiteral extends ASTTerminal
+	//talvez mais que eu tenha esquecido
+
+abstract ASTExpression extends AST //bool e simples
+	ASTBooleanExpression extends ASTExpression // pra expressoes do tipo exparit (op comp) exxparit. isso eh pq, na praitca, a regra eh expression ::= exparit | exparit opcomp exparit
+	ASTArithmeticExpression extends ASTExpression
+	ASTTerm extends ASTExpression
+ 	ASTFactor extends ASTExpression
+
+ASTFunctionArgs extends AST

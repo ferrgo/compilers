@@ -146,6 +146,8 @@ public class Parser {
 		accept(LP);
 
 		//Parsing args
+
+		//TODO add ast declarations and fix the flag thing
 		boolean comma_flag;
 		if(currentToken.getKind()!=RP) comma_flag = true; //if there is not RP we must have a list of declarations
 		while(comma_flag){ //I think we cant simply call parseDeclaration() cause it would allow for ='s
@@ -171,7 +173,7 @@ public class Parser {
 			rv = new ASTFunctionDeclaration(t, subroutineName, l_args, l_s);
 		}else{
 			accept(SUBPROGRAM);
-			rv = new ASTSubprogramDeclaration(t, subroutineName, l_args, l_s);
+			rv = new ASTSubprogramDeclaration( subroutineName, l_args, l_s);
 		}
 		return rv;
 	}
@@ -202,7 +204,6 @@ public class Parser {
 	}
 
 	public ASTStatement parseStatement(){
-
 		ASTStatement rv;
 
 		//Parsing variable declarations
@@ -263,7 +264,7 @@ public class Parser {
 
 	}
 
-	public ASTDeclaration parseDeclaration(){
+	public ASTDeclarationGroup parseDeclarationGroup(){
 
 		//NOTE Podem ter várias declaracoes do mesmo tipo, sendo que algumas
 		//são inicializadas e outras não. Vamos armazenar uma lista com

@@ -1,6 +1,6 @@
 package poli.comp.compiler;
 
-import poli.comp.parser.Parser;
+//import poli.comp.parser.Parser;
 import poli.comp.parser.SyntacticException;
 import poli.comp.scanner.LexicalException;
 import poli.comp.util.AST.AST;
@@ -16,7 +16,7 @@ import java.io.File;
  * @email gustavohpcarvalho@ecomp.poli.br
  */
 public class Compiler {
-	
+
 	// Compiler identification table
 	public static IdentificationTable identificationTable = null;
 
@@ -25,15 +25,15 @@ public class Compiler {
 	 * @param args - none
 	 */
 	public static void main(String[] args) {
-		// Initializes the identification table with the reserved words 
+		// Initializes the identification table with the reserved words
 		Compiler.initIdentificationTable();
-		
+
 		// Creates the parser object
 		Parser p = new Parser();
-		
+
 		// Creates the AST object
 		AST astRoot = null;
-		
+
 		try {
 			// Parses the source code
 			astRoot = p.parse();
@@ -49,7 +49,7 @@ public class Compiler {
 			l.printStackTrace();
 		}
 	}
-	
+
 	/**
 	 * Initializes the identification table with the reserved words
 	 */
@@ -57,5 +57,5 @@ public class Compiler {
 		// Calls the initializer methods
 		Compiler.identificationTable = new IdentificationTable();
 	}
-	
+
 }
