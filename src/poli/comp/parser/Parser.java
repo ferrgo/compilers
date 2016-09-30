@@ -155,15 +155,21 @@ public class Parser {
 		//TODO add ast declarations and fix the flag thing
 
 		boolean comma_flag;
-		if(currentToken.getKind()!=RP) comma_flag = true; //if there is not RP we must have a list of declarations
-		while(comma_flag){ //I think we cant simply call parseDeclaration() cause it would allow for ='s
+		if(currentToken.getKind()!=RP){
+			comma_flag = true; //if there is not RP we must have a list of declarations
+		}
+		while(comma_flag){
+			//I think we cant simply call parseDeclaration() cause it would allow for ='s
 			//If inside the LP RP we must have the structur TYPE :: ID,....
 			accept(TYPE);
 			accept(DOUBLECOLON);
 			accept(ID);
-			if(currentToken.getKind()!=COMMA) comma_flag = false; //
-			if(comma_flag) accept(COMMA); //TODO do that for declarations too
-
+			if(currentToken.getKind()!=COMMA){
+				comma_flag = false;
+			}
+			if(comma_flag){
+				accept(COMMA); //TODO do that for declarations too
+			}
 			//TODO Not sure how to handle the parameter declaration list
 //			l_args.add();
 		}
@@ -189,7 +195,6 @@ public class Parser {
 
 	//Parses the rule PROG_MAIN ::= PROGRAM ID (STATEMENT)* END PROGRAM
 	public ASTMainProgram parseMainProgram(){
-
 		ASTIdentifier id;
 		List<ASTStatement> l_s = new ArrayList<ASTStatement>();
 
@@ -317,11 +322,6 @@ public class Parser {
 		// ficar no program ou funcao ou subprogram?
 	}
 
-	public parseExpression(){ // EXPRESSION ::= EXP' (OP_COMP EXP')?
-		ASTExpressionPrime
-
-
-	}
 
 	public ASTLoop parseLoop(){
 
@@ -354,9 +354,6 @@ public class Parser {
 
 	}
 
-	public ASTFunctionCall parseFunctionCall(String functionName){
-
-	}
 
 	public ASTReturnStatement parseReturnStatement(){ //TODO remember to create the 2 return classes ^_^
 

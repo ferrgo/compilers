@@ -3,6 +3,11 @@ package poli.comp.util.AST;
 
 public abstract class ASTStatement extends AST {
 
+
+  private ASTDeclarationWithAssignment l_dwa;
+	private ASTAssignment ass;
+	private ASTIfStatement ist;
+
 	public String getSpaces(int level) {
 		StringBuffer str = new StringBuffer();
 		while( level>0 ) {
@@ -11,7 +16,8 @@ public abstract class ASTStatement extends AST {
 		}
 		return str.toString();
 	}
-
-	public abstract String toString(int level);
-
+	@Override
+	public String toString(int level) {
+			return null;
+	}
 }
