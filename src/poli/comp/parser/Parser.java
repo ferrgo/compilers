@@ -313,15 +313,12 @@ public class Parser {
 
 	}
 
-<<<<<<< HEAD
-=======
 	public parseExpression(){ // EXPRESSION ::= EXP' (OP_COMP EXP')?
 
 		//TODO
 
 
 	}
->>>>>>> 598868df9889ee7b5c184db382715361be955eee
 
 	public ASTLoop parseLoop(){
 
