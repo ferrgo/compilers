@@ -111,6 +111,7 @@ public class Parser {
 	}
 
 	private ASTDeclaration parseDeclaration() {
+		return null;
 	}
 
 	/**
@@ -189,9 +190,7 @@ public class Parser {
 			rv = new ASTFunctionDeclaration(t, subroutineName, l_par, l_s);
 		}else{
 			accept(SUBPROGRAM);
-
 			rv = new ASTSubprogramDeclaration(t, subroutineName, l_par, l_s);
-
 		}
 		return rv;
 	}
@@ -222,12 +221,14 @@ public class Parser {
 		return rv;
 	}
 
+
+	//TODO Here I am...
 	public ASTStatement parseStatement() throws SyntacticException, LexicalException {
 		ASTStatement rv;
 
 		//Parsing variable declarations
 		if(currentToken.getKind()==TYPE){
-			rv = parseDeclaration();
+			rv = parseStatement();
 		}
 		//Parsing assignments and function calls
 		else if(currentToken.getKind()==ID){

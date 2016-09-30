@@ -3,7 +3,7 @@ package poli.comp.util.AST;
 /**
  * Created by hgferr on 30/09/16.
  */
-public class ASTParamDeclaration {
+public class ASTParamDeclaration extends AST{
 
     private final ASTType type;
     private final ASTIdentifier id;

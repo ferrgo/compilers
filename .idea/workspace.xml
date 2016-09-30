@@ -2,12 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="3a7d196c-6f22-48ba-aee8-5759af7dab06" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/poli/comp/util/AST/ASTParamDeclaration.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grammars/lexical" afterPath="$PROJECT_DIR$/grammars/lexical" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/poli/comp/parser/GrammarSymbol.java" afterPath="$PROJECT_DIR$/src/poli/comp/parser/GrammarSymbol.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/poli/comp/parser/Parser.java" afterPath="$PROJECT_DIR$/src/poli/comp/parser/Parser.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/poli/comp/util/AST/ASTParamDeclaration.java" afterPath="$PROJECT_DIR$/src/poli/comp/util/AST/ASTParamDeclaration.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/poli/comp/util/AST/ASTProgram.java" afterPath="$PROJECT_DIR$/src/poli/comp/util/AST/ASTProgram.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/poli/comp/util/AST/ASTSubprogramDeclaration.java" afterPath="$PROJECT_DIR$/src/poli/comp/util/AST/ASTSubprogramDeclaration.java" />
     </list>
     <ignored path="fortran.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -29,21 +28,41 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="ASTProgram.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/poli/comp/util/AST/ASTProgram.java">
+      <file leaf-file-name="ASTSubprogramDeclaration.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/poli/comp/util/AST/ASTSubprogramDeclaration.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="216">
-              <caret line="12" column="20" selection-start-line="12" selection-start-column="20" selection-end-line="12" selection-end-column="20" />
+            <state relative-caret-position="342">
+              <caret line="19" column="17" selection-start-line="19" selection-start-column="17" selection-end-line="19" selection-end-column="17" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ASTAssignment.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/poli/comp/util/AST/ASTAssignment.java">
+      <file leaf-file-name="ASTType.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/poli/comp/util/AST/ASTType.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="206">
-              <caret line="15" column="11" selection-start-line="15" selection-start-column="11" selection-end-line="15" selection-end-column="11" />
+            <state relative-caret-position="36">
+              <caret line="2" column="20" selection-start-line="2" selection-start-column="13" selection-end-line="2" selection-end-column="20" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ASTFunctionDeclaration.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/poli/comp/util/AST/ASTFunctionDeclaration.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="90">
+              <caret line="5" column="22" selection-start-line="5" selection-start-column="22" selection-end-line="5" selection-end-column="22" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ASTProgram.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/poli/comp/util/AST/ASTProgram.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="306">
+              <caret line="17" column="5" selection-start-line="17" selection-start-column="5" selection-end-line="17" selection-end-column="5" />
               <folding />
             </state>
           </provider>
@@ -52,22 +71,57 @@
       <file leaf-file-name="Parser.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/poli/comp/parser/Parser.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="610">
-              <caret line="108" column="39" selection-start-line="108" selection-start-column="39" selection-end-line="108" selection-end-column="39" />
+            <state relative-caret-position="319">
+              <caret line="224" column="23" selection-start-line="224" selection-start-column="23" selection-end-line="224" selection-end-column="23" />
               <folding>
                 <element signature="imports" expanded="true" />
+                <element signature="method#accept#0;class#Parser#0" expanded="false" />
+                <element signature="method#acceptIt#0;class#Parser#0" expanded="false" />
+                <element signature="method#parse#0;class#Parser#0" expanded="false" />
                 <element signature="e#2291#2317#0" expanded="true" />
                 <element signature="e#2395#2419#0" expanded="true" />
-                <element signature="method#parseSubroutineDeclaration#0;class#Parser#0" expanded="false" />
-                <element signature="e#3716#3737#0" expanded="true" />
-                <marker date="1475270940853" expanded="false" signature="660:665" ph=" { " />
-                <marker date="1475270940853" expanded="false" signature="728:731" ph=" }" />
-                <marker date="1475270940853" expanded="false" signature="3820:3834" ph="&lt;~&gt;" />
-                <marker date="1475270940853" expanded="false" signature="5852:5866" ph="&lt;~&gt;" />
-                <marker date="1475270940853" expanded="false" signature="8670:8684" ph="&lt;~&gt;" />
-                <marker date="1475270940853" expanded="false" signature="12511:12525" ph="&lt;~&gt;" />
-                <marker date="1475270940853" expanded="false" signature="12572:12586" ph="&lt;~&gt;" />
+                <element signature="e#2465#2481#0" expanded="true" />
+                <element signature="e#3381#3382#0" expanded="true" />
+                <element signature="e#3399#3400#0" expanded="true" />
+                <element signature="e#3731#3752#0" expanded="true" />
+                <marker date="1475272417510" expanded="false" signature="660:665" ph=" { " />
+                <marker date="1475272417510" expanded="false" signature="728:731" ph=" }" />
+                <marker date="1475272417510" expanded="false" signature="3835:3849" ph="&lt;~&gt;" />
+                <marker date="1475272417510" expanded="false" signature="5865:5879" ph="&lt;~&gt;" />
+                <marker date="1475272417510" expanded="false" signature="8703:8717" ph="&lt;~&gt;" />
+                <marker date="1475272417510" expanded="false" signature="12544:12558" ph="&lt;~&gt;" />
+                <marker date="1475272417510" expanded="false" signature="12605:12619" ph="&lt;~&gt;" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ASTDeclaration.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/poli/comp/util/AST/ASTDeclaration.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="108">
+              <caret line="6" column="1" selection-start-line="6" selection-start-column="1" selection-end-line="6" selection-end-column="1" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ASTParamDeclaration.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/poli/comp/util/AST/ASTParamDeclaration.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="252">
+              <caret line="14" column="1" selection-start-line="14" selection-start-column="1" selection-end-line="14" selection-end-column="1" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="lexical" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/grammars/lexical">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="515">
+              <caret line="63" column="30" selection-start-line="63" selection-start-column="30" selection-end-line="63" selection-end-column="30" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -77,16 +131,6 @@
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="438">
               <caret line="64" column="11" selection-start-line="64" selection-start-column="11" selection-end-line="64" selection-end-column="11" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="AST.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/poli/comp/util/AST/AST.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="162">
-              <caret line="9" column="22" selection-start-line="9" selection-start-column="22" selection-end-line="9" selection-end-column="22" />
               <folding />
             </state>
           </provider>
@@ -138,16 +182,17 @@
         <option value="$PROJECT_DIR$/src/poli/comp/parser/ASTSubroutineDeclaration.java" />
         <option value="$PROJECT_DIR$/src/poli/comp/util/AST/ASTSubroutineDeclaration.java" />
         <option value="$PROJECT_DIR$/src/poli/comp/util/AST/ASTFunctionDeclaration.java" />
-        <option value="$PROJECT_DIR$/src/poli/comp/util/AST/ASTSubprogramDeclaration.java" />
         <option value="$PROJECT_DIR$/src/poli/comp/util/AST/ASTType.java" />
         <option value="$PROJECT_DIR$/src/poli/comp/scanner/Scanner.java" />
         <option value="$PROJECT_DIR$/testFiles/program3.txt" />
         <option value="$PROJECT_DIR$/grammars/lexical" />
-        <option value="$PROJECT_DIR$/src/poli/comp/util/AST/ASTDeclaration.java" />
         <option value="$PROJECT_DIR$/src/poli/comp/util/AST/ASTMainProgram.java" />
         <option value="$PROJECT_DIR$/src/poli/comp/parser/GrammarSymbol.java" />
-        <option value="$PROJECT_DIR$/src/poli/comp/parser/Parser.java" />
+        <option value="$PROJECT_DIR$/src/poli/comp/util/AST/ASTDeclaration.java" />
+        <option value="$PROJECT_DIR$/src/poli/comp/util/AST/ASTParamDeclaration.java" />
+        <option value="$PROJECT_DIR$/src/poli/comp/util/AST/ASTSubprogramDeclaration.java" />
         <option value="$PROJECT_DIR$/src/poli/comp/util/AST/ASTProgram.java" />
+        <option value="$PROJECT_DIR$/src/poli/comp/parser/Parser.java" />
       </list>
     </option>
   </component>
@@ -860,7 +905,7 @@
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="SLIDING" type="FLOATING" visible="true" show_stripe_button="true" weight="0.18579236" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" x="80" y="177" width="347" height="513" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="FLOATING" visible="true" show_stripe_button="true" weight="0.24980484" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" x="448" y="144" width="410" height="497" />
-      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24980484" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="true" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -920,13 +965,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/testFiles/program1.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="2" selection-start-line="0" selection-start-column="2" selection-end-line="0" selection-end-column="2" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/poli/comp/util/Arquivo.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1140">
@@ -958,17 +996,22 @@
           <caret line="27" column="5" selection-start-line="27" selection-start-column="5" selection-end-line="27" selection-end-column="5" />
           <folding>
             <element signature="imports" expanded="true" />
+            <element signature="method#accept#0;class#Parser#0" expanded="false" />
+            <element signature="method#acceptIt#0;class#Parser#0" expanded="false" />
+            <element signature="method#parse#0;class#Parser#0" expanded="false" />
             <element signature="e#2291#2317#0" expanded="true" />
             <element signature="e#2395#2419#0" expanded="true" />
-            <element signature="method#parseSubroutineDeclaration#0;class#Parser#0" expanded="false" />
-            <element signature="e#3716#3737#0" expanded="true" />
-            <marker date="1475270940853" expanded="false" signature="660:665" ph=" { " />
-            <marker date="1475270940853" expanded="false" signature="728:731" ph=" }" />
-            <marker date="1475270940853" expanded="false" signature="3820:3834" ph="&lt;~&gt;" />
-            <marker date="1475270940853" expanded="false" signature="5852:5866" ph="&lt;~&gt;" />
-            <marker date="1475270940853" expanded="false" signature="8670:8684" ph="&lt;~&gt;" />
-            <marker date="1475270940853" expanded="false" signature="12511:12525" ph="&lt;~&gt;" />
-            <marker date="1475270940853" expanded="false" signature="12572:12586" ph="&lt;~&gt;" />
+            <element signature="e#2465#2481#0" expanded="true" />
+            <element signature="e#3381#3382#0" expanded="true" />
+            <element signature="e#3399#3400#0" expanded="true" />
+            <element signature="e#3731#3752#0" expanded="true" />
+            <marker date="1475272417510" expanded="false" signature="660:665" ph=" { " />
+            <marker date="1475272417510" expanded="false" signature="728:731" ph=" }" />
+            <marker date="1475272417510" expanded="false" signature="3835:3849" ph="&lt;~&gt;" />
+            <marker date="1475272417510" expanded="false" signature="5865:5879" ph="&lt;~&gt;" />
+            <marker date="1475272417510" expanded="false" signature="8703:8717" ph="&lt;~&gt;" />
+            <marker date="1475272417510" expanded="false" signature="12544:12558" ph="&lt;~&gt;" />
+            <marker date="1475272417510" expanded="false" signature="12605:12619" ph="&lt;~&gt;" />
           </folding>
         </state>
       </provider>
@@ -1020,17 +1063,22 @@
           <caret line="27" column="5" selection-start-line="27" selection-start-column="5" selection-end-line="27" selection-end-column="5" />
           <folding>
             <element signature="imports" expanded="true" />
+            <element signature="method#accept#0;class#Parser#0" expanded="false" />
+            <element signature="method#acceptIt#0;class#Parser#0" expanded="false" />
+            <element signature="method#parse#0;class#Parser#0" expanded="false" />
             <element signature="e#2291#2317#0" expanded="true" />
             <element signature="e#2395#2419#0" expanded="true" />
-            <element signature="method#parseSubroutineDeclaration#0;class#Parser#0" expanded="false" />
-            <element signature="e#3716#3737#0" expanded="true" />
-            <marker date="1475270940853" expanded="false" signature="660:665" ph=" { " />
-            <marker date="1475270940853" expanded="false" signature="728:731" ph=" }" />
-            <marker date="1475270940853" expanded="false" signature="3820:3834" ph="&lt;~&gt;" />
-            <marker date="1475270940853" expanded="false" signature="5852:5866" ph="&lt;~&gt;" />
-            <marker date="1475270940853" expanded="false" signature="8670:8684" ph="&lt;~&gt;" />
-            <marker date="1475270940853" expanded="false" signature="12511:12525" ph="&lt;~&gt;" />
-            <marker date="1475270940853" expanded="false" signature="12572:12586" ph="&lt;~&gt;" />
+            <element signature="e#2465#2481#0" expanded="true" />
+            <element signature="e#3381#3382#0" expanded="true" />
+            <element signature="e#3399#3400#0" expanded="true" />
+            <element signature="e#3731#3752#0" expanded="true" />
+            <marker date="1475272417510" expanded="false" signature="660:665" ph=" { " />
+            <marker date="1475272417510" expanded="false" signature="728:731" ph=" }" />
+            <marker date="1475272417510" expanded="false" signature="3835:3849" ph="&lt;~&gt;" />
+            <marker date="1475272417510" expanded="false" signature="5865:5879" ph="&lt;~&gt;" />
+            <marker date="1475272417510" expanded="false" signature="8703:8717" ph="&lt;~&gt;" />
+            <marker date="1475272417510" expanded="false" signature="12544:12558" ph="&lt;~&gt;" />
+            <marker date="1475272417510" expanded="false" signature="12605:12619" ph="&lt;~&gt;" />
           </folding>
         </state>
       </provider>
@@ -1082,17 +1130,22 @@
           <caret line="27" column="5" selection-start-line="27" selection-start-column="5" selection-end-line="27" selection-end-column="5" />
           <folding>
             <element signature="imports" expanded="true" />
+            <element signature="method#accept#0;class#Parser#0" expanded="false" />
+            <element signature="method#acceptIt#0;class#Parser#0" expanded="false" />
+            <element signature="method#parse#0;class#Parser#0" expanded="false" />
             <element signature="e#2291#2317#0" expanded="true" />
             <element signature="e#2395#2419#0" expanded="true" />
-            <element signature="method#parseSubroutineDeclaration#0;class#Parser#0" expanded="false" />
-            <element signature="e#3716#3737#0" expanded="true" />
-            <marker date="1475270940853" expanded="false" signature="660:665" ph=" { " />
-            <marker date="1475270940853" expanded="false" signature="728:731" ph=" }" />
-            <marker date="1475270940853" expanded="false" signature="3820:3834" ph="&lt;~&gt;" />
-            <marker date="1475270940853" expanded="false" signature="5852:5866" ph="&lt;~&gt;" />
-            <marker date="1475270940853" expanded="false" signature="8670:8684" ph="&lt;~&gt;" />
-            <marker date="1475270940853" expanded="false" signature="12511:12525" ph="&lt;~&gt;" />
-            <marker date="1475270940853" expanded="false" signature="12572:12586" ph="&lt;~&gt;" />
+            <element signature="e#2465#2481#0" expanded="true" />
+            <element signature="e#3381#3382#0" expanded="true" />
+            <element signature="e#3399#3400#0" expanded="true" />
+            <element signature="e#3731#3752#0" expanded="true" />
+            <marker date="1475272417510" expanded="false" signature="660:665" ph=" { " />
+            <marker date="1475272417510" expanded="false" signature="728:731" ph=" }" />
+            <marker date="1475272417510" expanded="false" signature="3835:3849" ph="&lt;~&gt;" />
+            <marker date="1475272417510" expanded="false" signature="5865:5879" ph="&lt;~&gt;" />
+            <marker date="1475272417510" expanded="false" signature="8703:8717" ph="&lt;~&gt;" />
+            <marker date="1475272417510" expanded="false" signature="12544:12558" ph="&lt;~&gt;" />
+            <marker date="1475272417510" expanded="false" signature="12605:12619" ph="&lt;~&gt;" />
           </folding>
         </state>
       </provider>
@@ -1177,14 +1230,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/grammars/lexical">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="407">
-          <caret line="63" column="31" selection-start-line="63" selection-start-column="31" selection-end-line="63" selection-end-column="31" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/poli/comp/scanner/Scanner.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="298">
@@ -1192,14 +1237,6 @@
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/poli/comp/util/AST/ASTFunctionDeclaration.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="90">
-          <caret line="5" column="22" selection-start-line="5" selection-start-column="22" selection-end-line="5" selection-end-column="22" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1267,34 +1304,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/poli/comp/util/AST/ASTType.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="36">
-          <caret line="2" column="42" selection-start-line="2" selection-start-column="42" selection-end-line="2" selection-end-column="42" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/poli/comp/util/AST/ASTTerminal.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="36">
           <caret line="2" column="22" selection-start-line="2" selection-start-column="22" selection-end-line="2" selection-end-column="22" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/poli/comp/util/AST/ASTSubprogramDeclaration.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="108">
-          <caret line="6" column="2" selection-start-line="6" selection-start-column="2" selection-end-line="6" selection-end-column="8" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/poli/comp/util/AST/ASTParamDeclaration.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="90">
-          <caret line="5" column="25" selection-start-line="5" selection-start-column="25" selection-end-line="5" selection-end-column="25" />
           <folding />
         </state>
       </provider>
@@ -1331,31 +1344,84 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/poli/comp/util/AST/ASTFunctionDeclaration.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="90">
+          <caret line="5" column="22" selection-start-line="5" selection-start-column="22" selection-end-line="5" selection-end-column="22" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/grammars/lexical">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="515">
+          <caret line="63" column="30" selection-start-line="63" selection-start-column="30" selection-end-line="63" selection-end-column="30" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/poli/comp/util/AST/ASTParamDeclaration.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="252">
+          <caret line="14" column="1" selection-start-line="14" selection-start-column="1" selection-end-line="14" selection-end-column="1" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/poli/comp/util/AST/ASTType.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="36">
+          <caret line="2" column="20" selection-start-line="2" selection-start-column="13" selection-end-line="2" selection-end-column="20" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/poli/comp/util/AST/ASTDeclaration.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="108">
+          <caret line="6" column="1" selection-start-line="6" selection-start-column="1" selection-end-line="6" selection-end-column="1" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/poli/comp/util/AST/ASTSubprogramDeclaration.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="342">
+          <caret line="19" column="17" selection-start-line="19" selection-start-column="17" selection-end-line="19" selection-end-column="17" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/poli/comp/util/AST/ASTProgram.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="216">
-          <caret line="12" column="20" selection-start-line="12" selection-start-column="20" selection-end-line="12" selection-end-column="20" />
+        <state relative-caret-position="306">
+          <caret line="17" column="5" selection-start-line="17" selection-start-column="5" selection-end-line="17" selection-end-column="5" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/poli/comp/parser/Parser.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="610">
-          <caret line="108" column="39" selection-start-line="108" selection-start-column="39" selection-end-line="108" selection-end-column="39" />
+        <state relative-caret-position="319">
+          <caret line="224" column="23" selection-start-line="224" selection-start-column="23" selection-end-line="224" selection-end-column="23" />
           <folding>
             <element signature="imports" expanded="true" />
+            <element signature="method#accept#0;class#Parser#0" expanded="false" />
+            <element signature="method#acceptIt#0;class#Parser#0" expanded="false" />
+            <element signature="method#parse#0;class#Parser#0" expanded="false" />
             <element signature="e#2291#2317#0" expanded="true" />
             <element signature="e#2395#2419#0" expanded="true" />
-            <element signature="method#parseSubroutineDeclaration#0;class#Parser#0" expanded="false" />
-            <element signature="e#3716#3737#0" expanded="true" />
-            <marker date="1475270940853" expanded="false" signature="660:665" ph=" { " />
-            <marker date="1475270940853" expanded="false" signature="728:731" ph=" }" />
-            <marker date="1475270940853" expanded="false" signature="3820:3834" ph="&lt;~&gt;" />
-            <marker date="1475270940853" expanded="false" signature="5852:5866" ph="&lt;~&gt;" />
-            <marker date="1475270940853" expanded="false" signature="8670:8684" ph="&lt;~&gt;" />
-            <marker date="1475270940853" expanded="false" signature="12511:12525" ph="&lt;~&gt;" />
-            <marker date="1475270940853" expanded="false" signature="12572:12586" ph="&lt;~&gt;" />
+            <element signature="e#2465#2481#0" expanded="true" />
+            <element signature="e#3381#3382#0" expanded="true" />
+            <element signature="e#3399#3400#0" expanded="true" />
+            <element signature="e#3731#3752#0" expanded="true" />
+            <marker date="1475272417510" expanded="false" signature="660:665" ph=" { " />
+            <marker date="1475272417510" expanded="false" signature="728:731" ph=" }" />
+            <marker date="1475272417510" expanded="false" signature="3835:3849" ph="&lt;~&gt;" />
+            <marker date="1475272417510" expanded="false" signature="5865:5879" ph="&lt;~&gt;" />
+            <marker date="1475272417510" expanded="false" signature="8703:8717" ph="&lt;~&gt;" />
+            <marker date="1475272417510" expanded="false" signature="12544:12558" ph="&lt;~&gt;" />
+            <marker date="1475272417510" expanded="false" signature="12605:12619" ph="&lt;~&gt;" />
           </folding>
         </state>
       </provider>
