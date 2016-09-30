@@ -2,10 +2,8 @@ package poli.comp.util.AST;
 
 public class ASTIdentifier extends ASTTerminal {
 
-   String spelling;
-
    public Identifier(String s){
-      this.spelling = s;
+      super.contents = s;
    }
 
     @Override
