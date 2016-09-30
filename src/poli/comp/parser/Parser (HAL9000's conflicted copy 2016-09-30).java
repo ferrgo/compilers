@@ -119,8 +119,8 @@ public class Parser {
 		Boolean isFunction = false;
 		ASTType t;
 		ASTIdentifier subroutineName;
-		List<ASTDeclaration>  l_args = new ArrayList<ASTDeclaration>(); //TODO seriam declaracoes mesmo?
-		List<ASTStatement>    l_s    = new ArrayList<ASTStatement>();
+		List<ASTDeclaration> l_args = new ArrayList<ASTDeclaration>(); //TODO seriam declaracoes mesmo?
+		List<ASTStatement>    l_s;   = new ArrayList<ASTStatement>();
 		ASTSubroutineDeclaration rv;
 
 		if(currentToken.getKind()==FUNCTION){
@@ -130,19 +130,16 @@ public class Parser {
 		//Parsing name etc
 		if(isFunction){
 			accept(FUNCTION);
+//			t = parseType();
 			if(currentToken.getKind()==INTERGER){
-				acceptIt();
-				t = new ASTType(INTEGER);
+				accept(INTERGER);
 			}else{
 				accept(LOGICAL);
-				t = new ASTType(LOGICAL);
 			}
 		}else{
 			accept(SUBPROGRAM);
 		}
-
 		subroutineName = new ASTIdentifier(currentToken.getSpelling());
-		accept(ID);
 		accept(LP);
 
 		//Parsing args
@@ -186,7 +183,6 @@ public class Parser {
 		//Parses PROGRAM ID
 		accept(PROGRAM);
 		id= new ASTIdentifier(currentToken.getSpelling());
-		accept(ID);
 
 		//Parses each statement
 		while(currentToken.getKind() != END){ // will this work?
@@ -212,15 +208,16 @@ public class Parser {
 		//Parsing assignments and function calls
 		else if(currentToken.getKind()==ID){
 
+			//Saving the id, then checking what kind of statement this is and treating it properly.
+			//TODO should we refactor the grammar so that
+			// we dont have to do this gambiarra?
 			ASTIdentifier id = new ASTIdentifier(currentToken.getSpelling());
-			accept(ID);
 
 			if(currentToken.getKind()==EQUALS){
-				acceptIt();
 				ASTExpression exp = parseExpression();
 				return new ASTAssignment(id,exp);
-			}else{
-				ASTFunctionArgs fa = parseFunctionArgs();
+			}else if(currentToken.getKind()==LP){
+				ASTFunctionArgs fa = parseFunctionArgs();//TODO this class & method
 				return new ASTFunctionCall(id,fa);
 			}
 
@@ -272,8 +269,6 @@ public class Parser {
 		//declaracao seguida de um assignment, imagino.
 		//TODO pedir feedback de gustavo sobre isso,
 		// nao acho que seja a melhor solucao.
-		//NOTE acho melhor criar uma classe ASTSimpleDeclaration e uma ASTInitializedDeclaration
-		// e fazer isso mais encapsulado das fases posteriores.
 
 		ASTType t;
 		List<ASTIdentifier> l_ids; // For declarations
