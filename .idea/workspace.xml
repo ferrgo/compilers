@@ -2,13 +2,14 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="3a7d196c-6f22-48ba-aee8-5759af7dab06" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/poli/comp/util/AST/ASTFunctionDeclaration.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/poli/comp/util/AST/ASTSubroutineDeclaration.java" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/src/poli/comp/parser/Parser (HAL9000's conflicted copy 2016-09-30).java" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/poli/comp/parser/GrammarSymbol.java" afterPath="$PROJECT_DIR$/src/poli/comp/parser/GrammarSymbol.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grammars/lexical" afterPath="$PROJECT_DIR$/grammars/lexical" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/poli/comp/parser/Parser.java" afterPath="$PROJECT_DIR$/src/poli/comp/parser/Parser.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/poli/comp/scanner/Scanner.java" afterPath="$PROJECT_DIR$/src/poli/comp/scanner/Scanner.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/testFiles/program3.txt" afterPath="$PROJECT_DIR$/testFiles/program3.txt" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/poli/comp/util/AST/AST.java" afterPath="$PROJECT_DIR$/src/poli/comp/util/AST/AST.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/poli/comp/util/AST/ASTIfStatement.java" afterPath="$PROJECT_DIR$/src/poli/comp/util/AST/ASTIfStatement.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/poli/comp/util/AST/ASTStatement.java" afterPath="$PROJECT_DIR$/src/poli/comp/util/AST/ASTStatement.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/poli/comp/util/AST/ASTSubprogramDeclaration.java" afterPath="$PROJECT_DIR$/src/poli/comp/util/AST/ASTSubprogramDeclaration.java" />
     </list>
     <ignored path="fortran.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -62,11 +63,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Parser.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="Parser.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/poli/comp/parser/Parser.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="153">
-              <caret line="154" column="13" selection-start-line="154" selection-start-column="13" selection-end-line="154" selection-end-column="13" />
+            <state relative-caret-position="234">
+              <caret line="154" column="8" selection-start-line="154" selection-start-column="8" selection-end-line="154" selection-end-column="8" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="method#accept#0;class#Parser#0" expanded="false" />
@@ -74,16 +75,18 @@
                 <element signature="method#parse#0;class#Parser#0" expanded="false" />
                 <element signature="e#2246#2272#0" expanded="true" />
                 <element signature="e#2350#2374#0" expanded="true" />
+                <element signature="e#5366#5380#0" expanded="true" />
+                <element signature="e#8139#8153#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="classes pra ast.txt" pinned="false" current-in-tab="true">
+      <file leaf-file-name="classes pra ast.txt" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/classes pra ast.txt">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-162">
-              <caret line="9" column="22" selection-start-line="9" selection-start-column="12" selection-end-line="9" selection-end-column="22" />
+            <state relative-caret-position="504">
+              <caret line="31" column="32" selection-start-line="31" selection-start-column="32" selection-end-line="31" selection-end-column="32" />
               <folding />
             </state>
           </provider>
@@ -113,7 +116,7 @@
         <entry file="file://$PROJECT_DIR$/grammars/lexical">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="-354">
-              <caret line="7" column="5" selection-start-line="7" selection-start-column="5" selection-end-line="7" selection-end-column="5" />
+              <caret line="9" column="5" selection-start-line="9" selection-start-column="5" selection-end-line="9" selection-end-column="5" />
               <folding />
             </state>
           </provider>
@@ -929,6 +932,8 @@
             <element signature="method#parse#0;class#Parser#0" expanded="false" />
             <element signature="e#2246#2272#0" expanded="true" />
             <element signature="e#2350#2374#0" expanded="true" />
+            <element signature="e#5366#5380#0" expanded="true" />
+            <element signature="e#8139#8153#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -993,6 +998,8 @@
             <element signature="method#parse#0;class#Parser#0" expanded="false" />
             <element signature="e#2246#2272#0" expanded="true" />
             <element signature="e#2350#2374#0" expanded="true" />
+            <element signature="e#5366#5380#0" expanded="true" />
+            <element signature="e#8139#8153#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -1049,6 +1056,8 @@
             <element signature="method#parse#0;class#Parser#0" expanded="false" />
             <element signature="e#2246#2272#0" expanded="true" />
             <element signature="e#2350#2374#0" expanded="true" />
+            <element signature="e#5366#5380#0" expanded="true" />
+            <element signature="e#8139#8153#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -1105,6 +1114,8 @@
             <element signature="method#parse#0;class#Parser#0" expanded="false" />
             <element signature="e#2246#2272#0" expanded="true" />
             <element signature="e#2350#2374#0" expanded="true" />
+            <element signature="e#5366#5380#0" expanded="true" />
+            <element signature="e#8139#8153#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -1256,7 +1267,7 @@
     <entry file="file://$PROJECT_DIR$/grammars/lexical">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-354">
-          <caret line="7" column="5" selection-start-line="7" selection-start-column="5" selection-end-line="7" selection-end-column="5" />
+          <caret line="9" column="5" selection-start-line="9" selection-start-column="5" selection-end-line="9" selection-end-column="5" />
           <folding />
         </state>
       </provider>
@@ -1287,10 +1298,18 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/classes pra ast.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="504">
+          <caret line="31" column="32" selection-start-line="31" selection-start-column="32" selection-end-line="31" selection-end-column="32" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/poli/comp/parser/Parser.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="153">
-          <caret line="154" column="13" selection-start-line="154" selection-start-column="13" selection-end-line="154" selection-end-column="13" />
+        <state relative-caret-position="234">
+          <caret line="154" column="8" selection-start-line="154" selection-start-column="8" selection-end-line="154" selection-end-column="8" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="method#accept#0;class#Parser#0" expanded="false" />
@@ -1298,15 +1317,9 @@
             <element signature="method#parse#0;class#Parser#0" expanded="false" />
             <element signature="e#2246#2272#0" expanded="true" />
             <element signature="e#2350#2374#0" expanded="true" />
+            <element signature="e#5366#5380#0" expanded="true" />
+            <element signature="e#8139#8153#0" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/classes pra ast.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-162">
-          <caret line="9" column="22" selection-start-line="9" selection-start-column="12" selection-end-line="9" selection-end-column="22" />
-          <folding />
         </state>
       </provider>
     </entry>

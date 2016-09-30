@@ -152,7 +152,7 @@ public class Parser {
 		accept(LP);
 
 		//Parsing args
-		ASTDe
+		
 		//TODO add ast declarations and fix the flag thing
 		while(currentToken.getKind()!=RP){ //I think we cant simply call parseDeclaration() cause it would allow for ='s
 
