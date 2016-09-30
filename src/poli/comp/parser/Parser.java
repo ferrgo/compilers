@@ -149,10 +149,10 @@ public class Parser {
 
 			if(currentToken.getKind()==EQUALS){
 				ASTExpression exp = parseExpression();
-				return ASTAssignment(id,exp);
+				return new ASTAssignment(id,exp);
 			}else if(currentToken.getKind()==LP){
 				ASTFunctionArgs fa = parseFunctionArgs();//TODO this class & method
-				return ASTFunctionCall(id,fa);
+				return new ASTFunctionCall(id,fa);
 			}
 
 		}
@@ -176,8 +176,10 @@ public class Parser {
 			rv = parsePrintStatement();
 		}
 
+		return rv;
 
 	}
+	public ASTFunctionArgs parseFunctionArgs(){}
 
 	public ASTAssignment parseAssignment(String varName){
 
@@ -385,9 +387,35 @@ public class Parser {
 
 
 	public parseIfStatement(){
-		//Talvez alterar a gramatica pra diferenciar grupos
-		//de statements que contenham else para evitar
-		//o dangling else problem?
+		ASTExpression exp;
+		List<ASTStatement> l_if = new ArrayList<ASTStatement>();
+		List<ASTStatement> l_else = new ArrayList<ASTStatement>();
+
+		accept(IF);
+		exp = parseExpression();
+		accept(THEN);
+		while(currentToken.getKind()!=END && currentToken.getKind()!= ELSE){
+			l_if.add(parseStatement());
+		}
+		if(currentToken.getKind()==END){
+			acceptIt();
+			accept(IF);
+			return new ASTSimpleIfStatement(exp,l_if);
+		}else if(currentToken.getKind()==ELSE){
+			acceptIt();
+			while(currentToken.getKind()!=END){
+				l_else.add(parseStatement());
+			}
+			accept(END);
+			accept(IF);
+			return new ASTIfStatementWithElse(exp,l_if,l_else);
+
+		}
+
+		//TODO:
+		//Parse terminals
+		//Parse expression/term/etc
+
 	}
 
 }
