@@ -145,12 +145,14 @@ public class Parser {
 			//Saving the id, then checking what kind of statement this is and treating it properly.
 			//TODO should we refactor the grammar so that
 			// we dont have to do this gambiarra?
-			String idText = currentToken.getSpelling();
-			acceptIt();
+			ASTIdentifier id = parseIdentifier();
+
 			if(currentToken.getKind()==EQUALS){
-				rv = parseAssignment(idText);
+				ASTExpression exp = parseExpression();
+				return ASTAssignment(id,exp);
 			}else if(currentToken.getKind()==LP){
-				rv = parseFunctionCall(idText);
+				ASTFunctionArgs fa = parseFunctionArgs();//TODO this class & method
+				return ASTFunctionCall(id,fa);
 			}
 
 		}
