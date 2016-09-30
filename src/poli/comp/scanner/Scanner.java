@@ -288,9 +288,8 @@ public class Scanner {
 						return GrammarSymbol.DOUBLECOLON;
 					}else{
 						automatonState=16; //Lexical Error
-						break;
 					}
-
+					break;
 				case(14): //Integer literal
 					while(isDigit(currentChar)){
 						getNextChar();

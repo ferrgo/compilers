@@ -72,7 +72,6 @@ public class Parser {
 		ASTProgram programTree = parseProgram();
 		accept(EOT);
 		return programTree;
-		//TODO do we have to do anything else here?
 	}
 
 	//TODO check if all the uses of the GrammarSymbol enum below are correct.
@@ -111,6 +110,9 @@ public class Parser {
 		return rv; //return an ASTPROG
 	}
 
+	private ASTDeclaration parseDeclaration() {
+	}
+
 	/**
 	 * Following the idea of a Soubroutine superclass and single method
 	 * @return
@@ -135,11 +137,10 @@ public class Parser {
 
 			if(currentToken.getKind()==INTEGER){
 				acceptIt();
-				t = new ASTType(INTEGER);
+				t = new ASTType(currentToken.getSpelling());
 			}else{
 				accept(LOGICAL);
-				t = new ASTType(LOGICAL);
-
+				t = new ASTType(currentToken.getSpelling());
 			}
 		}else{
 			accept(SUBPROGRAM);
@@ -151,19 +152,18 @@ public class Parser {
 		accept(LP);
 
 		//Parsing args
-
+		ASTDe
 		//TODO add ast declarations and fix the flag thing
+		while(currentToken.getKind()!=RP){ //I think we cant simply call parseDeclaration() cause it would allow for ='s
 
-		boolean comma_flag;
-		if(currentToken.getKind()!=RP) comma_flag = true; //if there is not RP we must have a list of declarations
-		while(comma_flag){ //I think we cant simply call parseDeclaration() cause it would allow for ='s
 			//If inside the LP RP we must have the structur TYPE :: ID,....
 			accept(TYPE);
+			t = new ASTType(currentToken.getSpelling());
 			accept(DOUBLECOLON);
-			//TODO save method name rather than just accepting
 			accept(ID);
-			if(currentToken.getKind()!=COMMA) comma_flag = false; //
-			if(comma_flag) accept(COMMA); //TODO do that for declarations too
+
+			if(currentToken.getKind()!=COMMA) break; //
+			acceptIt();
 
 			//TODO Not sure how to handle the parameter declaration list
 //			l_args.add();

@@ -62,7 +62,7 @@ public enum GrammarSymbol {
 	//Printing
 	PRINT,
 
-	INTERGER, //End of text
+	INTEGER, //End of text
 	LOGICAL, EOT
 
 }
