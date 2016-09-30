@@ -160,6 +160,7 @@ public class Parser {
 			//If inside the LP RP we must have the structur TYPE :: ID,....
 			accept(TYPE);
 			accept(DOUBLECOLON);
+			//TODO save method name rather than just accepting
 			accept(ID);
 			if(currentToken.getKind()!=COMMA) comma_flag = false; //
 			if(comma_flag) accept(COMMA); //TODO do that for declarations too
@@ -260,7 +261,10 @@ public class Parser {
 		return rv;
 
 	}
-	public ASTFunctionArgs parseFunctionArgs(){}
+	public ASTFunctionArgs parseFunctionArgs(){
+		//TODO
+
+	}
 
 	public ASTAssignment parseAssignment(String varName){
 
@@ -277,48 +281,36 @@ public class Parser {
 
 	public ASTDeclarationGroup parseDeclarationGroup(){
 
-		//NOTE Podem ter várias declaracoes do mesmo tipo, sendo que algumas
-		//são inicializadas e outras não. Vamos armazenar uma lista com
-		//todos os identificadores e uma com todos os assignments. Na
-		//fase de geracao de codigo cada inicializacao vai virar uma
-		//declaracao seguida de um assignment, imagino.
-		//TODO pedir feedback de gustavo sobre isso,
-		// nao acho que seja a melhor solucao.
-		//NOTE acho melhor criar uma classe ASTSimpleDeclaration e uma ASTInitializedDeclaration
-		// e fazer isso mais encapsulado das fases posteriores.
-
 		ASTType t;
-		List<ASTIdentifier> l_ids; // For declarations
-		List<ASTAssignment> l_asg; // Only for the initialized declarations
+		Map<ASTIdentifier,ASTExpression> declarations = new HashMap<ASTIdentifier,ASTExpression>(); // if var is not initialized, expression will be null
+
 		t = parseType();
 		accept(DOUBLECOLON);
-
 		//For every declaration
 		while(currentToken.getNextToken()==ID){
+			ASTIdentifier currentId = null;
+			ASTExpression currentExpression = null;
 
 			//Parse the Identifier
-			ASTIdentifier currentId = ASTIdentifier(currentToken.getSpelling());
-			l_ids.add(currentId);
-
+			currentId = new ASTIdentifier(currentToken.getSpelling());
+			accept(ID);
 			//Parse the assignment, if thats the case
 			if(currentToken.getNextToken()==EQUALS){
 				acceptIt();
-				ASTExpression currentExpression = parseExpression();
-				ASTAssignment currentAssignment = new ASTAssignment (currentId, currentExpression);
-				l_asg.add(currentAssignment);
+				currentExpression = parseExpression();
 			}
+			declarations.put(currentId,currentExpression);
 
 		};
 
-		ASTDeclaration rv = new ASTDeclaration(t,l_ids,l_asg); //TODO mayb
+		ASTDeclarationGroup rv = new ASTDeclaration(t,declarations);
 		return rv;
 
-		//TODO talvez retrabalhar pra que isso retorne uma lista de declaracoes que vao
-		// ficar no program ou funcao ou subprogram?
 	}
 
 	public parseExpression(){ // EXPRESSION ::= EXP' (OP_COMP EXP')?
-		ASTExpressionPrime
+
+		//TODO
 
 
 	}
@@ -395,6 +387,7 @@ public class Parser {
 		accept(FUNCTION);
 		t = parseType();
 		functionName = new ASTIdentifier(currentToken.getSpelling());
+		accept(ID);
 		accept(LP);
 
 		//Parsing args
@@ -438,6 +431,7 @@ public class Parser {
 		//Parsing name etc
 		accept(SUBPROGRAM);
 		functionName = new ASTIdentifier(currentToken.getSpelling());
+		accept(ID);
 		accept(LP);
 
 		//Parsing args
@@ -496,13 +490,11 @@ public class Parser {
 			accept(END);
 			accept(IF);
 			return new ASTIfStatementWithElse(exp,l_if,l_else);
-
 		}
-
-		//TODO:
-		//Parse terminals
-		//Parse expression/term/etc
-
 	}
+
+	//TODO:
+	//Parse terminals
+	//Parse expression/term/etc
 
 }
