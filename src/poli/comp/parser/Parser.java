@@ -73,6 +73,7 @@ public class Parser {
 		//TODO do we have to do anything else here?
 	}
 
+	//TODO check if all the uses of the GrammarSymbol enum below are correct.
 
 	//Parses the rule PROG ::= (DECLARATION)* (FUNCTION_DECL | SUBPROGRAM_DECL)*  PROG_MAIN EOT
 	public ASTProgram parseProgram(){
