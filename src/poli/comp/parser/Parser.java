@@ -77,7 +77,7 @@ public class Parser {
 	//TODO check if all the uses of the GrammarSymbol enum below are correct.
 
 	//Parses the rule PROG ::= (DECLARATION)* (FUNCTION_DECL | SUBPROGRAM_DECL)*  PROG_MAIN EOT
-	public ASTProgram parseProgram(){
+	public ASTProgram parseProgram() throws SyntacticException, LexicalException {
 
 		List<ASTSubprogramDeclaration> l_sd = new ArrayList<ASTSubprogramDeclaration>(); // ( ͡◉ ͜ʖ ͡◉) ~trippy
 		List<ASTFunctionDeclaration> l_fd = new ArrayList<ASTFunctionDeclaration>();
@@ -122,7 +122,7 @@ public class Parser {
 		ASTType t;
 		ASTIdentifier subroutineName;
 
-		List<ASTDeclaration>  l_args = new ArrayList<ASTDeclaration>(); //TODO seriam declaracoes mesmo?
+		List<ASTParamDeclaration>  l_par = new ArrayList<ASTParamDeclaration>(); //TODO seriam declaracoes mesmo?
 		List<ASTStatement>    l_s    = new ArrayList<ASTStatement>();
 
 		ASTSubroutineDeclaration rv;
@@ -152,21 +152,28 @@ public class Parser {
 		accept(LP);
 
 		//Parsing args
-		
+		ASTParamDeclaration decl;
+		ASTType declType;
+		ASTIdentifier declId;
 		//TODO add ast declarations and fix the flag thing
 		while(currentToken.getKind()!=RP){ //I think we cant simply call parseDeclaration() cause it would allow for ='s
-
 			//If inside the LP RP we must have the structur TYPE :: ID,....
 			accept(TYPE);
-			t = new ASTType(currentToken.getSpelling());
+			declType = new ASTType(currentToken.getSpelling());
 			accept(DOUBLECOLON);
 			accept(ID);
+			declId = new ASTIdentifier(currentToken.getSpelling());
+			decl = new ASTParamDeclaration(declType, declId);
 
-			if(currentToken.getKind()!=COMMA) break; //
-			acceptIt();
+			//We got ourselves another decl...
+			l_par.add(decl);
 
-			//TODO Not sure how to handle the parameter declaration list
-//			l_args.add();
+			if(currentToken.getKind()!=COMMA) break; //Case there is no more commas
+			else {
+				acceptIt();
+				if(currentToken.getKind()!=TYPE) break; //Gambi if we don't have a type after Comma we have a problem
+				else accept(TYPE); //So we force the lexical error accepting TYPE...
+			}
 		}
 		accept(RP);
 
@@ -174,14 +181,16 @@ public class Parser {
 		while(currentToken.getKind()!=END){
 			l_s.add(parseStatement());
 		}
+
 		accept(END);
+
 		if (isFunction){
 			accept(FUNCTION);
-			rv = new ASTFunctionDeclaration(t, subroutineName, l_args, l_s);
+			rv = new ASTFunctionDeclaration(t, subroutineName, l_par, l_s);
 		}else{
 			accept(SUBPROGRAM);
 
-			rv = new ASTSubprogramDeclaration( subroutineName, l_args, l_s);
+			rv = new ASTSubprogramDeclaration(t, subroutineName, l_par, l_s);
 
 		}
 		return rv;
@@ -189,7 +198,7 @@ public class Parser {
 
 
 	//Parses the rule PROG_MAIN ::= PROGRAM ID (STATEMENT)* END PROGRAM
-	public ASTMainProgram parseMainProgram(){
+	public ASTMainProgram parseMainProgram() throws SyntacticException, LexicalException {
 
 		ASTIdentifier id;
 		List<ASTStatement> l_s = new ArrayList<ASTStatement>();
@@ -213,7 +222,7 @@ public class Parser {
 		return rv;
 	}
 
-	public ASTStatement parseStatement(){
+	public ASTStatement parseStatement() throws SyntacticException, LexicalException {
 		ASTStatement rv;
 
 		//Parsing variable declarations
