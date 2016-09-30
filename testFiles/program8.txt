@@ -1,0 +1,9 @@
+! this should succeed, but not in our grammar
+
+A = 174.5 + ThisIsALong&
+     &VariableName * 123.45
+
+
+     A = 174.5 * Year   &
+!  this is a comment line
+    + Count / 100
