@@ -5,9 +5,12 @@ package poli.comp.util.AST;
 
 public class ASTLoopExit extends ASTLoopControl{
 
-  	@Override
+	public ASTLoopExit(String s) {
+		super(s);
+	}
+
+	@Override
   	public String toString(int level) {
   			return null;
   	}
-  //TODO
 }

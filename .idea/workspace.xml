@@ -2,62 +2,14 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="3a7d196c-6f22-48ba-aee8-5759af7dab06" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/poli/comp/parser/ParserTest.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/poli/comp/util/AST/ASTFactorExpression.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/poli/comp/util/AST/ASTFactorLiteral.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/poli/comp/util/AST/ASTFactorSubroutineCall.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/poli/comp/util/AST/ASTLiteral.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/poli/comp/util/AST/ASTOperator.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/poli/comp/util/AST/ASTOperatorComp.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/poli/comp/util/AST/ASTTypeInteger.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/poli/comp/util/AST/ASTTypeLogical.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/testFiles/Parser/Fail/program10.txt" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/testFiles/Parser/Fail/program9.txt" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/testFiles/Parser/Pass/program11.txt" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/testFiles/Parser/Pass/program12.txt" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/testFiles/Parser/Pass/program2.txt" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/testFiles/program.txt" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/poli/comp/util/AST/ASTBooleanExpression.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/poli/comp/util/AST/ASTEndOfText.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/poli/comp/util/AST/ASTIntegerLiteral.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/poli/comp/util/AST/ASTLeftParenthesis.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/poli/comp/util/AST/ASTLogicalLiteral.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/poli/comp/util/AST/ASTLogicalOperation.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/poli/comp/util/AST/ASTSimpleIfStatement.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/testFiles/program2.txt" afterPath="" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/testFiles/Program5.txt" afterPath="$PROJECT_DIR$/testFiles/Parser/Fail/Program5.txt" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/testFiles/program1.txt" afterPath="$PROJECT_DIR$/testFiles/Scanner/Pass/program1.txt" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/testFiles/program3.txt" afterPath="$PROJECT_DIR$/testFiles/Scanner/Pass/program3.txt" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/testFiles/program4.txt" afterPath="$PROJECT_DIR$/testFiles/Scanner/Fail/program4.txt" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/testFiles/program6.txt" afterPath="$PROJECT_DIR$/testFiles/Parser/Pass/program6.txt" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/testFiles/program7.txt" afterPath="$PROJECT_DIR$/testFiles/Parser/Pass/program7.txt" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/testFiles/program8.txt" afterPath="$PROJECT_DIR$/testFiles/Scanner/Fail/program8.txt" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/classes pra ast.txt" afterPath="$PROJECT_DIR$/classes pra ast.txt" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grammars/lexical" afterPath="$PROJECT_DIR$/grammars/lexical" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/poli/comp/compiler/Compiler.java" afterPath="$PROJECT_DIR$/src/poli/comp/compiler/Compiler.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/poli/comp/compiler/Properties.java" afterPath="$PROJECT_DIR$/src/poli/comp/compiler/Properties.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/poli/comp/parser/GrammarSymbol.java" afterPath="$PROJECT_DIR$/src/poli/comp/parser/GrammarSymbol.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/poli/comp/parser/Parser.java" afterPath="$PROJECT_DIR$/src/poli/comp/parser/Parser.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/poli/comp/parser/SyntacticException.java" afterPath="$PROJECT_DIR$/src/poli/comp/parser/SyntacticException.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/poli/comp/scanner/Scanner.java" afterPath="$PROJECT_DIR$/src/poli/comp/scanner/Scanner.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/poli/comp/scanner/ScannerTest.groovy" afterPath="$PROJECT_DIR$/src/poli/comp/scanner/ScannerTest.groovy" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/poli/comp/util/AST/ASTArithmeticExpression.java" afterPath="$PROJECT_DIR$/src/poli/comp/util/AST/ASTArithmeticExpression.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/poli/comp/util/AST/ASTDeclarationGroup.java" afterPath="$PROJECT_DIR$/src/poli/comp/util/AST/ASTDeclarationGroup.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/poli/comp/util/AST/ASTExpression.java" afterPath="$PROJECT_DIR$/src/poli/comp/util/AST/ASTExpression.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/poli/comp/util/AST/ASTFactor.java" afterPath="$PROJECT_DIR$/src/poli/comp/util/AST/ASTFactor.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/poli/comp/util/AST/ASTFunctionArgs.java" afterPath="$PROJECT_DIR$/src/poli/comp/util/AST/ASTFunctionArgs.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/poli/comp/util/AST/ASTIdentifier.java" afterPath="$PROJECT_DIR$/src/poli/comp/util/AST/ASTIdentifier.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/poli/comp/util/AST/ASTIfStatement.java" afterPath="$PROJECT_DIR$/src/poli/comp/util/AST/ASTIfStatement.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/poli/comp/util/AST/ASTLoop.java" afterPath="$PROJECT_DIR$/src/poli/comp/util/AST/ASTLoop.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/poli/comp/util/AST/ASTFunctionCall.java" afterPath="$PROJECT_DIR$/src/poli/comp/util/AST/ASTFunctionCall.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/poli/comp/util/AST/ASTLoopContinue.java" afterPath="$PROJECT_DIR$/src/poli/comp/util/AST/ASTLoopContinue.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/poli/comp/util/AST/ASTLoopControl.java" afterPath="$PROJECT_DIR$/src/poli/comp/util/AST/ASTLoopControl.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/poli/comp/util/AST/ASTProgram.java" afterPath="$PROJECT_DIR$/src/poli/comp/util/AST/ASTProgram.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/poli/comp/util/AST/ASTReturnStatement.java" afterPath="$PROJECT_DIR$/src/poli/comp/util/AST/ASTReturnStatement.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/poli/comp/util/AST/ASTStatement.java" afterPath="$PROJECT_DIR$/src/poli/comp/util/AST/ASTStatement.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/poli/comp/util/AST/ASTSubroutineDeclaration.java" afterPath="$PROJECT_DIR$/src/poli/comp/util/AST/ASTSubroutineDeclaration.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/poli/comp/util/AST/ASTTerm.java" afterPath="$PROJECT_DIR$/src/poli/comp/util/AST/ASTTerm.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/poli/comp/util/AST/ASTLoopExit.java" afterPath="$PROJECT_DIR$/src/poli/comp/util/AST/ASTLoopExit.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/poli/comp/util/AST/ASTSubprogramDeclaration.java" afterPath="$PROJECT_DIR$/src/poli/comp/util/AST/ASTSubprogramDeclaration.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/poli/comp/util/AST/ASTTerminal.java" afterPath="$PROJECT_DIR$/src/poli/comp/util/AST/ASTTerminal.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/poli/comp/util/AST/ASTType.java" afterPath="$PROJECT_DIR$/src/poli/comp/util/AST/ASTType.java" />
     </list>
     <ignored path="fortran.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -103,22 +55,83 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="ParserTest.groovy" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/poli/comp/parser/ParserTest.groovy">
+      <file leaf-file-name="ASTSubprogramDeclaration.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/poli/comp/util/AST/ASTSubprogramDeclaration.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="301">
-              <caret line="64" column="35" selection-start-line="63" selection-start-column="30" selection-end-line="64" selection-end-column="35" />
+            <state relative-caret-position="247">
+              <caret line="18" column="5" selection-start-line="18" selection-start-column="5" selection-end-line="18" selection-end-column="5" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="GrammarSymbol.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/poli/comp/parser/GrammarSymbol.java">
+      <file leaf-file-name="ASTTerminal.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/poli/comp/util/AST/ASTTerminal.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="180">
-              <caret line="10" column="12" selection-start-line="10" selection-start-column="12" selection-end-line="10" selection-end-column="12" />
+            <state relative-caret-position="144">
+              <caret line="12" column="5" selection-start-line="12" selection-start-column="5" selection-end-line="12" selection-end-column="5" />
               <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Scanner.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/poli/comp/scanner/Scanner.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="117">
+              <caret line="72" column="38" selection-start-line="72" selection-start-column="38" selection-end-line="72" selection-end-column="38" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ASTFunctionCall.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/poli/comp/util/AST/ASTFunctionCall.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="261">
+              <caret line="18" column="5" selection-start-line="18" selection-start-column="5" selection-end-line="18" selection-end-column="5" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ASTLoopContinue.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/poli/comp/util/AST/ASTLoopContinue.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="126">
+              <caret line="7" column="12" selection-start-line="7" selection-start-column="12" selection-end-line="7" selection-end-column="12" />
+              <folding>
+                <element signature="e#118#119#0" expanded="true" />
+                <element signature="e#133#134#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ASTLoopControl.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/poli/comp/util/AST/ASTLoopControl.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="126">
+              <caret line="7" column="33" selection-start-line="7" selection-start-column="33" selection-end-line="7" selection-end-column="33" />
+              <folding>
+                <element signature="e#207#208#0" expanded="true" />
+                <element signature="e#231#232#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ASTLoopExit.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/poli/comp/util/AST/ASTLoopExit.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="216">
+              <caret line="14" column="5" selection-start-line="14" selection-start-column="5" selection-end-line="14" selection-end-column="5" />
+              <folding>
+                <element signature="e#112#113#0" expanded="true" />
+                <element signature="e#127#128#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -133,11 +146,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Parser.java" pinned="true" current-in-tab="true">
+      <file leaf-file-name="Parser.java" pinned="true" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/poli/comp/parser/Parser.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-2034">
-              <caret line="219" column="47" selection-start-line="219" selection-start-column="47" selection-end-line="219" selection-end-column="47" />
+            <state relative-caret-position="-362">
+              <caret line="415" column="33" selection-start-line="415" selection-start-column="33" selection-end-line="415" selection-end-column="33" />
               <folding>
                 <element signature="docComment;class#Parser#0" expanded="false" />
                 <element signature="docComment;method#Parser#0;class#Parser#0" expanded="false" />
@@ -149,72 +162,16 @@
                 <element signature="method#acceptIt#0;class#Parser#0" expanded="false" />
                 <element signature="docComment;method#parse#0;class#Parser#0" expanded="false" />
                 <element signature="method#parseMainProgram#0;class#Parser#0" expanded="false" />
-                <element signature="e#3767#3785#0" expanded="false" />
-                <element signature="e#3922#3968#0" expanded="false" />
+                <element signature="e#3784#3802#0" expanded="false" />
+                <element signature="e#3939#3985#0" expanded="false" />
                 <element signature="method#parseStatement#0;class#Parser#0" expanded="false" />
-                <element signature="method#parseLoop#0;class#Parser#0" expanded="false" />
-                <element signature="e#6207#6263#0" expanded="false" />
                 <element signature="method#parseTerm#0;class#Parser#0" expanded="false" />
                 <element signature="method#parseReturnStatement#0;class#Parser#0" expanded="false" />
                 <element signature="method#parseParamDeclaration#0;class#Parser#0" expanded="false" />
                 <element signature="docComment;method#parseSubroutineDeclaration#0;class#Parser#0" expanded="false" />
-                <element signature="method#parseSubroutineDeclaration#0;class#Parser#0" expanded="false" />
-                <element signature="e#11864#11941#0" expanded="false" />
+                <element signature="e#11720#11797#0" expanded="false" />
                 <element signature="method#parseType#0;class#Parser#0" expanded="false" />
-                <element signature="e#13252#13259#0" expanded="false" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="program11.txt" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/testFiles/Parser/Pass/program11.txt">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="288">
-              <caret line="16" column="10" selection-start-line="16" selection-start-column="10" selection-end-line="16" selection-end-column="10" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Token.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/poli/comp/scanner/Token.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="522">
-              <caret line="39" column="0" selection-start-line="39" selection-start-column="0" selection-end-line="39" selection-end-column="0" />
-              <folding>
-                <element signature="e#789#790#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="JUnit38ClassRunner.class" pinned="false" current-in-tab="false">
-        <entry file="jar:///usr/share/groovy2/lib/junit4.jar!/org/junit/internal/runners/JUnit38ClassRunner.class">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="216">
-              <caret line="13" column="73" selection-start-line="13" selection-start-column="73" selection-end-line="13" selection-end-column="73" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="JUnitCore.class" pinned="false" current-in-tab="false">
-        <entry file="jar:///usr/share/groovy2/lib/junit4.jar!/org/junit/runner/JUnitCore.class">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="504">
-              <caret line="29" column="72" selection-start-line="29" selection-start-column="72" selection-end-line="29" selection-end-column="72" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="program12.txt" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/testFiles/Parser/Pass/program12.txt">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="54">
-              <caret line="3" column="16" selection-start-line="3" selection-start-column="16" selection-end-line="3" selection-end-column="16" />
-              <folding />
             </state>
           </provider>
         </entry>
@@ -249,10 +206,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/poli/comp/util/AST/ASTFunctionCall.java" />
-        <option value="$PROJECT_DIR$/src/poli/comp/util/AST/ASTLoopExit.java" />
-        <option value="$PROJECT_DIR$/src/poli/comp/util/AST/ASTLoopContinue.java" />
-        <option value="$PROJECT_DIR$/src/poli/comp/util/AST/ASTPrintStatement.java" />
         <option value="$PROJECT_DIR$/src/poli/comp/util/AST/ASTDeclarationGroup.java" />
         <option value="$PROJECT_DIR$/src/poli/comp/util/AST/ASTypeInteger.java" />
         <option value="$PROJECT_DIR$/src/poli/comp/parser/ASTypeLogical.java" />
@@ -261,7 +214,6 @@
         <option value="$PROJECT_DIR$/src/poli/comp/util/AST/ASTReturnStatement.java" />
         <option value="$PROJECT_DIR$/src/poli/comp/util/AST/ASTIfStatement.java" />
         <option value="$PROJECT_DIR$/src/poli/comp/compiler/Compiler.java" />
-        <option value="$PROJECT_DIR$/src/poli/comp/util/AST/ASTTerminal.java" />
         <option value="$PROJECT_DIR$/src/poli/comp/util/AST/ASTOperatorComp.java" />
         <option value="$PROJECT_DIR$/src/poli/comp/util/AST/ASTExpression.java" />
         <option value="$PROJECT_DIR$/src/poli/comp/util/AST/ASTOperator.java" />
@@ -273,7 +225,6 @@
         <option value="$PROJECT_DIR$/src/poli/comp/util/AST/ASTFactorLiteral.java" />
         <option value="$PROJECT_DIR$/src/poli/comp/parser/ASTFactorExpression.java" />
         <option value="$PROJECT_DIR$/src/poli/comp/util/AST/ASTFactorExpression.java" />
-        <option value="$PROJECT_DIR$/src/poli/comp/util/AST/ASTLoopControl.java" />
         <option value="$PROJECT_DIR$/src/poli/comp/util/AST/ASTIdentifier.java" />
         <option value="$PROJECT_DIR$/src/poli/comp/util/AST/ASTSubroutineDeclaration.java" />
         <option value="$PROJECT_DIR$/src/poli/comp/util/AST/ASTType.java" />
@@ -284,7 +235,6 @@
         <option value="$PROJECT_DIR$/src/poli/comp/util/AST/ASTStatement.java" />
         <option value="$PROJECT_DIR$/classes pra ast.txt" />
         <option value="$PROJECT_DIR$/src/poli/comp/parser/SyntacticException.java" />
-        <option value="$PROJECT_DIR$/src/poli/comp/scanner/Scanner.java" />
         <option value="$PROJECT_DIR$/testFiles/program2.txt" />
         <option value="$PROJECT_DIR$/testFiles/Program5.txt" />
         <option value="$PROJECT_DIR$/src/poli/comp/compiler/Properties.java" />
@@ -296,10 +246,17 @@
         <option value="$PROJECT_DIR$/testFiles/Parser/Fail/program9.txt" />
         <option value="$PROJECT_DIR$/testFiles/Parser/Fail/program10.txt" />
         <option value="$PROJECT_DIR$/testFiles/Parser/Fail/Program5.txt" />
-        <option value="$PROJECT_DIR$/src/poli/comp/parser/Parser.java" />
         <option value="$PROJECT_DIR$/src/poli/comp/parser/ParserTest.groovy" />
         <option value="$PROJECT_DIR$/testFiles/Parser/Pass/program12.txt" />
         <option value="$PROJECT_DIR$/testFiles/Parser/Pass/program11.txt" />
+        <option value="$PROJECT_DIR$/src/poli/comp/parser/Parser.java" />
+        <option value="$PROJECT_DIR$/src/poli/comp/scanner/Scanner.java" />
+        <option value="$PROJECT_DIR$/src/poli/comp/util/AST/ASTFunctionCall.java" />
+        <option value="$PROJECT_DIR$/src/poli/comp/util/AST/ASTLoopContinue.java" />
+        <option value="$PROJECT_DIR$/src/poli/comp/util/AST/ASTLoopControl.java" />
+        <option value="$PROJECT_DIR$/src/poli/comp/util/AST/ASTLoopExit.java" />
+        <option value="$PROJECT_DIR$/src/poli/comp/util/AST/ASTSubprogramDeclaration.java" />
+        <option value="$PROJECT_DIR$/src/poli/comp/util/AST/ASTTerminal.java" />
       </list>
     </option>
   </component>
@@ -1085,7 +1042,7 @@
     <editor active="true" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3287037" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.3287037" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3287037" sideWeight="0.49414518" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -1172,43 +1129,43 @@
         </line-breakpoint>
         <line-breakpoint type="java-line">
           <url>file://$PROJECT_DIR$/src/poli/comp/parser/Parser.java</url>
-          <line>434</line>
+          <line>432</line>
           <properties />
           <option name="timeStamp" value="40" />
         </line-breakpoint>
         <line-breakpoint type="java-line">
           <url>file://$PROJECT_DIR$/src/poli/comp/parser/Parser.java</url>
-          <line>269</line>
+          <line>270</line>
           <properties />
           <option name="timeStamp" value="41" />
         </line-breakpoint>
         <line-breakpoint type="java-line">
           <url>file://$PROJECT_DIR$/src/poli/comp/scanner/Scanner.java</url>
-          <line>203</line>
+          <line>200</line>
           <properties />
           <option name="timeStamp" value="45" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/poli/comp/parser/Parser.java</url>
-          <line>193</line>
+          <line>194</line>
           <properties />
           <option name="timeStamp" value="46" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/poli/comp/parser/Parser.java</url>
-          <line>137</line>
+          <line>138</line>
           <properties />
           <option name="timeStamp" value="48" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/poli/comp/parser/Parser.java</url>
-          <line>97</line>
+          <line>98</line>
           <properties />
           <option name="timeStamp" value="52" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/poli/comp/parser/Parser.java</url>
-          <line>355</line>
+          <line>356</line>
           <properties />
           <option name="timeStamp" value="53" />
         </line-breakpoint>
@@ -1225,22 +1182,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/poli/comp/util/AST/ASTFunctionDeclaration.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="144">
-          <caret line="8" column="13" selection-start-line="8" selection-start-column="13" selection-end-line="8" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/poli/comp/util/AST/ASTIdentifier.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="36">
-          <caret line="2" column="13" selection-start-line="2" selection-start-column="13" selection-end-line="2" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/poli/comp/util/AST/ASTIfStatement.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="198">
@@ -1261,30 +1202,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="108">
           <caret line="6" column="13" selection-start-line="6" selection-start-column="13" selection-end-line="6" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/poli/comp/util/AST/ASTLoopContinue.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="72">
-          <caret line="4" column="13" selection-start-line="4" selection-start-column="13" selection-end-line="4" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/poli/comp/util/AST/ASTLoopControl.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="90">
-          <caret line="5" column="22" selection-start-line="5" selection-start-column="22" selection-end-line="5" selection-end-column="22" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/poli/comp/util/AST/ASTLoopExit.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="90">
-          <caret line="5" column="13" selection-start-line="5" selection-start-column="13" selection-end-line="5" selection-end-column="13" />
           <folding />
         </state>
       </provider>
@@ -1337,14 +1254,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/poli/comp/util/AST/ASTSubprogramDeclaration.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="126">
-          <caret line="7" column="13" selection-start-line="7" selection-start-column="13" selection-end-line="7" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/poli/comp/util/AST/ASTSubroutineDeclaration.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="108">
@@ -1360,14 +1269,6 @@
           <folding>
             <element signature="imports" expanded="false" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/poli/comp/util/AST/ASTTerminal.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="36">
-          <caret line="2" column="22" selection-start-line="2" selection-start-column="22" selection-end-line="2" selection-end-column="22" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1558,16 +1459,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/poli/comp/scanner/Scanner.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="206">
-          <caret line="197" column="0" selection-start-line="197" selection-start-column="0" selection-end-line="197" selection-end-column="0" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="jar:///usr/share/groovy2/lib/junit4.jar!/org/junit/internal/runners/JUnit38ClassRunner.class">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="216">
@@ -1634,10 +1525,18 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/BasicCode/src/parser/GrammarSymbols.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="225">
+          <caret line="14" column="6" selection-start-line="14" selection-start-column="6" selection-end-line="14" selection-end-column="6" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/poli/comp/parser/Parser.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-2034">
-          <caret line="219" column="47" selection-start-line="219" selection-start-column="47" selection-end-line="219" selection-end-column="47" />
+        <state relative-caret-position="-362">
+          <caret line="415" column="33" selection-start-line="415" selection-start-column="33" selection-end-line="415" selection-end-column="33" />
           <folding>
             <element signature="docComment;class#Parser#0" expanded="false" />
             <element signature="docComment;method#Parser#0;class#Parser#0" expanded="false" />
@@ -1649,20 +1548,83 @@
             <element signature="method#acceptIt#0;class#Parser#0" expanded="false" />
             <element signature="docComment;method#parse#0;class#Parser#0" expanded="false" />
             <element signature="method#parseMainProgram#0;class#Parser#0" expanded="false" />
-            <element signature="e#3767#3785#0" expanded="false" />
-            <element signature="e#3922#3968#0" expanded="false" />
+            <element signature="e#3784#3802#0" expanded="false" />
+            <element signature="e#3939#3985#0" expanded="false" />
             <element signature="method#parseStatement#0;class#Parser#0" expanded="false" />
-            <element signature="method#parseLoop#0;class#Parser#0" expanded="false" />
-            <element signature="e#6207#6263#0" expanded="false" />
             <element signature="method#parseTerm#0;class#Parser#0" expanded="false" />
             <element signature="method#parseReturnStatement#0;class#Parser#0" expanded="false" />
             <element signature="method#parseParamDeclaration#0;class#Parser#0" expanded="false" />
             <element signature="docComment;method#parseSubroutineDeclaration#0;class#Parser#0" expanded="false" />
-            <element signature="method#parseSubroutineDeclaration#0;class#Parser#0" expanded="false" />
-            <element signature="e#11864#11941#0" expanded="false" />
+            <element signature="e#11720#11797#0" expanded="false" />
             <element signature="method#parseType#0;class#Parser#0" expanded="false" />
-            <element signature="e#13252#13259#0" expanded="false" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/poli/comp/scanner/Scanner.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="117">
+          <caret line="72" column="38" selection-start-line="72" selection-start-column="38" selection-end-line="72" selection-end-column="38" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/poli/comp/util/AST/ASTFunctionCall.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="261">
+          <caret line="18" column="5" selection-start-line="18" selection-start-column="5" selection-end-line="18" selection-end-column="5" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/poli/comp/util/AST/ASTLoopContinue.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="126">
+          <caret line="7" column="12" selection-start-line="7" selection-start-column="12" selection-end-line="7" selection-end-column="12" />
+          <folding>
+            <element signature="e#118#119#0" expanded="true" />
+            <element signature="e#133#134#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/poli/comp/util/AST/ASTLoopControl.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="126">
+          <caret line="7" column="33" selection-start-line="7" selection-start-column="33" selection-end-line="7" selection-end-column="33" />
+          <folding>
+            <element signature="e#207#208#0" expanded="true" />
+            <element signature="e#231#232#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/poli/comp/util/AST/ASTLoopExit.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="216">
+          <caret line="14" column="5" selection-start-line="14" selection-start-column="5" selection-end-line="14" selection-end-column="5" />
+          <folding>
+            <element signature="e#112#113#0" expanded="true" />
+            <element signature="e#127#128#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/poli/comp/util/AST/ASTSubprogramDeclaration.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="247">
+          <caret line="18" column="5" selection-start-line="18" selection-start-column="5" selection-end-line="18" selection-end-column="5" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/poli/comp/util/AST/ASTTerminal.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="144">
+          <caret line="12" column="5" selection-start-line="12" selection-start-column="5" selection-end-line="12" selection-end-column="5" />
+          <folding />
         </state>
       </provider>
     </entry>

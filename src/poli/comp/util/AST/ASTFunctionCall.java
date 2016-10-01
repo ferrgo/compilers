@@ -17,5 +17,4 @@ public class ASTFunctionCall extends ASTStatement{
   	public String toString(int level) {
   			return null;
   	}
-  //TODO
 }

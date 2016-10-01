@@ -11,6 +11,4 @@ public abstract class ASTTerminal extends AST {
     public String toString(int level) {
         return null;
     }
-
-//TODO
 }

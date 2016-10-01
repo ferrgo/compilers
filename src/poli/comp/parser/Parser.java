@@ -84,6 +84,7 @@ public class Parser {
 	}
 
 	//TODO check if all the uses of the GrammarSymbol enum below are correct.
+	//Seem to be...
 
 	//Parses the rule PROG ::= (DECLARATION_GROUP)* (FUNCTION_DECL | SUBPROGRAM_DECL)*  PROG_MAIN EOT
 	private ASTProgram parseProgram() throws SyntacticException, LexicalException {
@@ -389,8 +390,8 @@ public class Parser {
 		ASTType t = null;
 		ASTIdentifier subroutineName;
 
-		List<ASTParamDeclaration>  l_par = new ArrayList<ASTParamDeclaration>(); //TODO seriam declaracoes mesmo?
-		List<ASTStatement>    l_s    = new ArrayList<ASTStatement>();
+		List<ASTParamDeclaration>  l_par = new ArrayList<>();
+		List<ASTStatement>    l_s    = new ArrayList<>();
 
 		ASTSubroutineDeclaration rv;
 
@@ -413,9 +414,6 @@ public class Parser {
 
 		//Parsing args
 		ASTParamDeclaration decl;
-		ASTType declType;
-		ASTIdentifier declId;
-		//TODO add ast declarations and fix the flag thing
 		while(currentToken.getKind()!=RP){ //I think we cant simply call parseDeclaration() cause it would allow for ='s
 			//If inside the LP RP we must have the structur TYPE :: ID,....
 			decl = parseParamDeclaration();
@@ -474,8 +472,5 @@ public class Parser {
 
 	}
 
-	//TODO:
-	//Parse terminals
-	//Parse expression/term/etc
 
 }
