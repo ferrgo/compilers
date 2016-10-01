@@ -64,6 +64,7 @@ public enum GrammarSymbol {
 
 	EQUALS,
 
+
 	INTEGER, //End of text
 	LOGICAL, EOT
 

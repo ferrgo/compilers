@@ -7,7 +7,7 @@ import java.util.Map;
  */
 
  // DECLARATION_GROUP ::= TYPE :: ID (= EXPRESSION)? (,ID (= EXPRESSION)? )*
-public class ASTDeclarationGroup extends AST{
+public class ASTDeclarationGroup extends ASTStatement{
 
   private ASTType tp;
   private Map<ASTIdentifier,ASTExpression> declarations;

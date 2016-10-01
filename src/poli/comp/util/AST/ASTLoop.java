@@ -4,7 +4,7 @@ package poli.comp.util.AST;
 import java.util.List;
 
 // LOOP            ::= DO WHILE LP EXPRESSION RP (STATEMENT)* END DO
-public abstract class ASTLoop extends ASTStatement{
+public class ASTLoop extends ASTStatement{
 
     private ASTExpression aex;
     private List<ASTStatement> ast;

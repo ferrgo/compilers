@@ -1,0 +1,18 @@
+   LOGICAL :: a, b, c = 4, f
+
+
+   FUNCTION INTEGER sqarea (INTEGER :: a, INTEGER :: b) RETURN a * b END FUNCTION
+
+
+
+
+                     PROGRAM HelloWorld
+         PRINT *, 1   ! This is an inline comment
+
+
+         ! aa
+
+
+       END !aaaa
+       PROGRAM !acdasdcq80k1n2evihadiluB*Y&797977
+       !HelloWorld

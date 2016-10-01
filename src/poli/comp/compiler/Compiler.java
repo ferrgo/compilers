@@ -1,6 +1,7 @@
 package poli.comp.compiler;
 
 //import poli.comp.parser.Parser;
+import poli.comp.parser.Parser;
 import poli.comp.parser.SyntacticException;
 import poli.comp.scanner.LexicalException;
 import poli.comp.util.AST.AST;

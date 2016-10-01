@@ -16,9 +16,10 @@ SUBROUTINE_DECL ::= FUNCTION_DECL | SUBPROGRAM_DECL
 
 abstract ASTStatement extends AST
 	ASTIfStatement extends ASTStatement
-		ASTSimpleIfStatement extends ASTIfStatement
+		ASTSimpleIfStatement extends ASTIfStatement //NOTE: Se tornou unecessary já que if pode conter else stat null
 		ASTIfStatementWithElse extends ASTIfStatement
-	ASTDeclaration extends ASTStatement
+	ASTDeclarationGroup extends ASTStatement
+	ASTParamDeclaration extends AST
 	ASTAssignment extends ASTStatement
 	ASTFunctionCall extends ASTStatement
 	ASTReturnStatement extends ASTStatement

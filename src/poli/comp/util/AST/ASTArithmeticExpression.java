@@ -1,14 +1,19 @@
 package poli.comp.util.AST;
 
 
+import java.util.List;
+import java.util.Map;
 
 // EXP_ARIT        ::= TERM ((+|-) TERM)*
-public abstract class ASTArithmeticExpression extends ASTExpression{
+public class ASTArithmeticExpression extends AST{
 
-    private List<ASTTerm> at;
+    private ASTTerm term;
+    private Map<ASTOperator,ASTTerm> l_opterms;
 
-    public ASTArithmeticExpression(List<ASTTerm> at){
-      this.at = at;
+
+    public ASTArithmeticExpression(ASTTerm at, Map<ASTOperator,ASTTerm> l_ot){
+        this.term = at;
+        this.l_opterms = l_ot;
     }
 
   	@Override

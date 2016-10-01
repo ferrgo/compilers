@@ -12,19 +12,22 @@ import poli.comp.scanner.Token;
 public class SyntacticException extends Exception {
 
 	private static final long serialVersionUID = 3457448332803077642L;
-	
+
 	// Not expected token
 	private Token token;
+	// Expected token
+	private GrammarSymbol expected;
 	
 	/**
 	 * Default constructor
 	 * @param message
 	 * @param token
-	 * @param symbols
+	 * @param expected
 	 */
-	public SyntacticException(String message, Token token) {
+	public SyntacticException(String message, Token token, GrammarSymbol expected) {
 		super(message);
 		this.token = token;
+		this.expected = expected;
 	}
 	
 	/**
@@ -37,6 +40,7 @@ public class SyntacticException extends Exception {
 			">> Token: " + this.token.getSpelling() + "\n" +
 			"   at line: " + (this.token.getLine()+1) + "\n" +
 			"   at column: " + (this.token.getColumn()+1) + "\n" +
+			">> One would expect to see something like: " + this.expected + "\n" +
 			"------------------------------ SYNTACTIC ERROR REPORT - END ------------------------------\n";
 			
 		return errorMessage;

@@ -75,6 +75,7 @@ public class Scanner {
 		//getNextChar here is getdting multiple parenteses together so LP comes as () if in the file is such as "asd()asd"
 
 			Token rv = new Token(currentKind,currentSpelling.toString(),startLine,startColumn);
+			currentKind = null;
 			return rv;
 	}
 
@@ -193,7 +194,7 @@ public class Scanner {
 	 */
 	private GrammarSymbol scanToken() throws LexicalException {
 
-		currentSpelling.setLength(0); // Clearing the buffer so that we can use it below
+//		currentSpelling.setLength(0); // Clearing the buffer so that we can use it below
 		int automatonState=0;
 
 		while(true){
@@ -285,6 +286,7 @@ public class Scanner {
 					break;
 				case(13): // ::
 					if(currentChar==':'){
+						getNextChar();
 						return GrammarSymbol.DOUBLECOLON;
 					}else{
 						automatonState=16; //Lexical Error
@@ -329,6 +331,8 @@ public class Scanner {
 							return GrammarSymbol.RETURN;
 						case("PRINT"):
 							return GrammarSymbol.PRINT;
+						case("END"):
+							return GrammarSymbol.END;
 						default:
 							return GrammarSymbol.ID;
 					}//SwitchInsideSwitch...

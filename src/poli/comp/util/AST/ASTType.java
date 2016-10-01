@@ -1,11 +1,10 @@
 package poli.comp.util.AST;
 
-public class ASTType extends ASTTerminal {
+public abstract class ASTType extends ASTTerminal {
 
-   public ASTType(String c){
-      super.contents = c;
-      //TODO do we have to add checking here? i think its already done in the lex analyzer.
-   }
+    public ASTType(String s) {
+        super(s);
+    }
 
     @Override
     public String toString(int level) {

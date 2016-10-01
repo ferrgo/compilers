@@ -1,12 +1,18 @@
 package poli.comp.util.AST;
 
 
+import java.util.List;
+import java.util.Map;
+
 // TERM            ::= FACTOR ((*|/) FACTOR)*
-public abstract class ASTTerm extends ASTExpression{
+public class ASTTerm extends AST{
 
-    private List<ASTFactor> afa;
+    private ASTFactor factor1;
+    private Map<ASTOperator,ASTFactor> l_opfactors;
 
-    public ASTTerm(List<ASTFactor> afa){
-      this.afa = afa;
+
+    public ASTTerm(ASTFactor af, Map<ASTOperator,ASTFactor> l_ot){
+        this.factor1 = af;
+        this.l_opfactors = l_ot;
     }
 }

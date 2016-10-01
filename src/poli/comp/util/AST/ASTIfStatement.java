@@ -9,16 +9,19 @@ import java.util.List;
  * @author Gustavo H P Carvalho
  * @email gustavohpcarvalho@ecomp.poli.br
  */
-public abstract class ASTIfStatement extends ASTStatement {
+public class ASTIfStatement extends ASTStatement {
 
 	private ASTExpression exp;
 
-	private List<ASTStatement> l_s;
+	private List<ASTStatement> l_ifs;
 
-	public ASTIfStatement(ASTExpression e, List<ASTStatement> l){
+	private List<ASTStatement> l_elses;
+
+	public ASTIfStatement(ASTExpression exp, List<ASTStatement> i, List<ASTStatement> e){
 		super();
-		this.exp=e;
-		this.l_s=l;
+		this.exp=exp;
+		this.l_ifs=i;
+		this.l_elses=e;
 	}
 
 

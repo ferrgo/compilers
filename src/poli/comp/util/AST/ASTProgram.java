@@ -4,10 +4,10 @@ import java.util.List;
 
 public class ASTProgram extends AST {
 
-    public List<ASTDeclarationGroup> l_dwa;
-    public List<ASTFunctionDeclaration> l_fd;
-    public List<ASTSubprogramDeclaration> l_sd; //trippy
-    public ASTMainProgram mp;
+    private List<ASTDeclarationGroup> l_dwa;
+    private List<ASTFunctionDeclaration> l_fd;
+    private List<ASTSubprogramDeclaration> l_sd; //trippy
+    private ASTMainProgram mp;
 
     public ASTProgram(List<ASTDeclarationGroup> l_d, List<ASTSubprogramDeclaration> l_sd, List<ASTFunctionDeclaration> l_fd, ASTMainProgram mp) {
         this.l_dwa = l_d;

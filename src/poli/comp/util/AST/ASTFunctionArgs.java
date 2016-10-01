@@ -4,7 +4,7 @@ package poli.comp.util.AST;
 import java.util.List;
 
 // FUNCTION_ARGS   ::= LP (EXPRESSION(,EXPRESSION)*)? RP
-public abstract class ASTFunctionArgs extends AST{
+public class ASTFunctionArgs extends AST{
 
     private List<ASTExpression> aex;
 

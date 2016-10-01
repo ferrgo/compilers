@@ -3,7 +3,7 @@ package poli.comp.util.AST;
 public class ASTIdentifier extends ASTTerminal {
 
    public ASTIdentifier(String s){
-      super.contents = s;
+       super(s);
    }
 
     @Override

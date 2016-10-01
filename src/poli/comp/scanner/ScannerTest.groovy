@@ -8,40 +8,81 @@ import poli.comp.parser.GrammarSymbol
  * Created by root on 27/09/16.
  */
 class ScannerTest extends groovy.util.GroovyTestCase {
-    poli.comp.scanner.Scanner sc;
-
+    ArrayList<File> listOfTestsOk;
+    ArrayList<File> listOfTestsFail;
 
     void setUp() throws Exception{
         super.setUp()
-        System.out.println("Setting up test files");
-        File folder = new File("./testFiles");
-        File [] listOfFiles = folder.listFiles();
-        ArrayList<File> listOfTests = new ArrayList<File>();
-        for (int i = 0; i < listOfFiles.length; i++) {
-            if (listOfFiles[i].isFile()) {
-                System.out.println("File " + listOfFiles[i].getName());
-                listOfTests.add(listOfFiles[i]);
-            } else if (listOfFiles[i].isDirectory()) {
-                System.out.println("Directory " + listOfFiles[i].getName());
+        File passfolder = new File("./testFiles/Scanner/Pass/");
+        File [] passFiles = passfolder.listFiles();
+        listOfTestsOk = new ArrayList<File>();
+        for (int i = 0; i < passFiles.length; i++) {
+            if (passFiles[i].isFile()) {
+                listOfTestsOk.add(passFiles[i]);
             }
         }
-        System.out.println(listOfTests.toString());
+        File failfolder = new File("./testFiles/Scanner/Fail/");
+        File [] failFiles = failfolder.listFiles();
+        listOfTestsFail = new ArrayList<File>();
+        for (int i = 0; i < failFiles.length; i++) {
+            if (failFiles[i].isFile()) {
+                listOfTestsFail.add(failFiles[i]);
+            }
+        }
+        System.out.println("Initiating test ");
 
-        sc = new poli.comp.scanner.Scanner(listOfTests.get(2).toString())
     }
 
     void tearDown() {
-
+        System.out.println("Finished test ")
     }
 
-    void testGetNextToken() {
-        Token now;
-        now = sc.getNextToken();
-        int count = 0
-        while (now.getKind() != GrammarSymbol.EOT) {
-            System.out.println(now.getKind().toString() + " ..... " + now.getSpelling().toString());
-            now = sc.getNextToken()
-        }
+    void testScannerWithArg() {
+        poli.comp.scanner.Scanner sc;
+        sc = new poli.comp.scanner.Scanner(listOfTestsOk.get(0).toString())
+        assertNotNull(sc)//Should be instantiated
+    }
 
+    void testScannerWOArg(){
+        poli.comp.scanner.Scanner sc;
+        sc = new poli.comp.scanner.Scanner();
+        assertNotNull(sc)//Should be instantiated
+    }
+
+
+
+    void testScannerSucces() {
+        poli.comp.scanner.Scanner sc;
+        for(String t : listOfTestsOk){
+            System.out.println(t);
+            sc = new poli.comp.scanner.Scanner(t);
+            Token now;
+            now = sc.getNextToken();
+            while (now.getKind() != GrammarSymbol.EOT) {
+//                System.out.println(now.getKind().toString() + " ..... " + now.getSpelling().toString());
+                now = sc.getNextToken();
+            }
+
+        }
+    }
+
+    void testScannerFail() {
+        poli.comp.scanner.Scanner sc;
+        for(String t : listOfTestsFail){
+            System.out.println(t);
+            sc = new poli.comp.scanner.Scanner(t);
+            Token now;
+            now = sc.getNextToken();
+            try{
+                while (now.getKind() != GrammarSymbol.EOT) {
+                  // System.out.println(now.getKind().toString() + " ..... " + now.getSpelling().toString());
+                  now = sc.getNextToken();
+                }
+            }catch (LexicalException l){
+                System.out.println("\n" + t + "Fails... \n Wanna see the issue? Here we go:\n" + l.toString());
+            }
+
+
+        }
     }
 }

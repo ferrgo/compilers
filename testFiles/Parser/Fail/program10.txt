@@ -1,0 +1,6 @@
+LOGICAL :: t = .true.
+
+PROGRAM LOGICAL a
+    !We don't really do much here....abbreviation
+    !Waaaat
+END PROGRAM !Me again...:D

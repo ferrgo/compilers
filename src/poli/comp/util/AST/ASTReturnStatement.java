@@ -2,12 +2,12 @@ package poli.comp.util.AST;
 
 
 // RETURN_STMT     ::= RETURN (ID)?
-public abstract class ASTReturnStatement extends ASTStatement{
+public class ASTReturnStatement extends ASTStatement{
 
-    private ASTIdentifier id;
+    private ASTExpression exp;
 
-    public ASTReturnStatement(ASTIdentifier id){
-      this.id = id;
+    public ASTReturnStatement(ASTExpression exp){
+      this.exp = exp;
     }
 
 }

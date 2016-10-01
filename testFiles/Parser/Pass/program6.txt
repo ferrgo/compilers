@@ -5,4 +5,4 @@ PROGRAM testingInt
    INTEGER :: largeval
    PRINT *, huge(largeval)
 
-END PROGRAM testingInt
+END PROGRAM

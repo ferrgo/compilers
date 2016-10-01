@@ -34,6 +34,14 @@ public class Parser {
 		this.scanner = new Scanner(); // Initializes the scanner object
 	}
 
+
+	/**
+	 * Parser constructor
+	 */
+	public Parser(String filepath) {
+		this.scanner = new Scanner(filepath); // Initializes the scanner object
+	}
+
 	//O acceptIt deve ser usado quando ja sabemos q o token eh o esperado
 	//o accept é quando esperamos que os proximos tokens sejam de certo tipo,
 	// e caso nao sejam é pq deu merda. por exemplo, se o ultimo token foi a
@@ -47,11 +55,10 @@ public class Parser {
 	 */
 	private void accept(GrammarSymbol expectedKind) throws SyntacticException, LexicalException {
 		try {
-			currentToken = scanner.getNextToken();
 			if (currentToken.getKind() == expectedKind) {
 				acceptIt();    // Gets next token and returns
 			} else {
-				throw new SyntacticException("Current token's kind is not the expected kind", currentToken);
+				throw new SyntacticException("Current token's kind is not the expected kind", currentToken, expectedKind);
 			}
 		} catch (LexicalException l){
 			throw l;
@@ -78,31 +85,28 @@ public class Parser {
 
 	//TODO check if all the uses of the GrammarSymbol enum below are correct.
 
-	//Parses the rule PROG ::= (DECLARATION)* (FUNCTION_DECL | SUBPROGRAM_DECL)*  PROG_MAIN EOT
-	public ASTProgram parseProgram() throws SyntacticException, LexicalException {
+	//Parses the rule PROG ::= (DECLARATION_GROUP)* (FUNCTION_DECL | SUBPROGRAM_DECL)*  PROG_MAIN EOT
+	private ASTProgram parseProgram() throws SyntacticException, LexicalException {
 
 		List<ASTSubprogramDeclaration> l_sd = new ArrayList<ASTSubprogramDeclaration>(); // ( ͡◉ ͜ʖ ͡◉) ~trippy
 		List<ASTFunctionDeclaration> l_fd = new ArrayList<ASTFunctionDeclaration>();
 		List<ASTDeclarationGroup> l_d = new ArrayList<ASTDeclarationGroup>();
 		ASTMainProgram mp = null;
 
-		//parsing global declarations
-		while( currentToken.getKind()!=FUNCTION && currentToken.getKind()!=SUBPROGRAM){
-			l_d.add(parseDeclaration());
-		}
+
 		//parsing function and subprogram declarations
 		while(currentToken.getKind()!=PROGRAM){
+			//parsing global declarations
+			while( currentToken.getKind()==TYPE){
+				l_d.add(parseDeclarationGroup());
+			}
 
 			//parsing subprogram(procedure) declarations
 			if(currentToken.getKind()==SUBPROGRAM){
-				l_sd.add(parseSubprogramDeclaration());
+				l_sd.add((ASTSubprogramDeclaration) parseSubroutineDeclaration());
 			}
 			//parsing function declarations
-			//"if" we don't get into the first if and also not get into the else
-			// then we got ourselves a mindblowing overflow
-//			else if (currentToken.getKind() == FUNCTION){
-				l_fd.add(parseFunctionDeclaration());
-//			}
+			l_fd.add((ASTFunctionDeclaration) parseSubroutineDeclaration());
 
 		}
 		//parsing the core of the program (kind of a "main" method)
@@ -112,8 +116,268 @@ public class Parser {
 		return rv; //return an ASTPROG
 	}
 
-	private ASTDeclarationGroup parseDeclaration() {
-		return null;
+
+	//Parses the rule PROG_MAIN ::= PROGRAM ID (STATEMENT)* END PROGRAM
+	private ASTMainProgram parseMainProgram() throws SyntacticException, LexicalException {
+
+		ASTIdentifier id;
+		List<ASTStatement> l_s = new ArrayList<>();
+
+		//Parses PROGRAM ID
+		accept(PROGRAM);
+		id= new ASTIdentifier(currentToken.getSpelling());
+		accept(ID);
+
+		//Parses each statement
+		while(currentToken.getKind() != END ){
+			// will this work?
+			// >> Some question in life aren't meant to be answered...
+			l_s.add(parseStatement());
+		}
+		//Parses END PROGRAM
+		accept(END);
+		//if if gets here while was broken with END...
+//		acceptIt();
+		accept(PROGRAM);
+
+		ASTMainProgram rv = new ASTMainProgram(id,l_s);
+		return rv;
+	}
+
+	//STATEMENT ::= ( DECLARATION_GROUP | ID ( = EXPRESSION|FUNCTION_ARGS) | IF_STATEMENT | LOOP | EXIT | CONTINUE | RETURN_STMT | PRINT_STMT )
+	private ASTStatement parseStatement() throws SyntacticException, LexicalException {
+		ASTStatement rv = null;
+
+		//Parsing variable declarations
+		if(currentToken.getKind()==TYPE){
+			rv = parseDeclarationGroup();
+		}
+		//Parsing assignments and function calls
+		else if(currentToken.getKind()==ID){
+			ASTIdentifier id = new ASTIdentifier(currentToken.getSpelling());
+			acceptIt();
+			if(currentToken.getKind()==EQUALS){
+				acceptIt();
+				ASTExpression exp = parseExpression();
+				return new ASTAssignment(id,exp);
+			}else{
+				ASTFunctionArgs fa = parseFunctionArgs();
+				return new ASTFunctionCall(id,fa);
+			}
+
+		}
+
+		//Parsing loop control statements
+		else if(currentToken.getKind()==EXIT){
+			rv = new ASTLoopExit();
+			acceptIt();
+		}else if (currentToken.getKind()==CONTINUE){
+			rv = new ASTLoopContinue();
+			acceptIt();
+		}
+
+		//Parsing loops
+		else if(currentToken.getKind()==DO){
+			rv = parseLoop();
+		}
+
+		//Parsing if statements
+		else if(currentToken.getKind()==IF){
+			rv = parseIfStatement();
+		}
+
+		//Parsing return statements
+		else if(currentToken.getKind()==RETURN){
+			rv = parseReturnStatement();
+		}
+
+		else {
+			rv = parsePrintStatement();
+		}
+
+		return rv;
+
+	}
+
+
+	private ASTIfStatement parseIfStatement() throws SyntacticException, LexicalException {
+		ASTExpression exp;
+		List<ASTStatement> l_if = new ArrayList<ASTStatement>();
+		List<ASTStatement> l_else = new ArrayList<ASTStatement>();
+
+		accept(IF);
+		exp = parseExpression();
+		accept(THEN);
+		while(currentToken.getKind()!=END && currentToken.getKind()!= ELSE){
+			l_if.add(parseStatement());
+		}
+		if(currentToken.getKind()==END){
+			acceptIt();
+			accept(IF);
+			return new ASTIfStatement(exp,l_if, null);
+		}else {
+			accept(ELSE);
+			while(currentToken.getKind()!=END){
+				l_else.add(parseStatement());
+			}
+			accept(END);
+			accept(IF);
+			return new ASTIfStatement(exp,l_if,l_else);
+		}
+	}
+
+
+	private ASTLoop parseLoop() throws SyntacticException, LexicalException {
+
+		ASTExpression be;
+		//TODO criar expression bool na gramatica pra usar aqui?
+		//Don't think so... Expression is already booleable... Semantically we verify if is that so for the case...
+		List<ASTStatement> l_s = new ArrayList<ASTStatement>();
+		accept(DO);
+		accept(WHILE);
+		accept(LP);
+		be = parseExpression();
+		accept(RP);
+		while(currentToken.getKind()!=END){ //the inner ends will be accepted by parseStatement, so this should be END DO
+			l_s.add(parseStatement());
+		}
+		accept(END);
+		accept(DO);
+
+		ASTLoop rv = new ASTLoop(be,l_s);
+		return rv;
+	}
+
+
+	private ASTDeclarationGroup parseDeclarationGroup() throws SyntacticException, LexicalException {
+
+		ASTType t;
+		Map<ASTIdentifier,ASTExpression> declarations = new HashMap<ASTIdentifier,ASTExpression>(); // if var is not initialized, expression will be null
+
+		t = parseType();
+		accept(DOUBLECOLON);
+		//For every declaration
+		while(currentToken.getKind()==ID){
+			ASTIdentifier currentId = null;
+			ASTExpression currentExpression = null;
+
+			//Parse the Identifier
+			currentId = new ASTIdentifier(currentToken.getSpelling());
+			acceptIt();
+			//Parse the assignment, if thats the case
+			if(currentToken.getKind()==ASSIGNMENT){
+				acceptIt();
+				currentExpression = parseExpression();
+			}
+			declarations.put(currentId,currentExpression);
+
+
+			if(currentToken.getKind()==COMMA) acceptIt();
+
+		};
+
+		ASTDeclarationGroup rv = new ASTDeclarationGroup(t,declarations);
+		return rv;
+
+	}
+
+	private ASTExpression parseExpression() throws LexicalException, SyntacticException { // EXPRESSION ::= EXP_ARIT (OP_COMP EXP_ARIT)?
+		ASTArithmeticExpression ae1 = null;
+		ASTArithmeticExpression ae2 = null;
+		ASTOperatorComp op = null;
+		ae1 = parseArithmeticExpression();
+		if(currentToken.getKind()==OP_LOGICAL) {
+			op = new ASTOperatorComp(currentToken.getSpelling());
+			acceptIt();
+			ae2 = parseArithmeticExpression();
+		}
+		return new ASTExpression(ae1, op, ae2);
+	}
+
+	private ASTArithmeticExpression parseArithmeticExpression() throws LexicalException, SyntacticException {//EXP_ARIT ::= TERM ((+|-) TERM)*
+		ASTTerm term1;
+		ASTTerm aux = null;
+		ASTOperator op = null;
+		Map<ASTOperator,ASTTerm> l_ot = new HashMap<ASTOperator,ASTTerm>();
+
+		term1 = parseTerm();
+		while(currentToken.getKind()==PLUS || currentToken.getKind()==MINUS){
+			op = new ASTOperator(currentToken.getSpelling());
+			acceptIt();
+			aux = parseTerm();
+			l_ot.put(op, aux);
+		}
+
+		return new ASTArithmeticExpression(term1, l_ot);
+	}
+
+	private ASTTerm parseTerm() throws LexicalException, SyntacticException {//TERM ::= FACTOR ((*|/) FACTOR)*
+		ASTFactor factor1;
+		ASTFactor aux = null;
+		ASTOperator op = null;
+		Map<ASTOperator,ASTFactor> l_of = new HashMap<ASTOperator,ASTFactor>();
+
+		factor1 = parseFactor();
+		while(currentToken.getKind()==MULT || currentToken.getKind()==DIV){
+			op = new ASTOperator(currentToken.getSpelling());
+			acceptIt();
+			aux = parseFactor();
+			l_of.put(op, aux);
+		}
+
+		return new ASTTerm(factor1, l_of);
+	}
+
+
+	private ASTFactor parseFactor() throws LexicalException, SyntacticException {// FACTOR ::= ID(FUNCTION_ARGS)? | LITERAL | LP EXPRESSION RP
+		if(currentToken.getKind()==ID){
+			ASTIdentifier id = new ASTIdentifier(currentToken.getSpelling());
+			acceptIt();
+			ASTFunctionArgs l_args = null;
+			if(currentToken.getKind()==LP){
+				l_args = parseFunctionArgs();
+			}
+			return new ASTFactorSubroutineCall (id, l_args);
+		} else if (currentToken.getKind()==LIT_INTEGER || currentToken.getKind()==LIT_LOGICAL){
+			ASTLiteral l = new ASTLiteral(currentToken.getSpelling());
+			acceptIt();
+			return new ASTFactorLiteral (l);
+		} else {
+			accept(LP);
+			ASTExpression exp = parseExpression();
+			return new ASTFactorExpression(exp);
+		}
+	}
+
+	//	FUNCTION_ARGS   ::= LP (EXPRESSION(,EXPRESSION)*)? RP
+	private ASTFunctionArgs parseFunctionArgs() throws SyntacticException, LexicalException {
+		List<ASTExpression> l_e = new ArrayList<ASTExpression>();
+		accept(LP);
+		while(currentToken.getKind()!= RP){
+			l_e.add(parseExpression());
+			if(currentToken.getKind()==COMMA) {
+				acceptIt();
+				l_e.add(parseExpression());
+			}
+		}
+		accept(RP);
+		return new ASTFunctionArgs(l_e);
+	}
+
+	private ASTReturnStatement parseReturnStatement() throws SyntacticException, LexicalException {
+		accept(RETURN);
+		ASTReturnStatement rv = new ASTReturnStatement(parseExpression());
+		return rv;
+	}
+
+	private ASTParamDeclaration parseParamDeclaration() throws LexicalException, SyntacticException {
+
+		ASTType declType = parseType();
+		accept(DOUBLECOLON);
+		accept(ID);
+		ASTIdentifier declId = new ASTIdentifier(currentToken.getSpelling());
+		return new ASTParamDeclaration(declType, declId);
+
 	}
 
 	/**
@@ -137,14 +401,7 @@ public class Parser {
 		//Parsing name etc
 		if(isFunction){
 			accept(FUNCTION);
-
-			if(currentToken.getKind()==INTEGER){
-				acceptIt();
-				t = new ASTType(currentToken.getSpelling());
-			}else{
-				accept(LOGICAL);
-				t = new ASTType(currentToken.getSpelling());
-			}
+			t = parseType();
 		}else{
 			accept(SUBPROGRAM);
 		}
@@ -161,21 +418,14 @@ public class Parser {
 		//TODO add ast declarations and fix the flag thing
 		while(currentToken.getKind()!=RP){ //I think we cant simply call parseDeclaration() cause it would allow for ='s
 			//If inside the LP RP we must have the structur TYPE :: ID,....
-			accept(TYPE);
-			declType = new ASTType(currentToken.getSpelling());
-			accept(DOUBLECOLON);
-			accept(ID);
-			declId = new ASTIdentifier(currentToken.getSpelling());
-			decl = new ASTParamDeclaration(declType, declId);
-
+			decl = parseParamDeclaration();
 			//We got ourselves another decl...
 			l_par.add(decl);
 
 			if(currentToken.getKind()!=COMMA) break; //Case there is no more commas
-			else {
+			else {//Case there is a comma... Doing this verification here for the case "type :: id, )"
 				acceptIt();
-				if(currentToken.getKind()!=TYPE) break; //Gambi if we don't have a type after Comma we have a problem
-				else accept(TYPE); //So we force the lexical error accepting TYPE...
+				l_par.add(parseParamDeclaration());
 			}
 		}
 		accept(RP);
@@ -198,332 +448,30 @@ public class Parser {
 	}
 
 
-	//Parses the rule PROG_MAIN ::= PROGRAM ID (STATEMENT)* END PROGRAM
-	public ASTMainProgram parseMainProgram() throws SyntacticException, LexicalException {
-
-		ASTIdentifier id;
-		List<ASTStatement> l_s = new ArrayList<ASTStatement>();
-
-		//Parses PROGRAM ID
-		accept(PROGRAM);
-		id= new ASTIdentifier(currentToken.getSpelling());
-		accept(ID);
-
-
-		//Parses each statement
-		while(currentToken.getKind() != END){ // will this work?
-			l_s.add(parseStatement());
-		}
-
-		//Parses END PROGRAM
-		accept(END);
-		accept(PROGRAM);
-
-		ASTMainProgram rv = new ASTMainProgram(id,l_s);
-		return rv;
-	}
-
-
-	//TODO Here I am...
-	public ASTStatement parseStatement() throws SyntacticException, LexicalException {
-		ASTStatement rv;
-
-		//Parsing variable declarations
-		if(currentToken.getKind()==TYPE){
-			rv = parseStatement();
-		}
-		//Parsing assignments and function calls
-		else if(currentToken.getKind()==ID){
-
-
-			ASTIdentifier id = new ASTIdentifier(currentToken.getSpelling());
-			accept(ID);
-
-
-			if(currentToken.getKind()==EQUALS){
-				acceptIt();
-				ASTExpression exp = parseExpression();
-				return new ASTAssignment(id,exp);
-			}else{
-				ASTFunctionArgs fa = parseFunctionArgs();
-				return new ASTFunctionCall(id,fa);
-			}
-
-		}
-		//Parsing loop control statements
-		else if(currentToken.getKind()==EXIT){
-			rv = new ASTLoopExit();
-			acceptIt();
-		}else if (currentToken.getKind()==CONTINUE){
-			rv = new ASTLoopContinue();
+	private ASTType parseType() throws LexicalException, SyntacticException {
+		ASTType rv;
+		if(currentToken.getSpelling().equals("INTEGER")){
+			rv = new ASTTypeInteger(currentToken.getSpelling());
 			acceptIt();
 		}
-
-		//Parsing loops
-		else if(currentToken.getKind()==DO){
-			rv = parseLoop();
+		else {
+			rv = new ASTTypeLogical(currentToken.getSpelling());
+			accept(TYPE);
 		}
-
-		//Parsing if statements
-		else if(currentToken.getKind()==IF){
-
-			rv = parseIfStatement();
-		}
-
-		//Parsing return statements
-		else if(currentToken.getKind()==RETURN){
-			accept(RETURN);
-			rv = new ASTReturnStatement(parseExpression());
-		}
-		else if(currentToken.getKind()==PRINT){
-			accept(PRINT);
-			rv = new ASTPrintStatement(parseExpression());
-		}
-
-		return rv;
-
-	}
-
-	public ASTExpression parseExpression(){
-
-		return null;
-	}
-
-	public ASTIfStatement parseIfStatement(){
-
-		return null;
-	}
-
-	public ASTFunctionArgs parseFunctionArgs(){
-		//TODO
-
-	}
-
-	public ASTAssignment parseAssignment(String varName){
-
-		ASTExpression exp;
-
-		accept(EQUALS);
-
-		exp = parseExpression();
-
-		ASTAssignment rv = new ASTAssignment(varName, exp);
-		return rv;
-
-	}
-
-	public ASTDeclarationGroup parseDeclarationGroup(){
-
-		ASTType t;
-		Map<ASTIdentifier,ASTExpression> declarations = new HashMap<ASTIdentifier,ASTExpression>(); // if var is not initialized, expression will be null
-
-		t = parseType();
-		accept(DOUBLECOLON);
-		//For every declaration
-		while(currentToken.getNextToken()==ID){
-			ASTIdentifier currentId = null;
-			ASTExpression currentExpression = null;
-
-			//Parse the Identifier
-			currentId = new ASTIdentifier(currentToken.getSpelling());
-			accept(ID);
-			//Parse the assignment, if thats the case
-			if(currentToken.getNextToken()==EQUALS){
-				acceptIt();
-				currentExpression = parseExpression();
-			}
-			declarations.put(currentId,currentExpression);
-
-		};
-
-		ASTDeclarationGroup rv = new ASTDeclaration(t,declarations);
-		return rv;
-
-	}
-
-	public parseExpression(){ // EXPRESSION ::= EXP' (OP_COMP EXP')?
-
-		//TODO
-
-
-	}
-
-	public ASTLoop parseLoop(){
-
-		ASTBooleanExpression be; //TODO criar expression bool na gramatica pra usar aqui?
-		List<ASTStatement> l_s = new ArrayList<ASTStatement>();
-		accept(DO);
-		accept(WHILE);
-		accept(LP);
-		be = parseBooleanExpression();
-		accept(RP);
-		while(currentToken!=END){ //the inner ends will be accepted by parseStatement, so this should be END DO
-			l_s.add(parseStatement());
-		}
-		accept(END);
-		accept(DO);
-
-		ASTLoop rv = new ASTLoop(be,l_s);
 		return rv;
 	}
 
-	public ASTLoopControl parseLoopControl(){ //TODO the ASTLoopControl class should be abstract
-															//TODO also do the other 2 that inherit it
-		if(currentToken.getKind()==EXIT){
-			acceptIt();
-			return new ASTLoopExit();
-		}else if (currentToken.getKind()==CONTINUE){
-			acceptIt();
-			return new ASTLoopContinue();
-		}
 
-	}
-
-	public ASTFunctionCall parseFunctionCall(String functionName){
-
-	}
-
-	public ASTReturnStatement parseReturnStatement(){ //TODO remember to create the 2 return classes ^_^
-
-		accept(RETURN);
-		if(currentToken.getKind()==EXPRESSION){
-			ASTExpression exp = parseExpression();
-			return new ASTReturnFromFunction(exp);
-		}else{
-			return new ASTReturnFromSubprogram();
-		}
-
-	}
-
-	public ASTPrintStatement parsePrintStatement(){
-
+	private ASTPrintStatement parsePrintStatement() throws SyntacticException, LexicalException {
 		ASTExpression exp;
 
 		accept(PRINT);
 		accept(MULT);
 		accept(COMMA);
+
 		exp = parseExpression();
 		return new ASTPrintStatement(exp);
 
-	}
-
-	//TODO micro-optimization: Maybe make a common method for parsing functions and sbps
-	// since the 2 methods are so similar. We can make an abstract ASTSubroutineDeclaration
-	// class and input a boolean to pick the return type in the common method.
-	public ASTFunctionDeclaration parseFunctionDeclaration(){
-		ASTType t;
-		ASTIdentifier functionName;
-		List<ASTDeclarationr> l_args = new ArrayList<ASTDeclaration>(); //TODO seriam declaracoes mesmo?
-		List<ASTStatement>    l_s;   = new ArrayList<ASTStatement>();
-
-		//Parsing name etc
-		accept(FUNCTION);
-		t = parseType();
-		functionName = new ASTIdentifier(currentToken.getSpelling());
-		accept(ID);
-		accept(LP);
-
-		//Parsing args
-		boolean comma_flag;
-		while(currentToken.getKind() != RP){ //I think we cant simply call parseDeclaration() cause it would allow for ='s
-
-			if(comma_flag) accept(COMMA); //TODO do that for declarations too
-
-			ASTType temp_type = parseType();
-
-			accept(DOUBLECOLON);
-
-			ASTIdentifier temp_id = ASTIdentifier(currentToken.getSpelling());
-
-			l_args.add(new ASTDeclaration(temp_type,temp_id));
-
-			comma_flag=true;
-		}
-		accept(RP);
-
-		//Parsing Statements
-		while(currentToken.getKind()!=END){
-			l_s.add(parseStatement());
-		}
-		accept(END);
-		accept(FUNCTION);
-		rv = new ASTFunctionDeclaration(t, functionName, l_args, l_s);
-		return rv;
-	}
-
-	/**
-	 * Changed name to SubprogramDeclaration but didn't change the function itself
-	 * @return
-     */
-	public ASTSubprogramDeclaration parseSubprogramDeclaration(){
-
-		ASTIdentifier sbpName;
-		List<ASTDeclarationr> l_args = new ArrayList<ASTDeclaration>(); //TODO seriam declaracoes mesmo?
-		List<ASTStatement>    l_s;   = new ArrayList<ASTStatement>();
-
-		//Parsing name etc
-		accept(SUBPROGRAM);
-		functionName = new ASTIdentifier(currentToken.getSpelling());
-		accept(ID);
-		accept(LP);
-
-		//Parsing args
-		boolean comma_flag;
-		while(currentToken.getKind() != RP){ //I think we cant simply call parseDeclaration() cause it would allow for ='s
-
-			if(comma_flag) accept(COMMA); //TODO do that for declarations too
-
-			ASTType temp_type = parseType();
-
-			accept(DOUBLECOLON);
-
-			ASTIdentifier temp_id = new ASTIdentifier(currentToken.getSpelling());
-
-			l_args.add(new ASTDeclaration(temp_type,temp_id));
-
-			comma_flag=true;
-		}
-		accept(RP);
-
-		//Parsing Statements
-		while(currentToken.getKind()!=END){
-			l_s.add(parseStatement());
-		}
-
-		//Parsing end
-		accept(END);
-		accept(SUBPROGRAM);
-
-		rv = new ASTSubprogramDeclaration(sbpName, l_args, l_s);
-		return rv;
-	}
-
-
-
-	public parseIfStatement(){
-		ASTExpression exp;
-		List<ASTStatement> l_if = new ArrayList<ASTStatement>();
-		List<ASTStatement> l_else = new ArrayList<ASTStatement>();
-
-		accept(IF);
-		exp = parseExpression();
-		accept(THEN);
-		while(currentToken.getKind()!=END && currentToken.getKind()!= ELSE){
-			l_if.add(parseStatement());
-		}
-		if(currentToken.getKind()==END){
-			acceptIt();
-			accept(IF);
-			return new ASTSimpleIfStatement(exp,l_if);
-		}else if(currentToken.getKind()==ELSE){
-			acceptIt();
-			while(currentToken.getKind()!=END){
-				l_else.add(parseStatement());
-			}
-			accept(END);
-			accept(IF);
-			return new ASTIfStatementWithElse(exp,l_if,l_else);
-		}
 	}
 
 	//TODO:

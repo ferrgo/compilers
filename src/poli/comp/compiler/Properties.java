@@ -10,6 +10,6 @@ package poli.comp.compiler;
 public interface Properties {
 
 	// The source code file
-	public static final String sourceCodeLocation = "./testFiles/program1.txt";
+	public static final String sourceCodeLocation = "./testFiles/program.txt";
 	
 }

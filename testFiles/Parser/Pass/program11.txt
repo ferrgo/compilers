@@ -1,0 +1,19 @@
+!!This one should pass.. '-'
+LOGICAL :: t = .true.
+
+PROGRAM a
+    !We don't really do much here....abbreviation
+    !Waaaat
+
+    A = CMD (STUFF, UNREAL, REAL, WOW) / CMD2 ()
+    C = A + 2
+
+    IF .true. THEN
+        C = 2
+        B = C
+        A = .false.
+
+    !END
+    END IF
+
+END PROGRAM !Me again...:D

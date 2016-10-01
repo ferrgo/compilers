@@ -6,11 +6,4 @@ package poli.comp.util.AST;
  // SUBROUTINE_DECL ::= FUNCTION_DECL | SUBPROGRAM_DECL
 public abstract class ASTSubroutineDeclaration extends AST{
 
-//    private ASTFunctionDeclaration afc;
-//    private ASTSubprogramDeclaration asd;
-//
-//    public ASTSubroutineDeclaration(ASTFunctionDeclaration afc, ASTSubroutineDeclaration asd){
-//      this.afc = afc;
-//      this.asd = asd;
-//    }
 }
