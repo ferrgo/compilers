@@ -3,7 +3,7 @@ package poli.comp.util.AST;
 
 
 
-public abstract class ASTLoopExit extends ASTLoopControl{
+public class ASTLoopExit extends ASTLoopControl{
 
   	@Override
   	public String toString(int level) {

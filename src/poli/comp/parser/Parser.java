@@ -6,8 +6,10 @@ import poli.comp.scanner.Scanner;
 import poli.comp.scanner.Token;
 import poli.comp.util.AST.*;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Map;
 
 import static poli.comp.parser.GrammarSymbol.*;
 
@@ -81,7 +83,7 @@ public class Parser {
 
 		List<ASTSubprogramDeclaration> l_sd = new ArrayList<ASTSubprogramDeclaration>(); // ( ͡◉ ͜ʖ ͡◉) ~trippy
 		List<ASTFunctionDeclaration> l_fd = new ArrayList<ASTFunctionDeclaration>();
-		List<ASTDeclaration> l_d = new ArrayList<ASTDeclaration>();
+		List<ASTDeclarationGroup> l_d = new ArrayList<ASTDeclarationGroup>();
 		ASTMainProgram mp = null;
 
 		//parsing global declarations
@@ -110,7 +112,7 @@ public class Parser {
 		return rv; //return an ASTPROG
 	}
 
-	private ASTDeclaration parseDeclaration() {
+	private ASTDeclarationGroup parseDeclaration() {
 		return null;
 	}
 
@@ -120,7 +122,7 @@ public class Parser {
      */
 	private ASTSubroutineDeclaration parseSubroutineDeclaration() throws SyntacticException, LexicalException {
 		Boolean isFunction = false;
-		ASTType t;
+		ASTType t = null;
 		ASTIdentifier subroutineName;
 
 		List<ASTParamDeclaration>  l_par = new ArrayList<ASTParamDeclaration>(); //TODO seriam declaracoes mesmo?
@@ -249,28 +251,49 @@ public class Parser {
 
 		}
 		//Parsing loop control statements
-		else if(currentToken.getKind()==EXIT ||currentToken.getKind()==CONTINUE){
-			rv = parseLoopControlStatement();
+		else if(currentToken.getKind()==EXIT){
+			rv = new ASTLoopExit();
+			acceptIt();
+		}else if (currentToken.getKind()==CONTINUE){
+			rv = new ASTLoopContinue();
+			acceptIt();
 		}
+
 		//Parsing loops
 		else if(currentToken.getKind()==DO){
 			rv = parseLoop();
 		}
+
 		//Parsing if statements
 		else if(currentToken.getKind()==IF){
+
 			rv = parseIfStatement();
 		}
+
 		//Parsing return statements
 		else if(currentToken.getKind()==RETURN){
-			rv = parseReturnStatement();
+			accept(RETURN);
+			rv = new ASTReturnStatement(parseExpression());
 		}
 		else if(currentToken.getKind()==PRINT){
-			rv = parsePrintStatement();
+			accept(PRINT);
+			rv = new ASTPrintStatement(parseExpression());
 		}
 
 		return rv;
 
 	}
+
+	public ASTExpression parseExpression(){
+
+		return null;
+	}
+
+	public ASTIfStatement parseIfStatement(){
+
+		return null;
+	}
+
 	public ASTFunctionArgs parseFunctionArgs(){
 		//TODO
 

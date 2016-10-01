@@ -2,7 +2,7 @@ package poli.comp.util.AST;
 
 
 // PRINT_STMT      ::= PRINT *, EXPRESSION
-public abstract class ASTPrintStatement extends ASTStatement{
+public class ASTPrintStatement extends ASTStatement{
 
     private ASTExpression aex;
 

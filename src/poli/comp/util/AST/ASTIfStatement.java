@@ -1,5 +1,7 @@
 package poli.comp.util.AST;
 
+import java.util.List;
+
 /**
  * AST class
  * @version 2010-september-04
@@ -14,6 +16,7 @@ public abstract class ASTIfStatement extends ASTStatement {
 	private List<ASTStatement> l_s;
 
 	public ASTIfStatement(ASTExpression e, List<ASTStatement> l){
+		super();
 		this.exp=e;
 		this.l_s=l;
 	}

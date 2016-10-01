@@ -3,9 +3,17 @@ package poli.comp.util.AST;
 
 
 
-public abstract class ASTFunctionCall extends ASTStatement{
+public class ASTFunctionCall extends ASTStatement{
 
-  	@Override
+	private final ASTFunctionArgs fa;
+	private final ASTIdentifier id;
+
+	public ASTFunctionCall(ASTIdentifier id, ASTFunctionArgs fa) {
+		this.id = id;
+		this.fa = fa;
+	}
+
+	@Override
   	public String toString(int level) {
   			return null;
   	}

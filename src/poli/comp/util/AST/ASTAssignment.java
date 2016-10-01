@@ -7,14 +7,14 @@ package poli.comp.util.AST;
  * @author Gustavo H P Carvalho
  * @email gustavohpcarvalho@ecomp.poli.br
  */
-public abstract class ASTAssignment extends ASTStatement {
+public class ASTAssignment extends ASTStatement {
 
 	private ASTIdentifier id;
 
 	private ASTExpression exp;
 
-	public ASTAssignment(String idSpelling, ASTExpression e){
-		this.id = new ASTIdentifier(idSpelling);
+	public ASTAssignment(ASTIdentifier id, ASTExpression e){
+		this.id = id;
 		this.exp = e;
 	}
 

@@ -8,7 +8,7 @@ public class ASTParamDeclaration extends AST{
     private final ASTType type;
     private final ASTIdentifier id;
 
-    public ASTDeclaration(ASTType declType, ASTIdentifier declId) {
+    public ASTParamDeclaration(ASTType declType, ASTIdentifier declId) {
         this.type = declType;
         this.id = declId;
     }
