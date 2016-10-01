@@ -36,7 +36,7 @@ abstract ASTTerminal extends AST
 	//talvez mais que eu tenha esquecido
 
 abstract ASTExpression extends AST //bool e simples
-	ASTBooleanExpression extends ASTExpression // pra expressoes do tipo exparit (op comp) exxparit. isso eh pq, na praitca, a regra eh expression ::= exparit | exparit opcomp exparit
+	ASTBooleanExpression extends ASTExpression // pra expressoes do tipo exparit (op comp) exxparit. isso eh pq, na pratica, a regra eh expression ::= exparit | exparit opcomp exparit
 	ASTArithmeticExpression extends ASTExpression
 	ASTTerm extends ASTExpression
  	ASTFactor extends ASTExpression

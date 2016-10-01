@@ -1,8 +1,12 @@
 package poli.comp.util.AST;
 
 
-
-
+// TERM            ::= FACTOR ((*|/) FACTOR)*
 public abstract class ASTTerm extends ASTExpression{
-  //TODO
+
+    private List<ASTFactor> afa;
+
+    public ASTTerm(List<ASTFactor> afa){
+      this.afa = afa;
+    }
 }

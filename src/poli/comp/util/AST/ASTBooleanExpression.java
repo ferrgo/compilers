@@ -9,5 +9,4 @@ public abstract class ASTBooleanExpression extends ASTExpression{
   	public String toString(int level) {
   			return null;
   	}
-  //TODO
 }

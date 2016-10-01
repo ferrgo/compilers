@@ -20,5 +20,4 @@ public class ASTDeclaration {
   			return null;
   	}
 
-  //TODO
 }

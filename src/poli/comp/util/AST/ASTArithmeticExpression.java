@@ -15,5 +15,4 @@ public abstract class ASTArithmeticExpression extends ASTExpression{
   	public String toString(int level) {
   			return null;
   	}
-  //TODO
 }

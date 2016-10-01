@@ -11,5 +11,4 @@ public class ASTIdentifier extends ASTTerminal {
         return null;
     }
 
-//TODO
 }
