@@ -6,6 +6,8 @@ package poli.comp.parser
 class ParserTest extends GroovyTestCase {
     ArrayList<File> listOfTestsOk;
     ArrayList<File> listOfTestsFail;
+    final String pass = "Pass";
+    final String fail = "Fail";
 
     void setUp() throws Exception{
         super.setUp()
@@ -50,28 +52,32 @@ class ParserTest extends GroovyTestCase {
     void testParseOkProgs(){
         poli.comp.parser.Parser ps;
         ps = new poli.comp.parser.Parser();
+        String result = pass;
         for(String t : listOfTestsOk){
             System.out.println(t);
             ps = new poli.comp.parser.Parser(t);
             try{
                 ps.parse()//Must return some kind of AST...
             }catch (Exception e){
-                System.out.println("This test failed guys...");
+                result = fail + "\nParser result at: "+t.toString()+"\n"+e.toString();
             }
         }
+        assertEquals(pass, result)
     }
 
     void testParseFailProgs(){
         poli.comp.parser.Parser ps;
+        String result = fail;
         for(String t : listOfTestsFail) {
             try{
                 System.out.println(t);
                 ps = new poli.comp.parser.Parser(t);
                 ps.parse()
             }catch(Exception e){
-                System.out.println("It fails! \\o... \nBut Okay, it was supposed to\n"+e.toString());
+                result = pass;
             }
         }
+        assertEquals(pass, result)
 
     }
 
