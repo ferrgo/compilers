@@ -94,22 +94,22 @@ public class Parser {
 		List<ASTDeclarationGroup> l_d = new ArrayList<ASTDeclarationGroup>();
 		ASTMainProgram mp = null;
 
-
-		//parsing function and subprogram declarations
-		while(currentToken.getKind()!=PROGRAM){
-			//parsing global declarations
-			while( currentToken.getKind()==TYPE){
-				l_d.add(parseDeclarationGroup());
-			}
-
-			//parsing subprogram(procedure) declarations
-			if(currentToken.getKind()==SUBPROGRAM){
-				l_sd.add((ASTSubprogramDeclaration) parseSubroutineDeclaration());
-			}
-			//parsing function declarations
-			l_fd.add((ASTFunctionDeclaration) parseSubroutineDeclaration());
-
+		//parsing global declarations
+		while( currentToken.getKind()==TYPE){
+			l_d.add(parseDeclarationGroup());
 		}
+
+		//parsing subprogram(procedure) declarations
+		while(currentToken.getKind()==SUBPROGRAM || currentToken.getKind()==FUNCTION){
+			//parsing subprogram(procedure) declarations
+			if(currentToken.getKind()==SUBPROGRAM){ //Inside here either the current token is SUBPROGRAM or FUNCTION
+				l_sd.add((ASTSubprogramDeclaration) parseSubroutineDeclaration());
+			} else { // If not SUBPROGRAM
+				//parsing function declarations
+				l_fd.add((ASTFunctionDeclaration) parseSubroutineDeclaration());
+			}
+		}
+		//After Subprogram and Function should be a Main Program
 		//parsing the core of the program (kind of a "main" method)
 		mp = parseMainProgram();
 
@@ -157,7 +157,7 @@ public class Parser {
 		else if(currentToken.getKind()==ID){
 			ASTIdentifier id = new ASTIdentifier(currentToken.getSpelling());
 			acceptIt();
-			if(currentToken.getKind()==EQUALS){
+			if(currentToken.getKind()==ASSIGNMENT){
 				acceptIt();
 				ASTExpression exp = parseExpression();
 				return new ASTAssignment(id,exp);
