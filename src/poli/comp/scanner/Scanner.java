@@ -268,6 +268,7 @@ public class Scanner {
 					}
 					break;
 				case(11): // < > <= >= == /=
+					getNextChar();
 					return GrammarSymbol.OP_LOGICAL;
 				case(12): //.true. or .false.
 					while(isLetter(currentChar)){
