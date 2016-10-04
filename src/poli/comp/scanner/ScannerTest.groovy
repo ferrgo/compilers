@@ -10,6 +10,8 @@ import poli.comp.parser.GrammarSymbol
 class ScannerTest extends groovy.util.GroovyTestCase {
     ArrayList<File> listOfTestsOk;
     ArrayList<File> listOfTestsFail;
+    final String pass = "Pass";
+    final String fail = "Fail";
 
     void setUp() throws Exception{
         super.setUp()
@@ -53,6 +55,7 @@ class ScannerTest extends groovy.util.GroovyTestCase {
 
     void testScannerSucces() {
         poli.comp.scanner.Scanner sc;
+        String result = pass;
         for(String t : listOfTestsOk){
             System.out.println(t);
             sc = new poli.comp.scanner.Scanner(t);
@@ -60,29 +63,34 @@ class ScannerTest extends groovy.util.GroovyTestCase {
             now = sc.getNextToken();
             while (now.getKind() != GrammarSymbol.EOT) {
 //                System.out.println(now.getKind().toString() + " ..... " + now.getSpelling().toString());
-                now = sc.getNextToken();
+                try{
+                    now = sc.getNextToken();
+                }catch (Exception e){
+                    result = fail + "\nScanner result at: "+t.toString()+"\n"+e.toString();
+                }
+                assertEquals(pass, result)
             }
-
         }
     }
 
     void testScannerFail() {
         poli.comp.scanner.Scanner sc;
+        String result = fail;
         for(String t : listOfTestsFail){
             System.out.println(t);
             sc = new poli.comp.scanner.Scanner(t);
             Token now;
             now = sc.getNextToken();
-            try{
-                while (now.getKind() != GrammarSymbol.EOT) {
-                  // System.out.println(now.getKind().toString() + " ..... " + now.getSpelling().toString());
-                  now = sc.getNextToken();
+            while (now.getKind() != GrammarSymbol.EOT) {
+              // System.out.println(now.getKind().toString() + " ..... " + now.getSpelling().toString());
+                try{
+                    now = sc.getNextToken();
+                }catch (Exception e){
+                    result = pass;
+                    break;
                 }
-            }catch (LexicalException l){
-                System.out.println("\n" + t + "Fails... \n Wanna see the issue? Here we go:\n" + l.toString());
             }
-
-
+            assertEquals(pass, result)
         }
     }
 }
