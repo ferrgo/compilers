@@ -354,9 +354,12 @@ public class Parser {
 	private ASTFunctionArgs parseFunctionArgs() throws SyntacticException, LexicalException {
 		List<ASTExpression> l_e = new ArrayList<ASTExpression>();
 		accept(LP);
-		while(currentToken.getKind()!= RP){
+		if(currentToken.getKind()!= RP){//Changed to if
+			//With while getting errors at new iteration currentToken.getKind()==COMMA in this case
 			l_e.add(parseExpression());
-			if(currentToken.getKind()==COMMA) {
+			while(currentToken.getKind()==COMMA) {//Changed to while
+				//iterations will happen here until there is no more commas, so no more need to check for another exp
+				//GOES TO accept RP...
 				acceptIt();
 				l_e.add(parseExpression());
 			}
