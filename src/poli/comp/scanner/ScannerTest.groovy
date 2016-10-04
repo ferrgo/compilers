@@ -67,6 +67,7 @@ class ScannerTest extends groovy.util.GroovyTestCase {
                     now = sc.getNextToken();
                 }catch (Exception e){
                     result = fail + "\nScanner result at: "+t.toString()+"\n"+e.toString();
+                    System.out.println("This test failed for this program... bad program bad program");
                 }
                 assertEquals(pass, result)
             }
@@ -90,6 +91,7 @@ class ScannerTest extends groovy.util.GroovyTestCase {
                     break;
                 }
             }
+            if (result!=pass) System.out.println("This test failed for this program... bad program bad program");
             assertEquals(pass, result)
         }
     }
