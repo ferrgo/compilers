@@ -60,6 +60,7 @@ class ParserTest extends GroovyTestCase {
                 ps.parse()//Must return some kind of AST...
             }catch (Exception e){
                 result = fail + "\nParser result at: "+t.toString()+"\n"+e.toString();
+                System.out.println("This test failed for this program... bad program bad program");
             }
         }
         assertEquals(pass, result)
@@ -76,6 +77,7 @@ class ParserTest extends GroovyTestCase {
             }catch(Exception e){
                 result = pass;
             }
+            if (result!=pass) System.out.println("This test failed for this program... bad program bad program");
         }
         assertEquals(pass, result)
 
