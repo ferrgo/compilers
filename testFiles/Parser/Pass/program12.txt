@@ -15,7 +15,7 @@ PROGRAM name
     IF CONDITION THEN
         CMD (WITH, ARGS)
         INTEGER :: ID = EXP * (EXP + B) - A
-        LOGICAL :: ISID>ANOTHERID
+        LOGICAL :: BOOL = ISID>ANOTHERID
     END IF
 
     IF (A == B) THEN

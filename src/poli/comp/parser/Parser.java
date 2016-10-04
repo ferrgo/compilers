@@ -282,7 +282,8 @@ public class Parser {
 
 	}
 
-	private ASTExpression parseExpression() throws LexicalException, SyntacticException { // EXPRESSION ::= EXP_ARIT (OP_COMP EXP_ARIT)?
+	private ASTExpression parseExpression() throws LexicalException, SyntacticException {
+		// EXPRESSION ::= EXP_ARIT (OP_COMP EXP_ARIT)?
 		ASTArithmeticExpression ae1 = null;
 		ASTArithmeticExpression ae2 = null;
 		ASTOperatorComp op = null;
@@ -346,6 +347,7 @@ public class Parser {
 		} else {
 			accept(LP);
 			ASTExpression exp = parseExpression();
+			accept(RP);
 			return new ASTFactorExpression(exp);
 		}
 	}
