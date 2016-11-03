@@ -29,19 +29,22 @@ public class IdentificationTable {
 		this.table = new HashMap<Key, Attribute>();
 
 		// Puts in the table each language reserved word
-		this.table.put(new Key(0, "void"), null);
-		this.table.put(new Key(0, "int"), null);
-		this.table.put(new Key(0, "double"), null);
-		this.table.put(new Key(0, "boolean"), null);
-		this.table.put(new Key(0, "if"), null);
-		this.table.put(new Key(0, "else"), null);
-		this.table.put(new Key(0, "while"), null);
-		this.table.put(new Key(0, "return"), null);
-		this.table.put(new Key(0, "break"), null);
-		this.table.put(new Key(0, "continue"), null);
-		this.table.put(new Key(0, "println"), null);
-		this.table.put(new Key(0, "false"), null);
-		this.table.put(new Key(0, "true"), null);
+		this.table.put(new Key(0, "INT"), null);
+		this.table.put(new Key(0, "LOGICAL"), null);
+		this.table.put(new Key(0, "IF"), null);
+		this.table.put(new Key(0, "ELSE"), null);
+		this.table.put(new Key(0, "DO"), null);
+		this.table.put(new Key(0, "WHILE"), null);
+		this.table.put(new Key(0, "END"), null);
+		this.table.put(new Key(0, "RETURN"), null);
+		this.table.put(new Key(0, "BREAK"), null);
+		this.table.put(new Key(0, "CONTINUE"), null);
+		this.table.put(new Key(0, "PRINT"), null);
+		this.table.put(new Key(0, "PROGRAM"), null);
+		this.table.put(new Key(0, "FUNCTION"), null);
+		this.table.put(new Key(0, "SUBPROGRAM"), null);
+		this.table.put(new Key(0, ".false."), null);
+		this.table.put(new Key(0, ".true."), null);
 
 		// Initializes currentScope to 0 (global)
 		this.currentScope = 0;
@@ -82,7 +85,7 @@ public class IdentificationTable {
 	 */
 	public void enter(String id, AST node) throws SemanticException {
 		boolean hasFound = false;
-		// Verifies if in the current scope already exists an identifier with the same spelling
+		// Verifies if in the current scope already has some identifier with the same spelling
 		for (int i=this.currentScope; i>=0; i--) {
 			Key key = new Key(i, id);
 			if ( this.table.containsKey(key) ) {
