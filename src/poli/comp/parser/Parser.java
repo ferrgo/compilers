@@ -207,7 +207,9 @@ public class Parser {
 		List<ASTStatement> l_else = new ArrayList<ASTStatement>();
 
 		accept(IF);
+		accept(LP);
 		exp = parseExpression();
+		accept(RP);
 		accept(THEN);
 		while(currentToken.getKind()!=END && currentToken.getKind()!= ELSE){
 			l_if.add(parseStatement());
@@ -251,17 +253,37 @@ public class Parser {
 
 
 	private ASTDeclarationGroup parseDeclarationGroup() throws SyntacticException, LexicalException {
-
+		//Objects that will go into the AST:
 		ASTType t;
 		Map<ASTIdentifier,ASTExpression> declarations = new HashMap<ASTIdentifier,ASTExpression>(); // if var is not initialized, expression will be null
 
+		//Auxiliary objects for looping over the declarations:
+		ASTIdentifier currentId = null;
+		ASTExpression currentExpression = null;
+
 		t = parseType();
 		accept(DOUBLECOLON);
-		//For every declaration
-		while(currentToken.getKind()==ID){
-			ASTIdentifier currentId = null;
-			ASTExpression currentExpression = null;
 
+		//For the first (i.e. the obligatory) declaration:
+		currentId = null;
+		currentExpression = null;
+		//Parse the Identifier
+		currentId = new ASTIdentifier(currentToken.getSpelling());
+		acceptIt();
+		//Parse the assignment, if thats the case
+		if(currentToken.getKind()==ASSIGNMENT){
+			acceptIt();
+			currentExpression = parseExpression();
+		}
+		declarations.put(currentId,currentExpression);
+
+		//For every following (optional) declaration
+		while(currentToken.getKind()==COMMA){
+			currentId = null;
+			currentExpression = null;
+
+			//Parse the comma
+			accept(COMMA);
 			//Parse the Identifier
 			currentId = new ASTIdentifier(currentToken.getSpelling());
 			acceptIt();
@@ -271,11 +293,7 @@ public class Parser {
 				currentExpression = parseExpression();
 			}
 			declarations.put(currentId,currentExpression);
-
-
-			if(currentToken.getKind()==COMMA) acceptIt();
-
-		};
+		}
 
 		ASTDeclarationGroup rv = new ASTDeclarationGroup(t,declarations);
 		return rv;
