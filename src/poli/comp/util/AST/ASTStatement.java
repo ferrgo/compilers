@@ -12,6 +12,7 @@ public abstract class ASTStatement extends AST {
 		}
 		return str.toString();
 	}
+
 	@Override
 	public String toString(int level) {
 			return null;

@@ -1,6 +1,6 @@
 package poli.comp.util.AST;
 
-public abstract class ASTType extends ASTTerminal {
+public class ASTType extends ASTTerminal {
 
     public ASTType(String s) {
         super(s);

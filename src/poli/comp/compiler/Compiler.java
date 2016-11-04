@@ -18,7 +18,9 @@ import java.io.File;
  */
 public class Compiler {
 
-	// Compiler identification table
+	//TODO call checker
+
+	// Compiler identification table TODO is this useless? We make a new on in the Checker so i think it is.
 	public static IdentificationTable identificationTable = null;
 
 	/**
@@ -42,14 +44,25 @@ public class Compiler {
 			if ( astRoot != null ) {
 				System.out.println(astRoot.toString(0));
 			}
-		} catch (SyntacticException s) {
+		} catch (SyntacticException se) {
 			// Shows the syntactic/lexical error stack trace
-			s.printStackTrace();
-		} catch (LexicalException l) {
+			se.printStackTrace();
+		} catch (LexicalException le) {
 
-			l.printStackTrace();
+			le.printStackTrace();
 		}
+
+		// Creates the checker object
+		Checker c = new Checker();
+
+		// Runs a semantic analysis, returning a decorated AST
+		AST decoratedAST = c.check(asRoot);
+
+		//TODO code generation and output a .s file?
+
 	}
+
+
 
 	/**
 	 * Initializes the identification table with the reserved words

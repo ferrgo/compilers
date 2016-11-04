@@ -102,11 +102,11 @@ public class Parser {
 		//parsing subprogram(procedure) declarations
 		while(currentToken.getKind()==SUBPROGRAM || currentToken.getKind()==FUNCTION){
 			//parsing subprogram(procedure) declarations
-			if(currentToken.getKind()==SUBPROGRAM){ //Inside here either the current token is SUBPROGRAM or FUNCTION
-				l_sd.add((ASTSubprogramDeclaration) parseSubroutineDeclaration());
+			if(currentToken.getKind()==SUBPROGRAM){ //Inside here the current token is either SUBPROGRAM or FUNCTION
+				l_sd.add((ASTSubprogramDeclaration) parseSubroutineDeclaration(false));
 			} else { // If not SUBPROGRAM
 				//parsing function declarations
-				l_fd.add((ASTFunctionDeclaration) parseSubroutineDeclaration());
+				l_fd.add((ASTFunctionDeclaration) parseSubroutineDeclaration(true));
 			}
 		}
 		//After Subprogram and Function should be a Main Program
@@ -261,7 +261,9 @@ public class Parser {
 		ASTIdentifier currentId = null;
 		ASTExpression currentExpression = null;
 
-		t = parseType();
+		t = new ASTType(currentToken.getSpelling());
+		acceptIt(); //We only get here in this method if the current token is TYPE, so theres no point in checking again
+
 		accept(DOUBLECOLON);
 
 		//For the first (i.e. the obligatory) declaration:
@@ -314,7 +316,7 @@ public class Parser {
 		return new ASTExpression(ae1, op, ae2);
 	}
 
-	private ASTArithmeticExpression parseArithmeticExpression() throws LexicalException, SyntacticException {//EXP_ARIT ::= TERM ((+|-) TERM)*
+	private ASTArithmeticExpression parseArithmeticExpression() throws LexicalException, SyntacticException {
 		ASTTerm term1;
 		ASTTerm aux = null;
 		ASTOperator op = null;
@@ -331,7 +333,7 @@ public class Parser {
 		return new ASTArithmeticExpression(term1, l_ot);
 	}
 
-	private ASTTerm parseTerm() throws LexicalException, SyntacticException {//TERM ::= FACTOR ((*|/) FACTOR)*
+	private ASTTerm parseTerm() throws LexicalException, SyntacticException {
 		ASTFactor factor1;
 		ASTFactor aux = null;
 		ASTOperator op = null;
@@ -349,7 +351,7 @@ public class Parser {
 	}
 
 
-	private ASTFactor parseFactor() throws LexicalException, SyntacticException {// FACTOR ::= ID(FUNCTION_ARGS)? | LITERAL | LP EXPRESSION RP
+	private ASTFactor parseFactor() throws LexicalException, SyntacticException {
 		if(currentToken.getKind()==ID){
 			ASTIdentifier id = new ASTIdentifier(currentToken.getSpelling());
 			acceptIt();
@@ -395,11 +397,14 @@ public class Parser {
 	}
 
 	private ASTParamDeclaration parseParamDeclaration() throws LexicalException, SyntacticException {
+		ASTType declType;
+		ASTIdentifier declId;
 
-		ASTType declType = parseType();
+		declType = new ASTType(currentToken.getSpelling());
+		accept(TYPE);
 		accept(DOUBLECOLON);
+		declId = new ASTIdentifier(currentToken.getSpelling());
 		accept(ID);
-		ASTIdentifier declId = new ASTIdentifier(currentToken.getSpelling());
 		return new ASTParamDeclaration(declType, declId);
 
 	}
@@ -408,24 +413,22 @@ public class Parser {
 	 * Following the idea of a Soubroutine superclass and single method
 	 * @return
      */
-	private ASTSubroutineDeclaration parseSubroutineDeclaration() throws SyntacticException, LexicalException {
-		Boolean isFunction = false;
-		ASTType t = null;
-		ASTIdentifier subroutineName;
+	private ASTSubroutineDeclaration parseSubroutineDeclaration(boolean isFunction) throws SyntacticException, LexicalException {
 
-		List<ASTParamDeclaration>  l_par = new ArrayList<>();
-		List<ASTStatement>    l_s    = new ArrayList<>();
+		ASTType t;
+		ASTIdentifier subroutineName;
+		Map<ASTType,ASTIdentifier> map_params;
+
+		ArrayList<ASTStatement> l_s   = new ArrayList<ASTStatement>();
 
 		ASTSubroutineDeclaration rv;
 
-		if(currentToken.getKind()==FUNCTION){
-			isFunction=true;
-		}
 
 		//Parsing name etc
 		if(isFunction){
 			accept(FUNCTION);
-			t = parseType();
+			t = new ASTType(currentToken.getSpelling());
+			accept(TYPE);
 		}else{
 			accept(SUBPROGRAM);
 		}
@@ -435,18 +438,28 @@ public class Parser {
 		accept(ID); //TODO sempre dar accept no terminal dps q ler ele pra ast
 		accept(LP);
 
-		//Parsing args
-		ASTParamDeclaration decl;
-		while(currentToken.getKind()!=RP){ //I think we cant simply call parseDeclaration() cause it would allow for ='s
-			//If inside the LP RP we must have the structur TYPE :: ID,....
-			decl = parseParamDeclaration();
-			//We got ourselves another decl...
-			l_par.add(decl);
+		//If we have params...
+		//TODO fix this to use a flag on the comma thingy and a single loop.
+		if(currentToken.getKind()==TYPE){
+			map_params = new HashMap<ASTType,ASTIdentifier>();
 
-			if(currentToken.getKind()!=COMMA) break; //Case there is no more commas
-			else {//Case there is a comma... Doing this verification here for the case "type :: id, )"
-				acceptIt();
-				l_par.add(parseParamDeclaration());
+			ASTType currentParamType = new ASTType(currentToken.getSpelling());
+			accept(TYPE);
+			accept(DOUBLECOLON);
+			ASTIdentifier currentParamIdentifier = new ASTIdentifier(currentToken.getSpelling());
+			accept(ID);
+
+			map_params.put(currentParamType,currentParamIdentifier);
+
+			//If we have more than 1 param...
+			while(currentToken.getKind()==COMMA){
+				accept(COMMA);
+				currentParamType = new ASTType(currentToken.getSpelling());
+				accept(TYPE);
+				accept(DOUBLECOLON);
+				currentParamIdentifier = new ASTIdentifier(currentToken.getSpelling());
+				accept(ID);
+				map_params.put(currentParamType,currentParamIdentifier);
 			}
 		}
 		accept(RP);
@@ -460,24 +473,10 @@ public class Parser {
 
 		if (isFunction){
 			accept(FUNCTION);
-			rv = new ASTFunctionDeclaration(t, subroutineName, l_par, l_s);
+			rv = new ASTFunctionDeclaration(t, subroutineName, map_params, l_s);
 		}else{
 			accept(SUBPROGRAM);
-			rv = new ASTSubprogramDeclaration(t, subroutineName, l_par, l_s);
-		}
-		return rv;
-	}
-
-
-	private ASTType parseType() throws LexicalException, SyntacticException {
-		ASTType rv;
-		if(currentToken.getSpelling().equals("INTEGER")){
-			rv = new ASTTypeInteger(currentToken.getSpelling());
-			acceptIt();
-		}
-		else {
-			rv = new ASTTypeLogical(currentToken.getSpelling());
-			accept(TYPE);
+			rv = new ASTSubprogramDeclaration( subroutineName, map_params, l_s);
 		}
 		return rv;
 	}

@@ -16,6 +16,10 @@ public class ASTProgram extends AST {
         this.mp = mp;
     }
 
+	 public Object visit(Visitor v, Object o){
+ 		return v.visitProgram(this, o);
+ 	 }
+
     @Override
     public String toString(int level) {
         return null;

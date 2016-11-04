@@ -5,7 +5,7 @@ package poli.comp.util.AST;
 public class ASTLoopContinue extends ASTLoopControl{
 
 	public ASTLoopContinue(){
-		super();
+	
 	}
 
   	@Override

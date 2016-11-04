@@ -9,6 +9,8 @@ package poli.comp.util.AST;
  */
 public abstract class AST {
 
+	public abstract Object visit(Visitor v, Object o);
+
 	public String getSpaces(int level) {
 		StringBuffer str = new StringBuffer();
 		while( level>0 ) {
