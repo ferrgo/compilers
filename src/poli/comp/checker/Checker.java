@@ -1,3 +1,4 @@
+package poli.comp.checker;
 
 class Checker implements Visitor{
 
@@ -25,6 +26,16 @@ class Checker implements Visitor{
 	}
 
 	Object visitProgram(ASTProgram p, Object o){
+
+		for (ASTDeclarationGroup dg : p.l_dwa){
+
+		}
+		//this.idt.openScope(); //opening
+
+
+		for(ASTFunctionDeclaration fd : l_fd){
+			this.visit(this, o);
+		}
 		//get subroutine List
 			//visit all
 		//get global decl List

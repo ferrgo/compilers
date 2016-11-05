@@ -6,9 +6,14 @@ import java.util.List;
 // EXPRESSION      ::= EXP_ARIT (OP_COMP EXP_ARIT)?
 public class ASTExpression extends AST{
 
+	//Set by the parser
    private ASTArithmeticExpression ae1;
 	private ASTArithmeticExpression ae2;
 	private ASTOperatorComp op_comp;
+
+	//Set by the checker
+	private String returnType;
+
 
     public ASTExpression(ASTArithmeticExpression ae1, ASTOperatorComp op, ASTArithmeticExpression ae2) {
       this.ae1 = ae1;
@@ -17,7 +22,28 @@ public class ASTExpression extends AST{
     }
 
 	@Override
-  	public String toString(int level) {
+  	public String toString(int level){
   			return null;
   	}
+
+	public ASTArithmeticExpression getExp1(){
+		return this.ae1;
+	}
+
+	public ASTArithmeticExpression getExp2(){
+		return this.ae2;
+	}
+
+	public ASTOperatorComp getOpComp(){
+		return this.op_comp;
+	}
+
+	public String getReturnType(){
+		return this.returnType;
+	}
+
+	public void setReturnType(String rt){
+		this.returnType=rt;
+	}
+
 }
