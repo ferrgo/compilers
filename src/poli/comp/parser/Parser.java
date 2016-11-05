@@ -233,15 +233,14 @@ public class Parser {
 	private ASTLoop parseLoop() throws SyntacticException, LexicalException {
 
 		ASTExpression be;
-		//TODO criar expression bool na gramatica pra usar aqui?
-		//Don't think so... Expression is already booleable... Semantically we verify if is that so for the case...
+
 		List<ASTStatement> l_s = new ArrayList<ASTStatement>();
 		accept(DO);
 		accept(WHILE);
 		accept(LP);
 		be = parseExpression();
 		accept(RP);
-		while(currentToken.getKind()!=END){ //the inner ends will be accepted by parseStatement, so this should be END DO
+		while(currentToken.getKind()!=END){ //the inner ends will be accepted by parseStatement, so this is END DO
 			l_s.add(parseStatement());
 		}
 		accept(END);

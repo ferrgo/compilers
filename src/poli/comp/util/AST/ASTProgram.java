@@ -17,7 +17,7 @@ public class ASTProgram extends AST {
     }
 
 	 public Object visit(Visitor v, Object o){
- 		return v.visitProgram(this, o);
+ 		return v.visitProgram(this, o); //TODO: at a "base case", like a visitTerminal, does visitTerminal we return the ASTTerminal?
  	 }
 
     @Override
