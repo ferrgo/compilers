@@ -1,5 +1,8 @@
 package poli.comp.checker;
 
+import poli.comp.util.AST.*; //importing all AST node classes
+
+
 class Checker implements Visitor{
 
 	private IdentificationTable idt;
@@ -156,7 +159,7 @@ class Checker implements Visitor{
 		//else
 			//Find function
 				//	Get function type, check for compatibility with returned expression's type
-		
+
 
 	}
 
