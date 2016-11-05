@@ -1,29 +1,29 @@
 package poli.comp.checker;
 interface Visitor{
 
-	Object visitASTProgram               (ASTProgram               p   ,Object scopeTracker) throws SemanticException;
-	Object visitASTArithmeticExpression  (ASTArithmeticExpression  ae  ,Object scopeTracker) throws SemanticException;
-	Object visitASTAssignment            (ASTAssignment            a   ,Object scopeTracker) throws SemanticException;
-	Object visitASTDeclarationGroup      (ASTDeclarationGroup      dg  ,Object scopeTracker) throws SemanticException;
-	Object visitASTExpression            (ASTExpression            e   ,Object scopeTracker) throws SemanticException;
-	Object visitASTFactorExpression      (ASTFactorExpression      fe  ,Object scopeTracker) throws SemanticException;
-	Object visitASTFactorLiteral         (ASTFactorLiteral         fl  ,Object scopeTracker) throws SemanticException;
-	Object visitASTFactorSubroutineCall  (ASTFactorSubroutineCall  fsc ,Object scopeTracker) throws SemanticException;
-	Object visitASTFunctionArgs          (ASTFunctionArgs          fa  ,Object scopeTracker) throws SemanticException;
-	Object visitASTFunctionCall          (ASTFunctionCall          fc  ,Object scopeTracker) throws SemanticException;
-	Object visitASTFunctionDeclaration   (ASTFunctionDeclaration   fd  ,Object scopeTracker) throws SemanticException;
-	Object visitASTIdentifier            (ASTIdentifier            id  ,Object scopeTracker) throws SemanticException;
-	Object visitASTIfStatement           (ASTIfStatement           s   ,Object scopeTracker) throws SemanticException;
-	Object visitASTLiteral               (ASTLiteral               l   ,Object scopeTracker) throws SemanticException;
-	Object visitASTLoop                  (ASTLoop                  l   ,Object scopeTracker) throws SemanticException;
-	Object visitASTLoopContinue          (ASTLoopContinue          lc  ,Object scopeTracker) throws SemanticException;
-	Object visitASTLoopExit              (ASTLoopExit              le  ,Object scopeTracker) throws SemanticException;
-	Object visitASTMainProgram           (ASTMainProgram           mp  ,Object scopeTracker) throws SemanticException;
-	Object visitASTOperator              (ASTOperator              op  ,Object scopeTracker) throws SemanticException;
-	Object visitASTOperatorComp          (ASTOperatorComp          opc ,Object scopeTracker) throws SemanticException;
-	Object visitASTReturnStatement       (ASTReturnStatement       rs  ,Object scopeTracker) throws SemanticException;
-	Object visitASTSubprogramDeclaration (ASTSubprogramDeclaration sd  ,Object scopeTracker) throws SemanticException;
-	Object visitASTTerm                  (ASTTerm                  t   ,Object scopeTracker) throws SemanticException;
-	Object visitASTType                  (ASTType                  t   ,Object scopeTracker) throws SemanticException;
+	Object visitProgram               (ASTProgram               p   ,Object scopeTracker) throws SemanticException;
+	Object visitArithmeticExpression  (ASTArithmeticExpression  ae  ,Object scopeTracker) throws SemanticException;
+	Object visitAssignment            (ASTAssignment            a   ,Object scopeTracker) throws SemanticException;
+	Object visitDeclarationGroup      (ASTDeclarationGroup      dg  ,Object scopeTracker) throws SemanticException;
+	Object visitExpression            (ASTExpression            e   ,Object scopeTracker) throws SemanticException;
+	Object visitFactorExpression      (ASTFactorExpression      fe  ,Object scopeTracker) throws SemanticException;
+	Object visitFactorLiteral         (ASTFactorLiteral         fl  ,Object scopeTracker) throws SemanticException;
+	Object visitFactorSubroutineCall  (ASTFactorSubroutineCall  fsc ,Object scopeTracker) throws SemanticException;
+	Object visitFunctionArgs          (ASTFunctionArgs          fa  ,Object scopeTracker) throws SemanticException;
+	Object visitFunctionCall          (ASTFunctionCall          fc  ,Object scopeTracker) throws SemanticException;
+	Object visitFunctionDeclaration   (ASTFunctionDeclaration   fd  ,Object scopeTracker) throws SemanticException;
+	Object visitIdentifier            (ASTIdentifier            id  ,Object scopeTracker) throws SemanticException;
+	Object visitIfStatement           (ASTIfStatement           s   ,Object scopeTracker) throws SemanticException;
+	Object visitLiteral               (ASTLiteral               l   ,Object scopeTracker) throws SemanticException;
+	Object visitLoop                  (ASTLoop                  l   ,Object scopeTracker) throws SemanticException;
+	Object visitLoopContinue          (ASTLoopContinue          lc  ,Object scopeTracker) throws SemanticException;
+	Object visitLoopExit              (ASTLoopExit              le  ,Object scopeTracker) throws SemanticException;
+	Object visitMainProgram           (ASTMainProgram           mp  ,Object scopeTracker) throws SemanticException;
+	Object visitOperator              (ASTOperator              op  ,Object scopeTracker) throws SemanticException;
+	Object visitOperatorComp          (ASTOperatorComp          opc ,Object scopeTracker) throws SemanticException;
+	Object visitReturnStatement       (ASTReturnStatement       rs  ,Object scopeTracker) throws SemanticException;
+	Object visitSubprogramDeclaration (ASTSubprogramDeclaration sd  ,Object scopeTracker) throws SemanticException;
+	Object visitTerm                  (ASTTerm                  t   ,Object scopeTracker) throws SemanticException;
+	Object visitType                  (ASTType                  t   ,Object scopeTracker) throws SemanticException;
 
 }
