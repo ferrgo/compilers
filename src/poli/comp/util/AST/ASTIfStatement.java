@@ -11,22 +11,29 @@ import java.util.List;
  */
 public class ASTIfStatement extends ASTStatement {
 
-	private ASTExpression exp;
+	private ASTExpression condition;
 
-	private List<ASTStatement> l_ifs;
+	private List<ASTStatement> ifBlockStatements;
 
-	private List<ASTStatement> l_elses;
+	private List<ASTStatement> elseBlockStatements;
 
-	public ASTIfStatement(ASTExpression exp, List<ASTStatement> i, List<ASTStatement> e){
+	public ASTIfStatement(ASTExpression c, List<ASTStatement> ibs, List<ASTStatement> ebs){
 		super();
-		this.exp=exp;
-		this.l_ifs=i;
-		this.l_elses=e;
+		this.condition=c;
+		this.ifBlockStatements=ibs;
+		this.elseBlockStatements=ebs;
 	}
 
 
-	@Override
-	public String toString(int level) {
-			return null;
+	public List<ASTStatement> getElseBlockStatements(){
+		return this.elseBlockStatements;
+	}
+
+	public List<ASTStatement> getIfBlockStatements(){
+		return this.ifBlockStatements;
+	}
+
+	public ASTExpression getCondition(){
+		return this.condition;
 	}
 }

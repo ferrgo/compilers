@@ -135,7 +135,7 @@ class Checker implements Visitor{
 
 	//This is basically a copy of the above, without the type because its a Subprogram
 	//TODO maybe merge those two and have if statements for the functionType part and for the AST classes?
-	Object visitSubprogramDeclaration(ASTFunctionDeclaration spd, Object scopeTracker) throws SemanticException{{
+	Object visitSubprogramDeclaration(ASTFunctionDeclaration spd, Object scopeTracker) throws SemanticException{
 
 		scopeTracker.add(spd); //Adding the function block to the scope tracker
 
@@ -249,9 +249,7 @@ class Checker implements Visitor{
 				return rs; //Retorne risos (huehuebrbr)
 			}
 		}
-
-		throw new SemanticException("Trying to return an expression outside of a function scope!")
-
+		throw new SemanticException("Trying to return an expression outside of a function scope!");
 	}
 
 	Object visitSubprogramReturnStatement() throws SemanticException{
@@ -262,9 +260,7 @@ class Checker implements Visitor{
 				return rs; //Retorne risos (huehuebrbr)
 			}
 		}
-
-		throw new SemanticException("Trying to return from a subprogram outside of a subprogram scope!")
-
+		throw new SemanticException("Trying to return from a subprogram outside of a subprogram scope!");
 	}
 
 	Object visitPrintStatement(ASTPrintStatement pstt, Object scopeTracker) throws SemanticException{
@@ -275,7 +271,6 @@ class Checker implements Visitor{
 	}
 
 
-//TODO UNFINISHED VISITS:
 
 	Object visitFunctionCall(ASTFunctionCall fc, Object scopeTracker) throws SemanticException{
 		//TODO (low priority): We named this SubroutineCall but it also works for subprogarms. Perhaps we
@@ -323,19 +318,74 @@ class Checker implements Visitor{
 
 	}
 
-	Object visitExpression(ASTExpression e, Object scopeTracker) throws SemanticException{
-		String returnTypeString;
-
-		// do things (visit & maybe decorate more)
-		//Decorating the expression with its checked return type
-		e.setTypeString(returnTypeString);
-		return returnTypeString;
-	}
-
 	Object visitIfStatement(ASTIfStatement ifStt, Object scopeTracker) throws SemanticException{
 
+		ASTExpression condition = ifStt.getCondition();
+		condition.visit(this,scopeTracker);
+
+		if(!condition.getTypeString.equals("LOGICAL")){
+			throw new SemanticException("If statement condition must evaluate to a boolean value!");
+		}
+
+		List<ASTStatement> ifBlockStatements = ifStt.getIfBlockStatements();
+		List<ASTStatement> elseBlockStatements = ifStt.getElseBlockStatements();
+
+		for(ASTStatement stt : ifBlockStatements){
+			stt.visit(this,scopeTracker);
+		}
+
+		for(ASTStatement stt : elseBlockStatements){
+			stt.visit(this,scopeTracker);
+		}
+
 	}
 
+	Object visitAssignment(ASTAssignment asg, Object scopeTracker) throws SemanticException{
+
+		ASTIdentifier target = asg.getTarget();
+		target.visit(this,scopeTracker);
+
+		ASTExpression expression = asg.getExpression();
+		expression.visit(this,expression)
+		String expType = expression.getTypeString();
+
+		ASTSingleDeclaration targetDeclaration = idt.retrieve(target.getSpelling());
+		String targetType = targetDeclaration.getTypeString();
+
+
+
+	}
+
+
+	Object visitExpression(ASTExpression e, Object scopeTracker) throws SemanticException{
+		//We dont need to verify if e.getOpComp() indeer returns an OP_COMP, because
+		//the parser will only save it if that is the case.
+		if (e.getOpComp()==null){
+			String ts = visit(e.getExp1(),scopeTracker);
+			e.setTypeString(ts);
+			return ts;
+		}else{
+			visit(e.getExp1(),scopeTracker);
+			visit(e.getExp2(),scopeTracker)
+			e.setTypeString("LOGICAL");
+			return "LOGICAL";
+		}
+
+	}
+
+	Object visitArithmeticExpression(ASTArithmeticExpression e, Object scopeTracker) throws SemanticException{
+		//return type, cause it can just encapsulate a (bool)
+	}
+
+	Object visitTerm(ASTTerm t, Object scopeTracker) throws SemanticException{
+		//return type, cause it can just encapsulate a (bool)
+	}
+
+	Object visitFactor(ASTFactor f, Object scopeTracker) throws SemanticException{
+		//return type, cause it can just encapsulate a (bool)
+	}
+
+	//TODO UNFINISHED VISITS:
 
 	//Checks an ID that was found in the code. Doesn't add it to IDT - this is done on visitSingleDeclaration.
 	Object visitIdentifier(ASTIdentifier id, Object scopeTracker) throws SemanticException{

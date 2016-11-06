@@ -18,17 +18,12 @@ public class ASTAssignment extends ASTStatement {
 		this.exp = e;
 	}
 
-	public String getSpaces(int level) {
-		StringBuffer str = new StringBuffer();
-		while( level>0 ) {
-			str.append(" ");
-			level--;
-		}
-		return str.toString();
+	public ASTIdentifier getTarget(){
+		return this.id;
 	}
 
-		@Override
-		public String toString(int level) {
-				return null;
-		}
+	public ASTExpression getExpression(){
+		return this.exp;
+	}
+
 }

@@ -16,6 +16,9 @@ class ASTSingleDeclaration extends AST{
 		return this.type;
 	}
 
+	public String getTypeString(){
+		return this.type.getSpelling();
+	}
 	public ASTIdentifier getIdentifier(){
 		return this.id;
 	}

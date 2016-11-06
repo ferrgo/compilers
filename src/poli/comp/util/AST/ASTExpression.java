@@ -21,11 +21,6 @@ public class ASTExpression extends AST{
 		this.op_comp = op;
     }
 
-	@Override
-  	public String toString(int level){
-  			return null;
-  	}
-
 	public ASTArithmeticExpression getExp1(){
 		return this.ae1;
 	}
