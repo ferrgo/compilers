@@ -145,7 +145,7 @@ class Checker implements Visitor{
 		boolean returnFlag = false;
 
 		//Checking name and putting it on global scope
-		idt.enter(functionName.getSpeling(),spd);
+		idt.enter(subprogramName.getSpeling(),spd);
 
 		// Increasing the scope, cause we will visit params
 		idt.openScope();
@@ -175,6 +175,27 @@ class Checker implements Visitor{
 
 		return spd; //Really dont know what to return here ¯\_(ツ)_/¯
 	}
+
+	//Checks the main body of the program
+	Object visitMainProgram(ASTMainProgram mp, Object scopeTracker) throws SemanticException{
+		//TODO ter como regra extra que o main pode ter return?
+		scopeTracker.add(mp);
+		idt.openScope(mp);
+		ASTIdentifier programName = mp.getIdentifier();
+		List<ASTStatement> programStatements = mp.getStatements();
+
+
+		idt.enter(programName.getSpelling(),mp);
+		for(ASTStatement stt : programStatements){
+			stt.visit(this,scopeTracker);
+		}
+
+		idt.closeScope(mp);
+		scopeTracker.remove(mp);
+
+		return mp;
+	}
+
 
 
 	//Checks a declaration, adding it to the idt or raising an exception if there is a prvious variable with the same id
@@ -213,7 +234,7 @@ class Checker implements Visitor{
 		throw new SemanticException("The "+()(lc instanceof ASTLoopExit)?("EXIT"):("CONTINUE"))+" statement is not insde of a loop!");
 	}
 
-	Object visitFunctionReturnStatement(ASTReturnStatement rs, Object scopeTracker){
+	Object visitFunctionReturnStatement(ASTReturnStatement rs, Object scopeTracker) throws SemanticException{
 		ASTExpression returnValue = rs.getExpression();
 		returnValue.visit(this,scopeTracker);
 		String returnValueType = returnValue.getTypeString();
@@ -233,7 +254,7 @@ class Checker implements Visitor{
 
 	}
 
-	Object visitSubprogramReturnStatement(){
+	Object visitSubprogramReturnStatement() throws SemanticException{
 
 		List<AST> cScopeTracker = (List<AST>) scopeTracker; //c for Casted
 		for(AST node : cScopeTracker){
@@ -246,11 +267,59 @@ class Checker implements Visitor{
 
 	}
 
+	Object visitPrintStatement(ASTPrintStatement pstt, Object scopeTracker) throws SemanticException{
+
+		ASTExpression printExpression = pstt.getExpression();
+		printExpression.visit(this,scopeTracker);
+
+	}
 
 
 //TODO UNFINISHED VISITS:
 
-	Object visitMainProgram(){
+	Object visitFunctionCall(ASTFunctionCall fc, Object scopeTracker) throws SemanticException{
+		//TODO (low priority): We named this SubroutineCall but it also works for subprogarms. Perhaps we
+		// should refactor this ot SubroutineCall?
+		//TODO (low priority): arent they called params when we call and args on the declaration?
+		// Maybe we switched the right names. This is just an "readability/maintenance" problem tho, cause the
+		// compiler will work either way as long as we're consistent.
+
+		//Checking if function was declared
+		ASTIdentifier functionId = fc.getFunctionId();
+		functionId.visit(this,scopeTracker);
+		ASTFunctionDeclaration declaration = idt.revrieteve(functionId.getSpelling());
+		if(declaration == null){
+			throw new SemanticException("Trying to call function "+ functionId.getSpelling() +", but it was not declared yet!");
+		}
+
+		//Checking if number of call arguments matches the number from the declaration
+		List<ASTSingleDeclaration> declarationArguments = declaration.getParams();
+
+		ASTFunctionArgs callArguments = fc.getFunctionArgs();
+		List<ASTExpression> callArgumentList = arguments.getArgumentList();
+
+		if(callArgumentList.size()!=declarationArgumentList.size()){
+			throw new SemanticException("Function "+functionId.getSpelling()+" accepts "+declarationArgumentList.size()+" arguments
+												 , but you're calling it with "+callArgumentList.size()+" arguments");
+		}
+
+		//Checking the argument expressions, and cheking if they have the right return types
+		for(int i=0; i<arguments.size(); i++ ){
+
+			ASTExpression currentExp = callArgumentList.get(i));
+			String currentExpType = exp.visit(this,scopeTracker);
+
+			ASTSingleDeclaration currentDeclaration = declarationArguments.get(i);
+			String currentDeclarationType = currentDeclaration.getType().getSpelling();
+
+			if(!currentExpType.equals(currentDeclarationType)){
+					throw new SemanticException("The argument " + currentDeclaration.getIdentifier().getSpelling()
+														 +" of function "+ functionId.getSpelling() +" accepts values of type "
+														 + currentDeclarationType+", but was given a value of type "
+														 + currentExpType+" instead");
+			}
+
+		}
 
 	}
 

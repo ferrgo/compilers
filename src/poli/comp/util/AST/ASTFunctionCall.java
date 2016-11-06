@@ -13,8 +13,11 @@ public class ASTFunctionCall extends ASTStatement{
 		this.fa = fa;
 	}
 
-	@Override
-  	public String toString(int level) {
-  			return null;
-  	}
+	ASTIdentifier getFunctionId(){
+		return this.id;
+	}
+	ASTFunctionArgs getFunctionArgs(){
+			return this.fa;
+	}
+
 }

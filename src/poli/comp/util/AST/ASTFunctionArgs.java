@@ -12,8 +12,7 @@ public class ASTFunctionArgs extends AST{
       this.aex = aex;
     }
 
-  	@Override
-  	public String toString(int level) {
-  			return null;
-  	}
+  	public List<ASTExpression> getArgumentList(){
+		return this.aex;
+	}
 }

@@ -10,4 +10,7 @@ public class ASTPrintStatement extends ASTStatement{
       this.aex = aex;
     }
 
+	 public ASTExpression getExpression(){
+		 return this.aex;
+	 }
 }

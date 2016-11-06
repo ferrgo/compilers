@@ -321,12 +321,12 @@ public class Parser {
 	private ASTArithmeticExpression parseArithmeticExpression() throws LexicalException, SyntacticException {
 		ASTTerm term1;
 		ASTTerm aux = null;
-		ASTOperator op = null;
-		Map<ASTOperator,ASTTerm> l_ot = new HashMap<ASTOperator,ASTTerm>();
+		ASTOperatorArit op = null;
+		Map<ASTOperatorArit,ASTTerm> l_ot = new HashMap<ASTOperatorArit,ASTTerm>();
 
 		term1 = parseTerm();
 		while(currentToken.getKind()==PLUS || currentToken.getKind()==MINUS){
-			op = new ASTOperator(currentToken.getSpelling());
+			op = new ASTOperatorArit(currentToken.getSpelling());
 			acceptIt();
 			aux = parseTerm();
 			l_ot.put(op, aux);
@@ -338,12 +338,12 @@ public class Parser {
 	private ASTTerm parseTerm() throws LexicalException, SyntacticException {
 		ASTFactor factor1;
 		ASTFactor aux = null;
-		ASTOperator op = null;
-		Map<ASTOperator,ASTFactor> l_of = new HashMap<ASTOperator,ASTFactor>();
+		ASTOperatorArit op = null;
+		Map<ASTOperatorArit,ASTFactor> l_of = new HashMap<ASTOperatorArit,ASTFactor>();
 
 		factor1 = parseFactor();
 		while(currentToken.getKind()==MULT || currentToken.getKind()==DIV){
-			op = new ASTOperator(currentToken.getSpelling());
+			op = new ASTOperatorArit(currentToken.getSpelling());
 			acceptIt();
 			aux = parseFactor();
 			l_of.put(op, aux);
