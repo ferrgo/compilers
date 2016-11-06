@@ -32,8 +32,6 @@ class Checker implements Visitor{
 
 	Object visitProgram(ASTProgram p, Object scopeTracker) throws SemanticException{
 
-		//TODO add ASTProgram to scopeTracker to account for the global scope?
-
 		//Checks globals
 		for (ASTDeclarationGroup dg : p.getGlobalDeclarationGroups()){
 			dg.visit(this, scopeTracker);//TODO change o
@@ -54,10 +52,17 @@ class Checker implements Visitor{
 
 	}
 
-	Object visitMainProgram(){
+
+	Object visitSingleDeclaration(ASTSingleDeclaration sd, Object scopeTracker) throws SemanticException{
+		//We are linking the idt key to the ASTSingleDeclaration and not the ASTIdentifier object, so that when
+		//we wanna check type consistency we can have access to the ASTType object contained in the ASTSingleDeclaration object.
+
+		//We don't need to check if the key already exists cause idt.enter does that and raises exceptions internally.
+		
+		String idSpelling = sd.getIdentifier().getSpelling();
+		idt.enter(idSpelling,ASTSingleDeclaration);
 
 	}
-
 
 
 	Object visitDeclarationGroup(ASTDeclarationGroup dg, Object scopeTracker) throws SemanticException{
@@ -173,16 +178,6 @@ class Checker implements Visitor{
 
 
 	//Checks a declaration, adding it to the idt or raising an exception if there is a prvious variable with the same id
-	Object visitSingleDeclaration(ASTSingleDeclaration sd, Object scopeTracker) throws SemanticException{
-		//We are linking the idt key to the ASTSingleDeclaration and not the ASTIdentifier object, so that when
-		//we wanna check type consistency we can have access to the ASTType object contained in the ASTSingleDeclaration object.
-
-		//We don't need to check if the key already exists cause idt.enter does that and raises exceptions internally.
-
-		String idSpelling = sd.getIdentifier().getSpelling();
-		idt.enter(idSpelling,ASTSingleDeclaration);
-
-	}
 
 
 	Object visitLoop(ASTLoop loopStt, Object scopeTracker) throws SemanticException{
@@ -252,22 +247,16 @@ class Checker implements Visitor{
 	}
 
 
+	Object visitMainProgram(){
+
+	}
 
 
 
 
 
+//TODO UNFINISHED VISITS:
 
-
-
-
-
-
-
-
-
-
-//UNFINISHED:
 	Object visitExpression(ASTExpression e, Object scopeTracker) throws SemanticException{
 		String returnTypeString;
 

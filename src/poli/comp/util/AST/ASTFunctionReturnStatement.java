@@ -2,7 +2,7 @@ package poli.comp.util.AST;
 
 
 // RETURN_STMT     ::= RETURN (ID)?
-public class ASTFunctionReturnStatement extends ASTStatement{
+public class ASTFunctionReturnStatement extends ASTReturnStatement{
 
     private ASTExpression exp;
 
