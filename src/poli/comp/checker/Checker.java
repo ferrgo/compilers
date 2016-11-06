@@ -58,7 +58,7 @@ class Checker implements Visitor{
 		//we wanna check type consistency we can have access to the ASTType object contained in the ASTSingleDeclaration object.
 
 		//We don't need to check if the key already exists cause idt.enter does that and raises exceptions internally.
-		
+
 		String idSpelling = sd.getIdentifier().getSpelling();
 		idt.enter(idSpelling,ASTSingleDeclaration);
 
@@ -247,15 +247,12 @@ class Checker implements Visitor{
 	}
 
 
+
+//TODO UNFINISHED VISITS:
+
 	Object visitMainProgram(){
 
 	}
-
-
-
-
-
-//TODO UNFINISHED VISITS:
 
 	Object visitExpression(ASTExpression e, Object scopeTracker) throws SemanticException{
 		String returnTypeString;
