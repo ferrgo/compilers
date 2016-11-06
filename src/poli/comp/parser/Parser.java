@@ -254,51 +254,54 @@ public class Parser {
 	private ASTDeclarationGroup parseDeclarationGroup() throws SyntacticException, LexicalException {
 		//Objects that will go into the AST:
 		ASTType t;
-		Map<ASTIdentifier,ASTExpression> declarations = new HashMap<ASTIdentifier,ASTExpression>(); // if var is not initialized, expression will be null
+		List<ASTSingleDeclaration> declarations = new ArrayList<ASTSingleDeclaration>();
+		Map<ASTSingleDeclaration,ASTExpression> assignments = new HashMap<ASTSingleDeclaration,ASTExpression>();
 
 		//Auxiliary objects for looping over the declarations:
 		ASTIdentifier currentId = null;
 		ASTExpression currentExpression = null;
-
+		ASTSingleDeclaration currentSD = null;
 		t = new ASTType(currentToken.getSpelling());
 		acceptIt(); //We only get here in this method if the current token is TYPE, so theres no point in checking again
 
 		accept(DOUBLECOLON);
 
 		//For the first (i.e. the obligatory) declaration:
-		currentId = null;
-		currentExpression = null;
+
 		//Parse the Identifier
 		currentId = new ASTIdentifier(currentToken.getSpelling());
-		acceptIt();
+		currentSD = new ASTSingleDeclaration(t,currentId);
+		declarations.add(currentSD);
+		accept(ID);
 		//Parse the assignment, if thats the case
 		if(currentToken.getKind()==ASSIGNMENT){
 			acceptIt();
 			currentExpression = parseExpression();
+			assignments.put(currentSD,currentExpression);
 		}
-		declarations.put(currentId,currentExpression);
 
 		//For every following (optional) declaration
 		while(currentToken.getKind()==COMMA){
 			currentId = null;
 			currentExpression = null;
-
+			currentSD = null;
 			//Parse the comma
 			accept(COMMA);
 			//Parse the Identifier
 			currentId = new ASTIdentifier(currentToken.getSpelling());
-			acceptIt();
+			currentSD = new ASTSingleDeclaration(t,currentId);
+			declarations.add(currentSD);
+			accept(ID);
 			//Parse the assignment, if thats the case
 			if(currentToken.getKind()==ASSIGNMENT){
 				acceptIt();
 				currentExpression = parseExpression();
+				assignments.put(currentSD,currentExpression);
 			}
-			declarations.put(currentId,currentExpression);
+
 		}
-
-		ASTDeclarationGroup rv = new ASTDeclarationGroup(t,declarations);
+		ASTDeclarationGroup rv = new ASTDeclarationGroup(t,declarations,assignments);
 		return rv;
-
 	}
 
 	private ASTExpression parseExpression() throws LexicalException, SyntacticException {
@@ -416,7 +419,7 @@ public class Parser {
 
 		ASTType t;
 		ASTIdentifier subroutineName;
-		Map<ASTType,ASTIdentifier> map_params;
+		List<ASTSingleDeclaration> l_params;
 
 		ArrayList<ASTStatement> l_s   = new ArrayList<ASTStatement>();
 
@@ -448,7 +451,7 @@ public class Parser {
 			ASTIdentifier currentParamIdentifier = new ASTIdentifier(currentToken.getSpelling());
 			accept(ID);
 
-			map_params.put(currentParamType,currentParamIdentifier);
+			l_params.add(new ASTSingleDeclaration(currentParamType,currentParamIdentifier));
 
 			//If we have more than 1 param...
 			while(currentToken.getKind()==COMMA){
@@ -458,7 +461,7 @@ public class Parser {
 				accept(DOUBLECOLON);
 				currentParamIdentifier = new ASTIdentifier(currentToken.getSpelling());
 				accept(ID);
-				map_params.put(currentParamType,currentParamIdentifier);
+				l_params.add(new ASTSingleDeclaration(currentParamType,currentParamIdentifier));
 			}
 		}
 		accept(RP);

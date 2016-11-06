@@ -8,13 +8,13 @@ import java.util.List;
 public class ASTSubprogramDeclaration extends ASTSubroutineDeclaration{
 
     private ASTIdentifier id;
-    private Map<ASTType,ASTIdentifier> map_params;
+    private List<ASTSingleDeclaration> l_params;
     private List<ASTStatement> statements;
 
-    public ASTSubprogramDeclaration( ASTIdentifier subroutineName, Map<ASTType,ASTIdentifier> m_par, List<ASTStatement> l_s) {
+    public ASTSubprogramDeclaration( ASTIdentifier subroutineName, List<ASTSingleDeclaration> l_par, List<ASTStatement> l_s) {
         this.type = t;
         this.id = subroutineName;
-        this.map_params = m_par;
+        this.map_params = l_par;
         this.statements = l_s;
     }
 }

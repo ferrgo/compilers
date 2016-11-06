@@ -7,15 +7,24 @@ import java.util.List;
 public class ASTLoop extends ASTStatement{
 
     private ASTExpression aex;
-    private List<ASTStatement> ast;
+    private List<ASTStatement> l_stt;
 
-    public ASTLoop(ASTExpression aex, List<ASTStatement> ast){
+    public ASTLoop(ASTExpression aex, List<ASTStatement> ls){
       this.aex = aex;
-      this.ast =ast;
+      this.l_stt=ls;
     }
 
   	@Override
   	public String toString(int level) {
   			return null;
   	}
+
+	public ASTExpression getCondition(){
+		return this.aex;
+	}
+
+	public List<ASTStatement> getStatements(){
+		return this.l_stt;
+	}
+
 }

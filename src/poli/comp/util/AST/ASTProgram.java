@@ -28,7 +28,7 @@ public class ASTProgram extends AST {
         return null;
     }
 
-	 public ASTDeclarationGroup getGlobalDeclarations(){
+	 public ASTDeclarationGroup getGlobalDeclarationGroups(){
 		 return this.l_globals;
 	 }
 

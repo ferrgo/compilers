@@ -12,7 +12,7 @@ public class ASTExpression extends AST{
 	private ASTOperatorComp op_comp;
 
 	//Set by the checker
-	private String returnType;
+	private String typeString;
 
 
     public ASTExpression(ASTArithmeticExpression ae1, ASTOperatorComp op, ASTArithmeticExpression ae2) {
@@ -38,12 +38,12 @@ public class ASTExpression extends AST{
 		return this.op_comp;
 	}
 
-	public String getReturnType(){
-		return this.returnType;
+	public String getTypeString(){
+		return this.typeString;
 	}
 
-	public void setReturnType(String rt){
-		this.returnType=rt;
+	public void setTypeString(String ts){
+		this.typeString=ts;
 	}
 
 }

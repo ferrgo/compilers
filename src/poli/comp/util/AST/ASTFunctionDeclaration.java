@@ -10,13 +10,13 @@ public class ASTFunctionDeclaration extends ASTSubroutineDeclaration{
 
   private ASTType tp;
   private ASTIdentifier id;
-  private Map<ASTType,ASTIdentifier> map_params;
+  private List<ASTSingleDeclaration> l_params;
   private List<ASTStatement> l_stt;
 
-    public ASTFunctionDeclaration(ASTType tp, ASTIdentifier id, Map<ASTType,ASTIdentifier> m_par, List<ASTStatement> statements) {
+    public ASTFunctionDeclaration(ASTType tp, ASTIdentifier id, List<ASTSingleDeclaration> l_par, List<ASTStatement> statements) {
         this.tp = tp;
         this.id = id;
-        this.map_params = m_par;
+        this.l_params = l_par;
         this.l_stt = statements;
     }
 
@@ -33,8 +33,8 @@ public class ASTFunctionDeclaration extends ASTSubroutineDeclaration{
 		return this.id;
 	}
 
-	private Map<ASTType,ASTIdentifier> getParams(){
-		return this.map_params;
+	private List<ASTSingleDeclaration> getParams(){
+		return this.l_params;
 	}
 
 	private List<ASTStatement> getStatements(){
