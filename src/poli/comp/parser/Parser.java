@@ -187,10 +187,10 @@ public class Parser {
 			rv = parseIfStatement();
 		}
 
-		//Parsing return statements
-		else if(currentToken.getKind()==RETURN){
-			rv = parseReturnStatement();
-		}
+		// //Parsing return statements
+		// else if(currentToken.getKind()==RETURN){
+		// 	rv = parseReturnStatement();
+		// }
 
 		else {
 			rv = parsePrintStatement();
@@ -392,10 +392,14 @@ public class Parser {
 		return new ASTFunctionArgs(l_e);
 	}
 
-	private ASTReturnStatement parseReturnStatement() throws SyntacticException, LexicalException {
+	private ASTFunctionReturnStatement parseFunctionReturnStatement() throws SyntacticException, LexicalException {
 		accept(RETURN);
-		ASTReturnStatement rv = new ASTReturnStatement(parseExpression());
-		return rv;
+		return new ASTFunctionReturnStatement(parseExpression());
+	}
+
+	private ASTSubprogramReturnStatement parseSubprogramReturnStatement() throws SyntaticException, LexicalException{
+		accept(RETURN);
+		return new ASTSubprogramReturnStatement();
 	}
 
 	private ASTParamDeclaration parseParamDeclaration() throws LexicalException, SyntacticException {
@@ -468,7 +472,15 @@ public class Parser {
 
 		//Parsing Statements
 		while(currentToken.getKind()!=END){
-			l_s.add(parseStatement());
+			if(currentToken.getKind()==RETURN){
+				if(isFunction){
+					l_s.add(parseFunctionReturn());
+				}else{
+					l_s.add(parseSubprogramReturn());
+				}
+			}else{
+				l_s.add(parseStatement());
+			}
 		}
 
 		accept(END);
