@@ -15,7 +15,7 @@ public class Checker implements Visitor {
 	}
 
 
-	public AST check(AST a){
+	public AST check(AST a) throws SemanticException {
 
 		//TODO: Even though we expect the parser to work reliably (i.e. throw an exception if at runtime it realizes the input code is wrong)
 		//, would it be conceptually *wrong* to check for "a instanceof ASTProgram" here in this method?
