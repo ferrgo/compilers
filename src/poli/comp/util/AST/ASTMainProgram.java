@@ -15,14 +15,4 @@ public class ASTMainProgram {
         this.id = id;
         this.statements = l_s;
     }
-
-	 private ASTIdentifier getIdentifier(){
- 		return this.id;
- 	}
-
-
- 	private List<ASTStatement> getStatements(){
- 		return this.statements;
- 	}
-
 }

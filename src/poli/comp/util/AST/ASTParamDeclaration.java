@@ -1,5 +1,7 @@
 package poli.comp.util.AST;
 
+import poli.comp.checker.Visitor;
+
 /**
  * Created by hgferr on 30/09/16.
  */
@@ -11,5 +13,10 @@ public class ASTParamDeclaration extends AST{
     public ASTParamDeclaration(ASTType declType, ASTIdentifier declId) {
         this.type = declType;
         this.id = declId;
+    }
+
+    @Override
+    public Object visit(Visitor v, Object o) {
+        return null;
     }
 }

@@ -1,13 +1,12 @@
 package poli.comp.compiler;
 
 //import poli.comp.parser.Parser;
+import poli.comp.checker.Checker;
 import poli.comp.parser.Parser;
 import poli.comp.parser.SyntacticException;
 import poli.comp.scanner.LexicalException;
 import poli.comp.util.AST.AST;
 import poli.comp.util.symbolsTable.IdentificationTable;
-
-import java.io.File;
 
 /**
  * Compiler driver
@@ -56,7 +55,7 @@ public class Compiler {
 		Checker c = new Checker();
 
 		// Runs a semantic analysis, returning a decorated AST
-		AST decoratedAST = c.check(asRoot);
+		AST decoratedAST = c.check(astRoot);
 
 		//TODO code generation and output a .s file?
 

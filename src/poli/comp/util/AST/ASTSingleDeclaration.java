@@ -1,6 +1,8 @@
 package poli.comp.util.AST;
 
 
+import poli.comp.checker.Visitor;
+
 class ASTSingleDeclaration extends AST{
 
 	//Set by parser
@@ -23,4 +25,9 @@ class ASTSingleDeclaration extends AST{
 		return this.id;
 	}
 
+	//TODO
+	@Override
+	public Object visit(Visitor v, Object o) {
+		return null;
+	}
 }

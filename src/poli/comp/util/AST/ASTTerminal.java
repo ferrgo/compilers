@@ -12,9 +12,4 @@ public abstract class ASTTerminal extends AST {
     public String toString(int level) {
         return null;
     }
-
-
-	 public String getSpelling(){
-		 return this.contents;
-	 }
 }

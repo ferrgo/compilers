@@ -107,7 +107,7 @@ public class IdentificationTable {
 	}
 
 	/**
-	 * Verifies if  an identifier exists(in some scope level) and returns its attribute
+	 * Verifies if exists an identifier (in some scope level) and returns its attribute
 	 * @param id
 	 * @return
 	 */

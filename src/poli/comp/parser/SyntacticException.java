@@ -28,7 +28,7 @@ public class SyntacticException extends Exception {
 		super(message);
 		this.token = token;
 		this.expected = expected;
-	}
+	}r
 	
 	/**
 	 * Creates the error report

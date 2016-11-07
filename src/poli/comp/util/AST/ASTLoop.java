@@ -1,30 +1,29 @@
 package poli.comp.util.AST;
 
 
+import poli.comp.checker.Visitor;
+
 import java.util.List;
 
 // LOOP            ::= DO WHILE LP EXPRESSION RP (STATEMENT)* END DO
 public class ASTLoop extends ASTStatement{
 
     private ASTExpression aex;
-    private List<ASTStatement> l_stt;
+    private List<ASTStatement> ast;
 
-    public ASTLoop(ASTExpression aex, List<ASTStatement> ls){
+    public ASTLoop(ASTExpression aex, List<ASTStatement> ast){
       this.aex = aex;
-      this.l_stt=ls;
+      this.ast =ast;
     }
 
-  	@Override
+    //TODO
+    @Override
+    public Object visit(Visitor v, Object o) {
+        return null;
+    }
+
+    @Override
   	public String toString(int level) {
   			return null;
   	}
-
-	public ASTExpression getCondition(){
-		return this.aex;
-	}
-
-	public List<ASTStatement> getStatements(){
-		return this.l_stt;
-	}
-
 }

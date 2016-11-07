@@ -1,6 +1,9 @@
 package poli.comp.util.AST;
 
+import poli.comp.checker.Visitor;
+
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by hgferr on 30/09/16.
@@ -10,36 +13,25 @@ public class ASTFunctionDeclaration extends ASTSubroutineDeclaration{
 
   private ASTType tp;
   private ASTIdentifier id;
-  private List<ASTSingleDeclaration> l_params;
-  private List<ASTStatement> l_stt;
+  private Map<ASTType,ASTIdentifier> map_params;
+  private List<ASTStatement> lsta;
 
-    public ASTFunctionDeclaration(ASTType tp, ASTIdentifier id, List<ASTSingleDeclaration> l_par, List<ASTStatement> statements) {
+    public ASTFunctionDeclaration(ASTType tp, ASTIdentifier id, Map<ASTType,ASTIdentifier> m_par, List<ASTStatement> lsta) {
         this.tp = tp;
         this.id = id;
-        this.l_params = l_par;
-        this.l_stt = statements;
+        this.map_params = m_par;
+        this.lsta = lsta;
     }
 
-  	@Override
+    //TODO
+    @Override
+    public Object visit(Visitor v, Object o) {
+        return null;
+    }
+
+    @Override
   	public String toString(int level) {
   			return null;
   	}
-
-	private ASTType getType(){
-		return this.tp;
-	}
-
-	private ASTIdentifier getIdentifier(){
-		return this.id;
-	}
-
-	private List<ASTSingleDeclaration> getParams(){
-		return this.l_params;
-	}
-
-	private List<ASTStatement> getStatements(){
-		return this.l_stt;
-	}
-
 
 }

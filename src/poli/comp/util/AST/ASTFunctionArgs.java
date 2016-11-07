@@ -1,6 +1,8 @@
 package poli.comp.util.AST;
 
 
+import poli.comp.checker.Visitor;
+
 import java.util.List;
 
 // FUNCTION_ARGS   ::= LP (EXPRESSION(,EXPRESSION)*)? RP
@@ -12,7 +14,14 @@ public class ASTFunctionArgs extends AST{
       this.aex = aex;
     }
 
-  	public List<ASTExpression> getArgumentList(){
-		return this.aex;
-	}
+    //TODO
+    @Override
+    public Object visit(Visitor v, Object o) {
+        return null;
+    }
+
+    @Override
+  	public String toString(int level) {
+  			return null;
+  	}
 }

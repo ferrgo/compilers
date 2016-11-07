@@ -8,7 +8,7 @@ PROGRAM a
     A = CMD (STUFF, UNREAL, REAL, WOW) / CMD2 ()
     C = A + 2
 
-    IF .true. THEN
+    IF (.true.) THEN
         C = 2
         B = C
         A = .false.

@@ -1,6 +1,8 @@
 package poli.comp.util.AST;
 
 
+import poli.comp.checker.Visitor;
+
 import java.util.List;
 import java.util.Map;
 
@@ -8,15 +10,21 @@ import java.util.Map;
 public class ASTArithmeticExpression extends AST{
 
     private ASTTerm term;
-    private Map<ASTOperatorArit,ASTTerm> l_opterms;
+    private Map<ASTOperator,ASTTerm> l_opterms;
 
 
-    public ASTArithmeticExpression(ASTTerm at, Map<ASTOperatorArit,ASTTerm> l_ot){
+    public ASTArithmeticExpression(ASTTerm at, Map<ASTOperator,ASTTerm> l_ot){
         this.term = at;
         this.l_opterms = l_ot;
     }
 
-  	@Override
+    //TODO
+    @Override
+    public Object visit(Visitor v, Object o) {
+        return null;
+    }
+
+    @Override
   	public String toString(int level) {
   			return null;
   	}

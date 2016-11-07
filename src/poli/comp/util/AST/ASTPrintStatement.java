@@ -1,6 +1,8 @@
 package poli.comp.util.AST;
 
 
+import poli.comp.checker.Visitor;
+
 // PRINT_STMT      ::= PRINT *, EXPRESSION
 public class ASTPrintStatement extends ASTStatement{
 
@@ -10,7 +12,9 @@ public class ASTPrintStatement extends ASTStatement{
       this.aex = aex;
     }
 
-	 public ASTExpression getExpression(){
-		 return this.aex;
-	 }
+    //TODO
+    @Override
+    public Object visit(Visitor v, Object o) {
+        return null;
+    }
 }

@@ -1,5 +1,7 @@
 package poli.comp.util.AST;
 
+import poli.comp.checker.Visitor;
+
 import java.util.Map;
 
 /**
@@ -10,30 +12,22 @@ import java.util.Map;
 public class ASTDeclarationGroup extends ASTStatement{
 
   private ASTType tp;
-  private List<ASTSingleDeclaration> declarations;
-  private Map<ASTSingleDeclaration,ASTExpression> m_assign; //Maps assignments to declared vars
+  private Map<ASTIdentifier,ASTExpression> declarations;
 
-  public ASTDeclarationGroup(ASTType tp, List<ASTSingleDeclaration> declarations, Map<ASTSingleDeclaration,ASTExpression> m_a ) {
+  public ASTDeclarationGroup(ASTType tp, Map<ASTIdentifier,ASTExpression> declarations) {
       this.tp = tp;
       this.declarations = declarations;
-		this.m_assign = m_a;
   }
 
-  	@Override
+    //TODO
+    @Override
+    public Object visit(Visitor v, Object o) {
+        return null;
+    }
+
+    @Override
   	public String toString(int level) {
   			return null;
   	}
-
-	public ASTType getType(){
-		return this.tp;
-	}
-
-	public List<ASTSingleDeclaration> getDeclarations(){
-		return this.declarations;
-	}
-
-	public Map<ASTSingleDeclaration,ASTExpression> getAssignmentMap(){
-		return this.m_assign;
-	}
 
 }

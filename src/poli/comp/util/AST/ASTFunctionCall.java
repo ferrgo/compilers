@@ -1,7 +1,7 @@
 package poli.comp.util.AST;
 
 
-
+import poli.comp.checker.Visitor;
 
 public class ASTFunctionCall extends ASTStatement{
 
@@ -13,11 +13,14 @@ public class ASTFunctionCall extends ASTStatement{
 		this.fa = fa;
 	}
 
-	ASTIdentifier getFunctionId(){
-		return this.id;
-	}
-	ASTFunctionArgs getFunctionArgs(){
-			return this.fa;
+	//TODO
+	@Override
+	public Object visit(Visitor v, Object o) {
+		return null;
 	}
 
+	@Override
+  	public String toString(int level) {
+  			return null;
+  	}
 }

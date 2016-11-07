@@ -1,5 +1,7 @@
 package poli.comp.util.AST;
 
+import poli.comp.checker.Visitor;
+
 import java.util.List;
 
 /**
@@ -11,29 +13,37 @@ import java.util.List;
  */
 public class ASTIfStatement extends ASTStatement {
 
-	private ASTExpression condition;
+	private ASTExpression exp;
 
-	private List<ASTStatement> ifBlockStatements;
+	private List<ASTStatement> l_ifs;
 
-	private List<ASTStatement> elseBlockStatements;
+	private List<ASTStatement> l_elses;
 
-	public ASTIfStatement(ASTExpression c, List<ASTStatement> ibs, List<ASTStatement> ebs){
+	public ASTIfStatement(ASTExpression exp, List<ASTStatement> i, List<ASTStatement> e){
 		super();
-		this.condition=c;
-		this.ifBlockStatements=ibs;
-		this.elseBlockStatements=ebs;
+		this.exp=exp;
+		this.l_ifs=i;
+		this.l_elses=e;
 	}
 
 
-	public List<ASTStatement> getElseBlockStatements(){
-		return this.elseBlockStatements;
+	//TODO
+	@Override
+	public Object visit(Visitor v, Object o) {
+		return null;
 	}
 
-	public List<ASTStatement> getIfBlockStatements(){
-		return this.ifBlockStatements;
+	public String getSpaces(int level) {
+		StringBuffer str = new StringBuffer();
+		while( level>0 ) {
+			str.append(" ");
+			level--;
+		}
+		return str.toString();
 	}
 
-	public ASTExpression getCondition(){
-		return this.condition;
+	@Override
+	public String toString(int level) {
+			return null;
 	}
 }

@@ -2,7 +2,7 @@
 .idea/
 
 #iml
-fortran.iml
+*.iml
 
 #Compiled Files
 out/
