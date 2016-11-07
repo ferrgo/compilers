@@ -1,5 +1,6 @@
 package poli.comp.util.AST;
 
+import poli.comp.checker.SemanticException;
 import poli.comp.checker.Visitor;
 
 import java.util.List;
@@ -21,9 +22,8 @@ public class ASTSubprogramDeclaration extends ASTSubroutineDeclaration{
         this.statements = l_s;
     }
 
-    //TODO
     @Override
-    public Object visit(Visitor v, Object o) {
-        return null;
+    public Object visit(Visitor v, Object o) throws SemanticException {
+        return v.visitASTSubprogramDeclaration(this, o);
     }
 }

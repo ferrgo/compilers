@@ -1,6 +1,7 @@
 package poli.comp.util.AST;
 
 
+import poli.comp.checker.SemanticException;
 import poli.comp.checker.Visitor;
 
 public class ASTLoopContinue extends ASTLoopControl{
@@ -9,10 +10,9 @@ public class ASTLoopContinue extends ASTLoopControl{
 	
 	}
 
-	//TODO
 	@Override
-	public Object visit(Visitor v, Object o) {
-		return null;
+	public Object visit(Visitor v, Object o) throws SemanticException {
+		return v.visitASTLoopContinue(this, o);
 	}
 
 	@Override

@@ -1,5 +1,6 @@
 package poli.comp.util.AST;
 
+import poli.comp.checker.SemanticException;
 import poli.comp.checker.Visitor;
 
 /**
@@ -20,10 +21,9 @@ public class ASTAssignment extends ASTStatement {
 		this.exp = e;
 	}
 
-	//TODO
 	@Override
-	public Object visit(Visitor v, Object o) {
-		return null;
+	public Object visit(Visitor v, Object o) throws SemanticException {
+		return v.visitASTAssignment(this, o);
 	}
 
 	public String getSpaces(int level) {

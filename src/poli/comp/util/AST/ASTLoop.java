@@ -1,6 +1,7 @@
 package poli.comp.util.AST;
 
 
+import poli.comp.checker.SemanticException;
 import poli.comp.checker.Visitor;
 
 import java.util.List;
@@ -16,10 +17,9 @@ public class ASTLoop extends ASTStatement{
       this.ast =ast;
     }
 
-    //TODO
     @Override
-    public Object visit(Visitor v, Object o) {
-        return null;
+    public Object visit(Visitor v, Object o) throws SemanticException {
+        return v.visitASTLoop(this, o);
     }
 
     @Override

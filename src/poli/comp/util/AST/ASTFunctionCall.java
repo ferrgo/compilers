@@ -1,6 +1,7 @@
 package poli.comp.util.AST;
 
 
+import poli.comp.checker.SemanticException;
 import poli.comp.checker.Visitor;
 
 public class ASTFunctionCall extends ASTStatement{
@@ -13,10 +14,9 @@ public class ASTFunctionCall extends ASTStatement{
 		this.fa = fa;
 	}
 
-	//TODO
 	@Override
-	public Object visit(Visitor v, Object o) {
-		return null;
+	public Object visit(Visitor v, Object o) throws SemanticException {
+		return v.visitASTFunctionCall(this, o);
 	}
 
 	@Override

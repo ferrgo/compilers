@@ -1,5 +1,6 @@
 package poli.comp.util.AST;
 
+import poli.comp.checker.SemanticException;
 import poli.comp.checker.Visitor;
 
 /**
@@ -15,9 +16,8 @@ public class ASTFactorSubroutineCall extends ASTFactor {
         this.l_args=l_args;
     }
 
-    //TODO
     @Override
-    public Object visit(Visitor v, Object o) {
-        return null;
+    public Object visit(Visitor v, Object o) throws SemanticException {
+        return v.visitASTFactorSubroutineCall(this, o);
     }
 }

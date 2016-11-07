@@ -1,5 +1,6 @@
 package poli.comp.util.AST;
 
+import poli.comp.checker.SemanticException;
 import poli.comp.checker.Visitor;
 
 /**
@@ -11,9 +12,8 @@ public class ASTOperator extends ASTTerminal{
         super(s);
     }
 
-    //TODO
     @Override
-    public Object visit(Visitor v, Object o) {
-        return null;
+    public Object visit(Visitor v, Object o) throws SemanticException {
+        return v.visitASTOperator(this, o);
     }
 }

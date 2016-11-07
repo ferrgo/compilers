@@ -1,5 +1,6 @@
 package poli.comp.util.AST;
 
+import poli.comp.checker.SemanticException;
 import poli.comp.checker.Visitor;
 
 public class ASTType extends ASTTerminal {
@@ -11,8 +12,8 @@ public class ASTType extends ASTTerminal {
     }
 
     @Override
-    public Object visit(Visitor v, Object o) {
-        return null;
+    public Object visit(Visitor v, Object o) throws SemanticException {
+        return v.visitASTType(this, o);
     }
 
     @Override

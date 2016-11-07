@@ -1,6 +1,7 @@
 package poli.comp.util.AST;
 
 
+import poli.comp.checker.SemanticException;
 import poli.comp.checker.Visitor;
 
 /**
@@ -12,7 +13,7 @@ import poli.comp.checker.Visitor;
  */
 public abstract class AST {
 
-	public abstract Object visit(Visitor v, Object o);
+	public abstract Object visit(Visitor v, Object o) throws SemanticException;
 
 	public String getSpaces(int level) {
 		StringBuffer str = new StringBuffer();

@@ -2,6 +2,7 @@ package poli.comp.util.AST;
 
 
 import poli.comp.checker.Visitor;
+import poli.comp.checker.SemanticException;
 
 import java.util.List;
 import java.util.Map;
@@ -18,10 +19,9 @@ public class ASTArithmeticExpression extends AST{
         this.l_opterms = l_ot;
     }
 
-    //TODO
     @Override
-    public Object visit(Visitor v, Object o) {
-        return null;
+    public Object visit(Visitor v, Object o) throws SemanticException {
+        return v.visitASTArithmeticExpression(this, o);
     }
 
     @Override

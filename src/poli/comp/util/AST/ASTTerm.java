@@ -1,6 +1,7 @@
 package poli.comp.util.AST;
 
 
+import poli.comp.checker.SemanticException;
 import poli.comp.checker.Visitor;
 
 import java.util.List;
@@ -18,9 +19,9 @@ public class ASTTerm extends AST{
         this.l_opfactors = l_ot;
     }
 
-    //TODO
+
     @Override
-    public Object visit(Visitor v, Object o) {
-        return null;
+    public Object visit(Visitor v, Object o) throws SemanticException {
+        return v.visitASTTerm(this, o);
     }
 }

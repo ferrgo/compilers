@@ -19,14 +19,8 @@ public class ASTProgram extends AST {
         this.mp = mp;
     }
 
-    //TODO
-	 public Object visit(Visitor v, Object o){
-         try {
-             return v.visitASTProgram(this, o);
-         } catch (SemanticException e) {
-             e.printStackTrace();
-         }
-         return null;
+	 public Object visit(Visitor v, Object o) throws SemanticException {
+         return v.visitASTProgram(this, o);
      }
 
     @Override

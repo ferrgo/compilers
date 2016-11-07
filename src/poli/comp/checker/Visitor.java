@@ -4,6 +4,9 @@ import poli.comp.util.AST.*;
 
 public interface Visitor{
 
+	//TODO - Check for missing methods, return etc...
+
+
 	Object visitASTProgram               (ASTProgram p   , Object o) throws SemanticException;
 	Object visitASTArithmeticExpression  (ASTArithmeticExpression ae  , Object o) throws SemanticException;
 	Object visitASTAssignment            (ASTAssignment a   , Object o) throws SemanticException;
