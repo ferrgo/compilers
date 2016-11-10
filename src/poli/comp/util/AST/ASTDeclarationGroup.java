@@ -3,6 +3,7 @@ package poli.comp.util.AST;
 import poli.comp.checker.SemanticException;
 import poli.comp.checker.Visitor;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -43,11 +44,4 @@ public class ASTDeclarationGroup extends ASTStatement{
   			return null;
   	}
 
-    public ASTType getType() {
-        return tp;
-    }
-
-    public Map<ASTIdentifier, ASTExpression> getDeclarations() {
-        return declarations;
-    }
 }
