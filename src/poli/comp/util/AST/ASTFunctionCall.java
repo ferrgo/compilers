@@ -14,6 +14,14 @@ public class ASTFunctionCall extends ASTStatement{
 		this.fa = fa;
 	}
 
+	ASTIdentifier getFunctionId(){
+		return this.id;
+	}
+	ASTFunctionArgs getFunctionArgs(){
+			return this.fa;
+	}
+
+
 	@Override
 	public Object visit(Visitor v, Object o) throws SemanticException {
 		return v.visitASTFunctionCall(this, o);

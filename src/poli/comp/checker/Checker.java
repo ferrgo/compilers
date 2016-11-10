@@ -72,7 +72,7 @@ class Checker implements Visitor{
 			//TODO: check for rules:
 
 			String dgType = dg.getType().getSpelling();
-			//TODO 
+			//TODO
 			List<ASTSingleDeclaration> declarations = dg.getDeclarations();
 			Map<ASTSingleDeclaration,ASTExpression> assignmentMap = dg.getAssignmentMap();
 			ASTExpression currentExpression=null;

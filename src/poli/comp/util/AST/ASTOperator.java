@@ -6,7 +6,7 @@ import poli.comp.checker.Visitor;
 /**
  * Created by hgferr on 01/10/16.
  */
-public class ASTOperator extends ASTTerminal{
+public abstract class ASTOperator extends ASTTerminal{
 
     public ASTOperator(String s ){
         super(s);

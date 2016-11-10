@@ -8,6 +8,10 @@ public abstract class ASTTerminal extends AST {
         spelling = s;
     }
 
+ 	 public String getSpelling(){
+ 		 return this.contents;
+ 	 }
+
     @Override
     public String toString(int level) {
         return null;
