@@ -397,7 +397,7 @@ public class Parser {
 		return new ASTFunctionReturnStatement(parseExpression());
 	}
 
-	private ASTSubprogramReturnStatement parseSubprogramReturnStatement() throws SyntaticException, LexicalException{
+	private ASTSubprogramReturnStatement parseSubprogramReturnStatement() throws SyntacticException, LexicalException{
 		accept(RETURN);
 		return new ASTSubprogramReturnStatement();
 	}
@@ -421,9 +421,9 @@ public class Parser {
      */
 	private ASTSubroutineDeclaration parseSubroutineDeclaration(boolean isFunction) throws SyntacticException, LexicalException {
 
-		ASTType t;
+		ASTType t = null;
 		ASTIdentifier subroutineName;
-		List<ASTSingleDeclaration> l_params;
+		List<ASTSingleDeclaration> l_params = null;
 
 		ArrayList<ASTStatement> l_s   = new ArrayList<ASTStatement>();
 
@@ -446,8 +446,9 @@ public class Parser {
 
 		//If we have params...
 		//TODO fix this to use a flag on the comma thingy and a single loop.
+		HashMap<ASTType, ASTIdentifier> map_params;
+		map_params = new HashMap<ASTType,ASTIdentifier>();
 		if(currentToken.getKind()==TYPE){
-			map_params = new HashMap<ASTType,ASTIdentifier>();
 
 			ASTType currentParamType = new ASTType(currentToken.getSpelling());
 			accept(TYPE);
@@ -493,6 +494,16 @@ public class Parser {
 			rv = new ASTSubprogramDeclaration( subroutineName, map_params, l_s);
 		}
 		return rv;
+	}
+
+	//TODO
+	private ASTStatement parseSubprogramReturn() {
+		return null;
+	}
+
+	//TODO
+	private ASTStatement parseFunctionReturn() {
+		return null;
 	}
 
 

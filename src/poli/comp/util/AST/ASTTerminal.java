@@ -2,10 +2,10 @@ package poli.comp.util.AST;
 
 public abstract class ASTTerminal extends AST {
 
-   String contents;
+   String spelling;
 
 	 public ASTTerminal(String s){
-        contents = s;
+        spelling = s;
     }
 
     @Override

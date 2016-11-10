@@ -71,7 +71,7 @@ public class Arquivo {
     /**
      * Construtor da classe Arquivo. Abre o arquivo de entrada no modo leitura,
      * e o arquivo de sa�da no modo grava��o. Se o arquivo de sa�da j� existir,
-     * seu conte�do � descartado.
+     * seu conte�do � descqartado.
      *
      * @param in     nome do arquivo de entrada de dados
      * @param out    nome do arquivo de sa�da de dados

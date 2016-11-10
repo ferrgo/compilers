@@ -21,22 +21,16 @@ public class ASTAssignment extends ASTStatement {
 		this.exp = e;
 	}
 
+	public ASTIdentifier getTarget(){
+		return this.id;
+	}
+
+	public ASTExpression getExpression(){
+		return this.exp;
+	}
+
 	@Override
 	public Object visit(Visitor v, Object o) throws SemanticException {
 		return v.visitASTAssignment(this, o);
 	}
-
-	public String getSpaces(int level) {
-		StringBuffer str = new StringBuffer();
-		while( level>0 ) {
-			str.append(" ");
-			level--;
-		}
-		return str.toString();
-	}
-
-		@Override
-		public String toString(int level) {
-				return null;
-		}
 }

@@ -5,9 +5,9 @@ import poli.comp.util.AST.*;
 public interface Visitor{
 
 	//TODO - Check for missing methods, return etc...
-
-
 	Object visitASTProgram               (ASTProgram p   , Object o) throws SemanticException;
+
+
 	Object visitASTArithmeticExpression  (ASTArithmeticExpression ae  , Object o) throws SemanticException;
 	Object visitASTAssignment            (ASTAssignment a   , Object o) throws SemanticException;
 	Object visitASTDeclarationGroup      (ASTDeclarationGroup dg  , Object o) throws SemanticException;
@@ -28,9 +28,10 @@ public interface Visitor{
 	Object visitASTOperator              (ASTOperator              op  ,Object o) throws SemanticException;
 	Object visitASTOperatorComp          (ASTOperatorComp          opc ,Object o) throws SemanticException;
 	Object visitASTReturnStatement       (ASTReturnStatement       rs  ,Object o) throws SemanticException;
+	Object visitASTSingleDeclaraton(ASTSingleDeclaration astSingleDeclaration, Object o) throws SemanticException;
 	Object visitASTSubprogramDeclaration (ASTSubprogramDeclaration sd  ,Object o) throws SemanticException;
 	Object visitASTTerm                  (ASTTerm                  t   ,Object o) throws SemanticException;
 	Object visitASTType                  (ASTType                  t   ,Object o) throws SemanticException;
 
-
+	
 }

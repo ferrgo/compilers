@@ -19,4 +19,7 @@ public class ASTIdentifier extends ASTTerminal {
         return null;
     }
 
+    public String getSpelling() {
+        return spelling;
+    }
 }

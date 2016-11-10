@@ -1,9 +1,10 @@
 package poli.comp.util.AST;
 
 
+import poli.comp.checker.SemanticException;
 import poli.comp.checker.Visitor;
 
-class ASTSingleDeclaration extends AST{
+public class ASTSingleDeclaration extends AST{
 
 	//Set by parser
 	private ASTIdentifier id;
@@ -25,9 +26,8 @@ class ASTSingleDeclaration extends AST{
 		return this.id;
 	}
 
-	//TODO
 	@Override
-	public Object visit(Visitor v, Object o) {
-		return null;
+	public Object visit(Visitor v, Object o) throws SemanticException {
+		return v.visitASTSingleDeclaraton(this, o);
 	}
 }

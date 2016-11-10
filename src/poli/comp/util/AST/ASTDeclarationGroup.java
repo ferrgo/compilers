@@ -30,4 +30,11 @@ public class ASTDeclarationGroup extends ASTStatement{
   			return null;
   	}
 
+    public ASTType getType() {
+        return tp;
+    }
+
+    public Map<ASTIdentifier, ASTExpression> getDeclarations() {
+        return declarations;
+    }
 }

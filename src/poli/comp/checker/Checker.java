@@ -2,6 +2,9 @@ package poli.comp.checker;
 
 import poli.comp.util.AST.*; //importing all AST node classes
 
+import java.util.List;
+import java.util.Map;
+
 
 class Checker implements Visitor{
 
@@ -30,7 +33,7 @@ class Checker implements Visitor{
 
 	}
 
-	Object visitProgram(ASTProgram p, Object scopeTracker) throws SemanticException{
+	public Object visitASTProgram(ASTProgram p, Object scopeTracker) throws SemanticException{
 
 		//Checks globals
 		for (ASTDeclarationGroup dg : p.getGlobalDeclarationGroups()){
@@ -53,7 +56,7 @@ class Checker implements Visitor{
 	}
 
 
-	Object visitSingleDeclaration(ASTSingleDeclaration sd, Object scopeTracker) throws SemanticException{
+	Object visitASTSingleDeclaration(ASTSingleDeclaration sd, Object scopeTracker) throws SemanticException{
 		//We are linking the idt key to the ASTSingleDeclaration and not the ASTIdentifier object, so that when
 		//we wanna check type consistency we can have access to the ASTType object contained in the ASTSingleDeclaration object.
 
@@ -69,6 +72,7 @@ class Checker implements Visitor{
 			//TODO: check for rules:
 
 			String dgType = dg.getType().getSpelling();
+			//TODO 
 			List<ASTSingleDeclaration> declarations = dg.getDeclarations();
 			Map<ASTSingleDeclaration,ASTExpression> assignmentMap = dg.getAssignmentMap();
 			ASTExpression currentExpression=null;
