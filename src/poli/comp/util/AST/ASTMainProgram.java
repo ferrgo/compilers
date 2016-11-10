@@ -7,12 +7,21 @@ import java.util.List;
  */
 public class ASTMainProgram {
 
+	    private final ASTIdentifier id;
+	    private final List<ASTStatement> statements;
 
-    private final ASTIdentifier id;
-    private final List<ASTStatement> statements;
+	    public ASTMainProgram(ASTIdentifier id, List<ASTStatement> l_s) {
+	        this.id = id;
+	        this.statements = l_s;
+	    }
 
-    public ASTMainProgram(ASTIdentifier id, List<ASTStatement> l_s) {
-        this.id = id;
-        this.statements = l_s;
-    }
+		 private ASTIdentifier getIdentifier(){
+	 		return this.id;
+	 	}
+
+
+	 	private List<ASTStatement> getStatements(){
+	 		return this.statements;
+	 	}
+
 }

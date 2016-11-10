@@ -21,6 +21,14 @@ public class ASTAssignment extends ASTStatement {
 		this.exp = e;
 	}
 
+	public ASTIdentifier getTarget(){
+		return this.id;
+	}
+
+	public ASTExpression getExpression(){
+		return this.exp;
+	}
+
 	@Override
 	public Object visit(Visitor v, Object o) throws SemanticException {
 		return v.visitASTAssignment(this, o);
