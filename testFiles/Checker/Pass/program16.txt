@@ -1,0 +1,8 @@
+! this should succeed
+
+PROGRAM testingInt
+
+   INTEGER :: largeval
+   PRINT *, huge(largeval)
+
+END PROGRAM

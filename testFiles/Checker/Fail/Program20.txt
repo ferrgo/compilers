@@ -1,0 +1,7 @@
+! this should not succeed
+
+
+a = 120
+b = 150
+result = a + b
+!PRINT *, !RETURN !(Thetotalis), result
