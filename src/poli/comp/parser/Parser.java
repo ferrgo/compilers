@@ -446,6 +446,7 @@ public class Parser {
 
 		//If we have params...
 		//TODO fix this to use a flag on the comma thingy and a single loop.
+		//TODO Are we using map_params or l_params?
 		HashMap<ASTType, ASTIdentifier> map_params;
 		map_params = new HashMap<ASTType,ASTIdentifier>();
 		if(currentToken.getKind()==TYPE){
@@ -485,13 +486,13 @@ public class Parser {
 		}
 
 		accept(END);
-
+		//TODO replacing map_params by l_params to make it compilable.
 		if (isFunction){
 			accept(FUNCTION);
-			rv = new ASTFunctionDeclaration(t, subroutineName, map_params, l_s);
+			rv = new ASTFunctionDeclaration(t, subroutineName, l_params, l_s);
 		}else{
 			accept(SUBPROGRAM);
-			rv = new ASTSubprogramDeclaration( subroutineName, map_params, l_s);
+			rv = new ASTSubprogramDeclaration( subroutineName, l_params, l_s);
 		}
 		return rv;
 	}

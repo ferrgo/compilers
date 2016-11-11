@@ -5,7 +5,9 @@ import poli.comp.checker.Visitor;
 
 public class ASTIdentifier extends ASTTerminal {
 
-   public ASTIdentifier(String s){
+    private String speling;
+
+    public ASTIdentifier(String s){
        super(s);
    }
 
@@ -21,5 +23,9 @@ public class ASTIdentifier extends ASTTerminal {
 
     public String getSpelling() {
         return spelling;
+    }
+
+    public String getSpeling() {
+        return speling;
     }
 }

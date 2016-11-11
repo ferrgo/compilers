@@ -1,5 +1,6 @@
 package poli.comp.util.AST;
 
+import jdk.internal.org.objectweb.asm.AnnotationVisitor;
 import poli.comp.checker.SemanticException;
 import poli.comp.checker.Visitor;
 
@@ -18,15 +19,15 @@ public class ASTProgram extends AST {
 		 this.l_sd = l_sd;
 		 this.mp = mp;
 	}
-	public ASTDeclarationGroup getGlobalDeclarationGroups(){
+	public List<ASTDeclarationGroup> getGlobalDeclarationGroups(){
 		return this.l_globals;
 	}
 
-	public ASTFunctionDeclaration getFunctionDeclarations(){
+	public List<ASTFunctionDeclaration> getFunctionDeclarations(){
 		return this.l_fd;
 	}
 
-	public ASTSubprogramDeclaration getSubprogramDeclarations(){
+	public List<ASTSubprogramDeclaration> getSubprogramDeclarations(){
 		return this.l_sd;
 	}
 
@@ -39,4 +40,7 @@ public class ASTProgram extends AST {
         return null;
     }
 
+	public ASTMainProgram getMainProgram() {
+		return mp;
+	}
 }

@@ -29,6 +29,6 @@ public class ASTSingleDeclaration extends AST{
 	//TODO
 	@Override
 	public Object visit(Visitor v, Object o) throws SemanticException {
-		return v.visitASTSingleDeclaraton(this, o);
+		return v.visitASTSingleDeclaration(this, o);
 	}
 }

@@ -28,10 +28,10 @@ public interface Visitor{
 	Object visitASTOperator              (ASTOperator              op  ,Object o) throws SemanticException;
 	Object visitASTOperatorComp          (ASTOperatorComp          opc ,Object o) throws SemanticException;
 	Object visitASTReturnStatement       (ASTReturnStatement       rs  ,Object o) throws SemanticException;
-	Object visitASTSingleDeclaraton(ASTSingleDeclaration astSingleDeclaration, Object o) throws SemanticException;
+	Object visitASTSingleDeclaration     (ASTSingleDeclaration astSingleDeclaration, Object o) throws SemanticException;
 	Object visitASTSubprogramDeclaration (ASTSubprogramDeclaration sd  ,Object o) throws SemanticException;
 	Object visitASTTerm                  (ASTTerm                  t   ,Object o) throws SemanticException;
 	Object visitASTType                  (ASTType                  t   ,Object o) throws SemanticException;
 
-	
+
 }

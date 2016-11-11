@@ -23,19 +23,19 @@ public class ASTFunctionDeclaration extends ASTSubroutineDeclaration{
          this.l_params = l_par;
          this.l_stt = statements;
      }
- 	private ASTType getType(){
+ 	public ASTType getType(){
  		return this.tp;
  	}
 
- 	private ASTIdentifier getIdentifier(){
+ 	public ASTIdentifier getIdentifier(){
  		return this.id;
  	}
 
- 	private List<ASTSingleDeclaration> getParams(){
+ 	public List<ASTSingleDeclaration> getParams(){
  		return this.l_params;
  	}
 
- 	private List<ASTStatement> getStatements(){
+ 	public List<ASTStatement> getStatements(){
  		return this.l_stt;
  	}
 

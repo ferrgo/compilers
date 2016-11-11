@@ -16,9 +16,9 @@ public class ASTSubprogramDeclaration extends ASTSubroutineDeclaration{
 	private List<ASTStatement> statements;
 
 	public ASTSubprogramDeclaration( ASTIdentifier subroutineName, List<ASTSingleDeclaration> l_par, List<ASTStatement> l_s) {
-		 this.type = t;
+//		 this.type = t;
 		 this.id = subroutineName;
-		 this.map_params = l_par;
+		 this.l_params = l_par;
 		 this.statements = l_s;
 	}
 
@@ -26,4 +26,16 @@ public class ASTSubprogramDeclaration extends ASTSubroutineDeclaration{
     public Object visit(Visitor v, Object o) throws SemanticException {
         return v.visitASTSubprogramDeclaration(this, o);
     }
+
+	public ASTIdentifier getIdentifier() {
+		return id;
+	}
+
+	public List<ASTSingleDeclaration> getParams() {
+		return l_params;
+	}
+
+	public List<ASTStatement> getStatements() {
+		return statements;
+	}
 }
