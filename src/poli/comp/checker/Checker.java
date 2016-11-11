@@ -304,6 +304,7 @@ public class Checker implements Visitor{
 		ASTExpression printExpression = pstt.getExpression();
 		printExpression.visit(this,scopeTracker);
 
+		return null;
 	}
 
 
@@ -326,19 +327,19 @@ public class Checker implements Visitor{
 		//Checking if number of call arguments matches the number from the declaration
 		List<ASTSingleDeclaration> declarationArguments = declaration.getParams();
 
-		ASTFunctionArgs callArguments = fc.getFunctionArgs();
-		List<ASTExpression> callArgumentList = fc.getArgumentList();
+//		ASTFunctionArgs callArguments = fc.getFunctionArgs();
+		List<ASTExpression> callArgumentList = fc.getFunctionArgs().getArgumentList();
 
-		if(callArgumentList.size()!=declarationArgumentList.size()){
-			throw new SemanticException("Function "+functionId.getSpelling()+" accepts "+declarationArgumentList.size()+" arguments
-												 , but you're calling it with "+callArgumentList.size()+" arguments");
+		if(callArgumentList.size()!=declarationArguments.size()){
+			throw new SemanticException("Function "+functionId.getSpelling()+" accepts "+ declarationArguments.size()
+					+" arguments, but you're calling it with "+callArgumentList.size()+" arguments");
 		}
 
 		//Checking the argument expressions, and cheking if they have the right return types
-		for(int i=0; i<arguments.size(); i++ ){
+		for(int i=0; i<fc.getFunctionArgs().getArgumentList().size(); i++ ){
 
-			ASTExpression currentExp = callArgumentList.get(i));
-			String currentExpType = exp.visit(this,scopeTracker);
+			ASTExpression currentExp = callArgumentList.get(i);
+			String currentExpType = (String) currentExp.visit(this,scopeTracker);
 
 			ASTSingleDeclaration currentDeclaration = declarationArguments.get(i);
 			String currentDeclarationType = currentDeclaration.getType().getSpelling();
@@ -352,6 +353,7 @@ public class Checker implements Visitor{
 
 		}
 
+		return null;
 	}
 
 	public Object visitASTIfStatement(ASTIfStatement ifStt, Object scopeTracker) throws SemanticException{
@@ -359,7 +361,7 @@ public class Checker implements Visitor{
 		ASTExpression condition = ifStt.getCondition();
 		condition.visit(this,scopeTracker);
 
-		if(!condition.getTypeString.equals("LOGICAL")){
+		if(!condition.getTypeString().equals("LOGICAL")){
 			throw new SemanticException("If statement condition must evaluate to a boolean value!");
 		}
 
@@ -374,6 +376,7 @@ public class Checker implements Visitor{
 			stt.visit(this,scopeTracker);
 		}
 
+		return null;
 	}
 
 	@Override
@@ -393,8 +396,7 @@ public class Checker implements Visitor{
 		ASTSingleDeclaration targetDeclaration = (ASTSingleDeclaration) idt.retrieve(target.getSpelling());
 		String targetType = targetDeclaration.getTypeString();
 
-
-
+		return asg;
 	}
 
 
@@ -466,6 +468,7 @@ public class Checker implements Visitor{
 		}
 
 		//TODO return declaration's type so that we can check for exp consistency?
+		return null;
 	}
 
 }

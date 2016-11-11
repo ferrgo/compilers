@@ -9,7 +9,7 @@ public abstract class ASTTerminal extends AST {
     }
 
  	 public String getSpelling(){
- 		 return this.contents;
+ 		 return this.spelling;
  	 }
 
     @Override

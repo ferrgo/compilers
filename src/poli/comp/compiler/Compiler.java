@@ -2,6 +2,7 @@ package poli.comp.compiler;
 
 //import poli.comp.parser.Parser;
 import poli.comp.checker.Checker;
+import poli.comp.checker.SemanticException;
 import poli.comp.parser.Parser;
 import poli.comp.parser.SyntacticException;
 import poli.comp.scanner.LexicalException;
@@ -26,7 +27,7 @@ public class Compiler {
 	 * Compiler start point
 	 * @param args - none
 	 */
-	public static void main(String[] args) {
+	public static void main(String[] args) throws SemanticException {
 		// Initializes the identification table with the reserved words
 		Compiler.initIdentificationTable();
 
