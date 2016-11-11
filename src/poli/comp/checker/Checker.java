@@ -112,7 +112,7 @@ public class Checker implements Visitor{
 		boolean returnFlag = false;
 
 		//Checking name and putting it on global scope
-		idt.enter(functionName.getSpeling(),fd);
+		idt.enter(functionName.getSpelling(),fd);
 
 		// Increasing the scope, cause we will visit params
 		idt.openScope();
@@ -154,7 +154,7 @@ public class Checker implements Visitor{
 		boolean returnFlag = false;
 
 		//Checking name and putting it on global scope
-		idt.enter(subprogramName.getSpeling(),spd);
+		idt.enter(subprogramName.getSpelling(),spd);
 
 		// Increasing the scope, cause we will visit params
 		idt.openScope();
@@ -320,7 +320,7 @@ public class Checker implements Visitor{
 		ASTIdentifier functionId = fc.getFunctionId();
 		functionId.visit(this,scopeTracker);
 		ASTFunctionDeclaration declaration = (ASTFunctionDeclaration) idt.retrieve(functionId.getSpelling());
-		if(idt.retrieve(functionId.getSpeling())==null){
+		if(idt.retrieve(functionId.getSpelling())==null){
 			throw new SemanticException("Trying to call function "+ functionId.getSpelling() +", but it was not declared yet!");
 		}
 

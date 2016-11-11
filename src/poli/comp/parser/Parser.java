@@ -449,6 +449,7 @@ public class Parser {
 		//TODO Are we using map_params or l_params?
 		HashMap<ASTType, ASTIdentifier> map_params;
 		map_params = new HashMap<ASTType,ASTIdentifier>();
+		l_params = new ArrayList<>();
 		if(currentToken.getKind()==TYPE){
 
 			ASTType currentParamType = new ASTType(currentToken.getSpelling());
@@ -476,9 +477,9 @@ public class Parser {
 		while(currentToken.getKind()!=END){
 			if(currentToken.getKind()==RETURN){
 				if(isFunction){
-					l_s.add(parseFunctionReturn());
+					l_s.add(parseFunctionReturnStatement());
 				}else{
-					l_s.add(parseSubprogramReturn());
+					l_s.add(parseSubprogramReturnStatement());
 				}
 			}else{
 				l_s.add(parseStatement());
@@ -495,16 +496,6 @@ public class Parser {
 			rv = new ASTSubprogramDeclaration( subroutineName, l_params, l_s);
 		}
 		return rv;
-	}
-
-	//TODO
-	private ASTStatement parseSubprogramReturn() {
-		return null;
-	}
-
-	//TODO
-	private ASTStatement parseFunctionReturn() {
-		return null;
 	}
 
 
