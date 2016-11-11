@@ -18,7 +18,8 @@ public class ASTFunctionDeclaration extends ASTSubroutineDeclaration{
    private List<ASTStatement> l_stt;
 
      public ASTFunctionDeclaration(ASTType tp, ASTIdentifier id, List<ASTSingleDeclaration> l_par, List<ASTStatement> statements) {
-         this.tp = tp;
+		  super();
+			this.tp = tp;
          this.id = id;
          this.l_params = l_par;
          this.l_stt = statements;
@@ -39,6 +40,9 @@ public class ASTFunctionDeclaration extends ASTSubroutineDeclaration{
  		return this.l_stt;
  	}
 
+	public String getTypeString(){
+		return this.tp.getSpelling();
+	}
 
     @Override
     public Object visit(Visitor v, Object o) throws SemanticException {

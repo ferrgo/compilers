@@ -446,11 +446,8 @@ public class Parser {
 
 		//If we have params...
 		//TODO fix this to use a flag on the comma thingy and a single loop.
-		//TODO Are we using map_params or l_params?
-		HashMap<ASTType, ASTIdentifier> map_params;
-		map_params = new HashMap<ASTType,ASTIdentifier>();
-		l_params = new ArrayList<>();
 		if(currentToken.getKind()==TYPE){
+			map_params = new HashMap<ASTType,ASTIdentifier>();
 
 			ASTType currentParamType = new ASTType(currentToken.getSpelling());
 			accept(TYPE);

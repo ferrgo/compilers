@@ -24,6 +24,12 @@ public class ASTArithmeticExpression extends AST{
         return v.visitASTArithmeticExpression(this, o);
     }
 
+	 public ASTTerm getTerm(){
+		 return this.term;
+	 }
+	 public Map<ASTOperatorArit,ASTTerm> getOpTerms(){
+		 return this.l_opterms;
+	 }
     @Override
   	public String toString(int level) {
   			return null;

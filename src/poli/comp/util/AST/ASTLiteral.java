@@ -11,6 +11,14 @@ public class ASTLiteral extends ASTTerminal{
         super(spelling);
     }
 
+	 public String getTypeString(){
+		 if (this.spelling.equals(".true.") || this.spelling.equals(".false.")){
+			 return "LOGICAL";
+		 }else{
+			 return "INT";
+		 }
+	 }
+
     @Override
     public Object visit(Visitor v, Object o) throws SemanticException {
         return v.visitASTLiteral(this, o);
