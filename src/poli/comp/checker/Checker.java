@@ -206,6 +206,20 @@ public class Checker implements Visitor{
 		return mp;
 	}
 
+	@Override
+	public Object visitASTOperator(ASTOperator op, Object o) throws SemanticException {
+		return null;
+	}
+
+	@Override
+	public Object visitASTOperatorComp(ASTOperatorComp opc, Object o) throws SemanticException {
+		return null;
+	}
+
+	@Override
+	public Object visitASTReturnStatement(ASTReturnStatement rs, Object o) throws SemanticException {
+		return null;
+	}
 
 
 	//Checks a declaration, adding it to the idt or raising an exception if there is a prvious variable with the same id
@@ -230,6 +244,16 @@ public class Checker implements Visitor{
 //		scopeTracker.add(loopStt);
 
 		return loopStt; // Agin, what the hell should I even return? :(
+	}
+
+	@Override
+	public Object visitASTLoopContinue(ASTLoopContinue lc, Object o) throws SemanticException {
+		return null;
+	}
+
+	@Override
+	public Object visitASTLoopExit(ASTLoopExit le, Object o) throws SemanticException {
+		return null;
 	}
 
 	public Object visitASTLoopControl(ASTLoopControl lc, Object scopeTracker) throws SemanticException{
@@ -275,7 +299,7 @@ public class Checker implements Visitor{
 		throw new SemanticException("Trying to return from a subprogram outside of a subprogram scope!");
 	}
 
-	Object visitASTPrintStatement(ASTPrintStatement pstt, Object scopeTracker) throws SemanticException{
+	public Object visitASTPrintStatement(ASTPrintStatement pstt, Object scopeTracker) throws SemanticException{
 
 		ASTExpression printExpression = pstt.getExpression();
 		printExpression.visit(this,scopeTracker);
@@ -284,7 +308,7 @@ public class Checker implements Visitor{
 
 
 
-	Object visitFunctionCall(ASTFunctionCall fc, Object scopeTracker) throws SemanticException{
+	public Object visitASTFunctionCall(ASTFunctionCall fc, Object scopeTracker) throws SemanticException{
 		//TODO (low priority): We named this SubroutineCall but it also works for subprogarms. Perhaps we
 		// should refactor this ot SubroutineCall?
 		//TODO (low priority): arent they called params when we call and args on the declaration?
@@ -295,7 +319,7 @@ public class Checker implements Visitor{
 		ASTIdentifier functionId = fc.getFunctionId();
 		functionId.visit(this,scopeTracker);
 		ASTFunctionDeclaration declaration = (ASTFunctionDeclaration) idt.retrieve(functionId.getSpelling());
-		if(declaration == null){
+		if(idt.retrieve(functionId.getSpeling())==null){
 			throw new SemanticException("Trying to call function "+ functionId.getSpelling() +", but it was not declared yet!");
 		}
 
@@ -303,7 +327,7 @@ public class Checker implements Visitor{
 		List<ASTSingleDeclaration> declarationArguments = declaration.getParams();
 
 		ASTFunctionArgs callArguments = fc.getFunctionArgs();
-		List<ASTExpression> callArgumentList = arguments.getArgumentList();
+		List<ASTExpression> callArgumentList = fc.getArgumentList();
 
 		if(callArgumentList.size()!=declarationArgumentList.size()){
 			throw new SemanticException("Function "+functionId.getSpelling()+" accepts "+declarationArgumentList.size()+" arguments
@@ -330,7 +354,7 @@ public class Checker implements Visitor{
 
 	}
 
-	Object visitIfStatement(ASTIfStatement ifStt, Object scopeTracker) throws SemanticException{
+	public Object visitASTIfStatement(ASTIfStatement ifStt, Object scopeTracker) throws SemanticException{
 
 		ASTExpression condition = ifStt.getCondition();
 		condition.visit(this,scopeTracker);
@@ -352,16 +376,21 @@ public class Checker implements Visitor{
 
 	}
 
-	Object visitAssignment(ASTAssignment asg, Object scopeTracker) throws SemanticException{
+	@Override
+	public Object visitASTLiteral(ASTLiteral l, Object o) throws SemanticException {
+		return null;
+	}
+
+	public Object visitASTAssignment(ASTAssignment asg, Object scopeTracker) throws SemanticException{
 
 		ASTIdentifier target = asg.getTarget();
 		target.visit(this,scopeTracker);
 
 		ASTExpression expression = asg.getExpression();
-		expression.visit(this,expression)
+		expression.visit(this,expression);
 		String expType = expression.getTypeString();
 
-		ASTSingleDeclaration targetDeclaration = idt.retrieve(target.getSpelling());
+		ASTSingleDeclaration targetDeclaration = (ASTSingleDeclaration) idt.retrieve(target.getSpelling());
 		String targetType = targetDeclaration.getTypeString();
 
 
@@ -373,16 +402,36 @@ public class Checker implements Visitor{
 		//We dont need to verify if e.getOpComp() indeer returns an OP_COMP, because
 		//the parser will only save it if that is the case.
 		if (e.getOpComp()==null){
-			String ts = visit(e.getExp1(),scopeTracker);
+			String ts = (String) e.getExp1().visit(this,scopeTracker);
 			e.setTypeString(ts);
 			return ts;
 		}else{
-			visit(e.getExp1(),scopeTracker);
-			visit(e.getExp2(),scopeTracker);
+			e.getExp1().visit(this,scopeTracker);
+			e.getExp2().visit(this,scopeTracker);
 			e.setTypeString("LOGICAL");
 			return "LOGICAL";
 		}
 
+	}
+
+	@Override
+	public Object visitASTFactorExpression(ASTFactorExpression fe, Object o) throws SemanticException {
+		return null;
+	}
+
+	@Override
+	public Object visitASTFactorLiteral(ASTFactorLiteral fl, Object o) throws SemanticException {
+		return null;
+	}
+
+	@Override
+	public Object visitASTFactorSubroutineCall(ASTFactorSubroutineCall fsc, Object o) throws SemanticException {
+		return null;
+	}
+
+	@Override
+	public Object visitASTFunctionArgs(ASTFunctionArgs fa, Object o) throws SemanticException {
+		return null;
 	}
 
 	public Object visitASTArithmeticExpression(ASTArithmeticExpression e, Object scopeTracker) throws SemanticException{
@@ -392,6 +441,11 @@ public class Checker implements Visitor{
 
 	public Object visitASTTerm(ASTTerm t, Object scopeTracker) throws SemanticException{
 		//return type, cause it can just encapsulate a (bool)
+		return null;
+	}
+
+	@Override
+	public Object visitASTType(ASTType t, Object o) throws SemanticException {
 		return null;
 	}
 

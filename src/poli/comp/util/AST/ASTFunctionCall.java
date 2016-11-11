@@ -17,7 +17,7 @@ public class ASTFunctionCall extends ASTStatement{
 	public ASTIdentifier getFunctionId(){
 		return this.id;
 	}
-	ASTFunctionArgs getFunctionArgs(){
+	public ASTFunctionArgs getFunctionArgs(){
 			return this.fa;
 	}
 
