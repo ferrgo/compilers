@@ -3,8 +3,8 @@ package poli.comp.util.AST;
 import poli.comp.checker.SemanticException;
 import poli.comp.checker.Visitor;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by hgferr on 30/09/16.
@@ -23,8 +23,8 @@ public class ASTSubprogramDeclaration extends ASTSubroutineDeclaration{
 	}
 
     @Override
-    public Object visit(Visitor v, Object o) throws SemanticException {
-        return v.visitASTSubprogramDeclaration(this, o);
+    public Object visit(Visitor v, ArrayList<AST> scopeTracker) throws SemanticException {
+        return v.visitASTSubprogramDeclaration(this, scopeTracker);
     }
 
 	public ASTIdentifier getIdentifier() {

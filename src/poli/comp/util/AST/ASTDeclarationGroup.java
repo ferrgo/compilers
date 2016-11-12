@@ -3,6 +3,7 @@ package poli.comp.util.AST;
 import poli.comp.checker.SemanticException;
 import poli.comp.checker.Visitor;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -35,8 +36,8 @@ public class ASTDeclarationGroup extends ASTStatement{
  	}
 
     @Override
-    public Object visit(Visitor v, Object o) throws SemanticException {
-        return v.visitASTDeclarationGroup(this, o);
+    public Object visit(Visitor v, ArrayList<AST> scopeTracker) throws SemanticException {
+        return v.visitASTDeclarationGroup(this, scopeTracker);
     }
 
     @Override

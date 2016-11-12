@@ -2,6 +2,8 @@ package poli.comp.util.AST;
 
 import poli.comp.checker.Visitor;
 
+import java.util.ArrayList;
+
 /**
  * Created by hgferr on 30/09/16.
  * @Deprecated - Replaced with Map in Subroutine
@@ -17,7 +19,7 @@ public class ASTParamDeclaration extends AST{
 	}
 
     @Override
-    public Object visit(Visitor v, Object o) {
+    public Object visit(Visitor v, ArrayList<AST> scopeTracker) {
         return null;
     }
 }

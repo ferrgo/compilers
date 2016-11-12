@@ -3,6 +3,8 @@ package poli.comp.util.AST;
 import poli.comp.checker.SemanticException;
 import poli.comp.checker.Visitor;
 
+import java.util.ArrayList;
+
 /**
  * Created by hgferr on 01/10/16.
  */
@@ -14,8 +16,8 @@ public class ASTFactorExpression extends ASTFactor {
     }
 
     @Override
-    public Object visit(Visitor v, Object o) throws SemanticException {
-        return v.visitASTFactorExpression(this, o);
+    public Object visit(Visitor v, ArrayList<AST> scopeTracker) throws SemanticException {
+        return v.visitASTFactorExpression(this, scopeTracker);
     }
 
     public ASTExpression getExp() {

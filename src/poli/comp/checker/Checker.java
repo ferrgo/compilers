@@ -1,5 +1,6 @@
 package poli.comp.checker;
 
+import org.codehaus.groovy.runtime.ArrayUtil;
 import poli.comp.util.AST.*; //importing all AST node classes
 import poli.comp.util.symbolsTable.IdentificationTable;
 
@@ -20,7 +21,7 @@ public class Checker implements Visitor{
 
 	public AST check(AST a) throws SemanticException {
 
-		List<AST> scopeTracker = new ArrayList<AST>();
+		ArrayList<AST> scopeTracker = new ArrayList<AST>();
 
 		//TODO: Even though we expect the parser to work reliably (i.e. throw an exception if at runtime it realizes the input code is wrong)
 		//, would it be conceptually *wrong* to check for "a instanceof ASTProgram" here in this method?
@@ -35,7 +36,7 @@ public class Checker implements Visitor{
 
 	}
 
-	public Object visitASTProgram(ASTProgram p, Object scopeTracker) throws SemanticException{
+	public Object visitASTProgram(ASTProgram p, ArrayList<AST> scopeTracker) throws SemanticException{
 
 		//Checks globals
 		for (ASTDeclarationGroup dg : p.getGlobalDeclarationGroups()){
@@ -58,7 +59,7 @@ public class Checker implements Visitor{
 	}
 
 
-	public Object visitASTSingleDeclaration(ASTSingleDeclaration sd, Object scopeTracker) throws SemanticException{
+	public Object visitASTSingleDeclaration(ASTSingleDeclaration sd, ArrayList<AST> scopeTracker) throws SemanticException{
 		//We are linking the idt key to the ASTSingleDeclaration and not the ASTIdentifier object, so that when
 		//we wanna check type consistency we can have access to the ASTType object contained in the ASTSingleDeclaration object.
 
@@ -70,7 +71,7 @@ public class Checker implements Visitor{
 	}
 
 
-	public Object visitASTDeclarationGroup(ASTDeclarationGroup dg, Object scopeTracker) throws SemanticException{
+	public Object visitASTDeclarationGroup(ASTDeclarationGroup dg, ArrayList<AST> scopeTracker) throws SemanticException{
 			//TODO: check for rules:
 
 			String dgType = dg.getType().getSpelling();
@@ -100,9 +101,8 @@ public class Checker implements Visitor{
 			return null;
 	}
 
-	public Object visitASTFunctionDeclaration(ASTFunctionDeclaration fd, Object o) throws SemanticException{
+	public Object visitASTFunctionDeclaration(ASTFunctionDeclaration fd, ArrayList<AST> scopeTracker) throws SemanticException{
 		//TODO: Check for rules:
-		List<AST> scopeTracker=(List<AST>) o;
 		scopeTracker.add(fd); //Adding the function block to the scope tracker
 
 		ASTType functionType = fd.getType();
@@ -138,8 +138,7 @@ public class Checker implements Visitor{
 
 	//This is basically a copy of the above, without the type because its a Subprogram
 	//TODO maybe merge those two and have if statements for the functionType part and for the AST classes?
-	public Object visitASTSubprogramDeclaration(ASTSubprogramDeclaration spd, Object o) throws SemanticException{
-		List<AST> scopeTracker=(List<AST>) o;
+	public Object visitASTSubprogramDeclaration(ASTSubprogramDeclaration spd, ArrayList<AST> scopeTracker) throws SemanticException{
 		scopeTracker.add(spd); //Adding the function block to the scope tracker
 
 		ASTIdentifier subprogramName = spd.getIdentifier();
@@ -174,9 +173,8 @@ public class Checker implements Visitor{
 	}
 
 	//Checks the main body of the program
-	public Object visitASTMainProgram(ASTMainProgram mp, Object o) throws SemanticException{
+	public Object visitASTMainProgram(ASTMainProgram mp, ArrayList<AST> scopeTracker) throws SemanticException{
 		//TODO ter como regra extra que o main pode ter return?
-		List<AST> scopeTracker=(List<AST>) o;
 		scopeTracker.add(mp);
 		idt.openScope();
 		ASTIdentifier programName = mp.getIdentifier();
@@ -195,20 +193,19 @@ public class Checker implements Visitor{
 	}
 
 	@Override
-	public Object visitASTOperator(ASTOperator op, Object o) throws SemanticException {
+	public Object visitASTOperator(ASTOperator op, ArrayList<AST> scopeTracker) throws SemanticException {
 		return null;
 	}
 
 	@Override
-	public Object visitASTType(ASTType astType, Object o) {
+	public Object visitASTType(ASTType astType, ArrayList<AST> scopeTracker) {
 		return null;
 	}
 
 	//Checks a declaration, adding it to the idt or raising an exception if there is a prvious variable with the same id
 
 
-	public Object visitASTLoop(ASTLoop loopStt, Object o) throws SemanticException{
-		List<AST> scopeTracker=(List<AST>) o;
+	public Object visitASTLoop(ASTLoop loopStt, ArrayList<AST> scopeTracker) throws SemanticException{
 		//check expression //TODO add return to function/sbp boolean return
 		ASTExpression condition = loopStt.getCondition();
 		String conditionType = condition.getTypeString();
@@ -243,7 +240,7 @@ public class Checker implements Visitor{
 		throw new SemanticException("The "+((lc instanceof ASTLoopExit)?("EXIT"):("CONTINUE"))+" statement is not inside of a loop!");
 	}
 
-	Object visitASTFunctionReturnStatement(ASTReturnStatement rs, Object scopeTracker) throws SemanticException{
+	Object visitASTFunctionReturnStatement(ASTReturnStatement rs, ArrayList<AST> scopeTracker) throws SemanticException{
 		ASTExpression returnValue = rs.getExpression();
 		returnValue.visit(this,scopeTracker);
 		String returnValueType = returnValue.getTypeString();
@@ -277,7 +274,7 @@ public class Checker implements Visitor{
 		throw new SemanticException("Trying to return from a subprogram outside of a subprogram scope!");
 	}
 
-	public Object visitASTPrintStatement(ASTPrintStatement pstt, Object scopeTracker) throws SemanticException{
+	public Object visitASTPrintStatement(ASTPrintStatement pstt, ArrayList<AST> scopeTracker) throws SemanticException{
 
 		ASTExpression printExpression = pstt.getExpression();
 		printExpression.visit(this,scopeTracker);
@@ -287,7 +284,7 @@ public class Checker implements Visitor{
 
 
 
-	public Object visitASTFunctionCall(ASTFunctionCall fc, Object scopeTracker) throws SemanticException{
+	public Object visitASTFunctionCall(ASTFunctionCall fc, ArrayList<AST> scopeTracker) throws SemanticException{
 		//TODO (low priority): We named this SubroutineCall but it also works for subprogarms. Perhaps we
 		// should refactor this to SubroutineCall?
 		//TODO (low priority): arent they called params when we call and args on the declaration?
@@ -337,8 +334,7 @@ public class Checker implements Visitor{
 		return declaration;
 	}
 
-	public Object visitASTIfStatement(ASTIfStatement ifStt, Object scopeTracker) throws SemanticException{
-		scopeTracker=(List<AST>) scopeTracker;
+	public Object visitASTIfStatement(ASTIfStatement ifStt, ArrayList<AST> scopeTracker) throws SemanticException{
 		ASTExpression condition = ifStt.getCondition();
 		condition.visit(this,scopeTracker);
 
@@ -363,27 +359,27 @@ public class Checker implements Visitor{
 
 
 	@Override
-	public Object visitASTLiteral(ASTLiteral l, Object o) throws SemanticException {
+	public Object visitASTLiteral(ASTLiteral l, ArrayList<AST> scopeTracker) throws SemanticException {
 		return null;
 	}
 
 	@Override
-	public Object visitASTLoopContinue(ASTLoopContinue astLoopContinue, Object o) throws SemanticException {
+	public Object visitASTLoopContinue(ASTLoopContinue astLoopContinue, ArrayList<AST> scopeTracker) throws SemanticException {
 		return null;
 	}
 
 	@Override
-	public Object visitASTLoopExit(ASTLoopExit astLoopExit, Object o) {
+	public Object visitASTLoopExit(ASTLoopExit astLoopExit, ArrayList<AST> scopeTracker) {
 		return null;
 	}
 
-	public Object visitASTAssignment(ASTAssignment asg, Object scopeTracker) throws SemanticException{
+	public Object visitASTAssignment(ASTAssignment asg, ArrayList<AST> scopeTracker) throws SemanticException{
 
 		ASTIdentifier target = asg.getTarget();
 		target.visit(this,scopeTracker);
 
 		ASTExpression expression = asg.getExpression();
-		expression.visit(this,expression);
+		expression.visit(this,scopeTracker);
 		String expType = expression.getTypeString();
 
 		ASTSingleDeclaration targetDeclaration = (ASTSingleDeclaration) idt.retrieve(target.getSpelling());
@@ -407,7 +403,7 @@ public class Checker implements Visitor{
 	}
 
 
-	public Object visitASTExpression(ASTExpression e, Object scopeTracker) throws SemanticException{
+	public Object visitASTExpression(ASTExpression e, ArrayList<AST> scopeTracker) throws SemanticException{
 		//We dont need to verify if e.getOpComp() indeer returns an OP_COMP, because
 		//the parser will only save it if that is the case.
 		if (e.getOpComp()==null){
@@ -423,7 +419,7 @@ public class Checker implements Visitor{
 
 	}
 
-	public Object visitASTArithmeticExpression(ASTArithmeticExpression e, Object scopeTracker) throws SemanticException{
+	public Object visitASTArithmeticExpression(ASTArithmeticExpression e, ArrayList<AST> scopeTracker) throws SemanticException{
 		String term1Type = (String) e.getTerm().visit(this,scopeTracker);
 
 		for(Map.Entry<ASTOperatorArit,ASTTerm> entry : e.getOpTerms().entrySet()){
@@ -458,7 +454,7 @@ public class Checker implements Visitor{
 		return a;
 	}
 
-	public Object visitASTOperatorComp(ASTOperatorComp opc ,Object o) throws SemanticException{
+	public Object visitASTOperatorComp(ASTOperatorComp opc , ArrayList<AST> scopeTracker) throws SemanticException{
 		String a = opc.getSpelling(); //a for alias
 		if(!(a.equals("==") || a.equals("/=") || a.equals(">") || a.equals("<")|| a.equals("<=")|| a.equals(">="))){
 			throw new SemanticException("You're using "+a+"where a comparative operator is expected");
@@ -468,12 +464,12 @@ public class Checker implements Visitor{
 	}
 
 	@Override
-	public Object visitASTReturnStatement(ASTReturnStatement rs, Object o) throws SemanticException {
+	public Object visitASTReturnStatement(ASTReturnStatement rs, ArrayList<AST> scopeTracker) throws SemanticException {
 		return null;
 	}
 
 
-	public Object visitASTTerm(ASTTerm t, Object scopeTracker) throws SemanticException{
+	public Object visitASTTerm(ASTTerm t, ArrayList<AST> scopeTracker) throws SemanticException{
 		String factorType = (String) t.getFactor().visit(this,scopeTracker);
 
 		for(Map.Entry<ASTOperatorArit,ASTFactor> entry : t.getOpFactors().entrySet()){
@@ -502,7 +498,7 @@ public class Checker implements Visitor{
 
 
 	@Override
-	public Object visitASTFactorExpression(ASTFactorExpression fe, Object scopeTracker) throws SemanticException {
+	public Object visitASTFactorExpression(ASTFactorExpression fe, ArrayList<AST> scopeTracker) throws SemanticException {
 		fe.visit(this,scopeTracker);
 
 		return fe.getExp().visit(this, scopeTracker);
@@ -510,12 +506,12 @@ public class Checker implements Visitor{
 	}
 
 	@Override
-	public Object visitASTFactorLiteral(ASTFactorLiteral fl, Object o) throws SemanticException {
+	public Object visitASTFactorLiteral(ASTFactorLiteral fl, ArrayList<AST> o) throws SemanticException {
 		ASTLiteral l = fl.getLiteral();
 		return l.getTypeString();
 	}
 
-	public Object visitASTFactorSubroutineCall(ASTFactorSubroutineCall fsc, Object scopeTracker) throws SemanticException {
+	public Object visitASTFactorSubroutineCall(ASTFactorSubroutineCall fsc, ArrayList<AST> scopeTracker) throws SemanticException {
 		ASTSubroutineDeclaration dec = (ASTSubroutineDeclaration) fsc.visit(this,scopeTracker);
 		if (dec instanceof ASTSubprogramDeclaration){
 			return "VOID";
@@ -525,7 +521,7 @@ public class Checker implements Visitor{
 	}
 
 	@Override
-	public Object visitASTFunctionArgs(ASTFunctionArgs fa, Object o) throws SemanticException {
+	public Object visitASTFunctionArgs(ASTFunctionArgs fa, ArrayList<AST> o) throws SemanticException {
 		return null;
 	}
 
@@ -533,7 +529,7 @@ public class Checker implements Visitor{
 	//TODO UNFINISHED VISITS:
 
 	//Checks an ID that was found in the code. Doesn't add it to IDT - this is done on visitSingleDeclaration.
-	public Object visitASTIdentifier(ASTIdentifier id, Object scopeTracker) throws SemanticException{
+	public Object visitASTIdentifier(ASTIdentifier id, ArrayList<AST> scopeTracker) throws SemanticException{
 
 		if(!idt.containsKey(id.getSpelling())){
 			throw new SemanticException("Trying to refer to identifier "+id.getSpelling()

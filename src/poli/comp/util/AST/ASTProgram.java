@@ -1,9 +1,9 @@
 package poli.comp.util.AST;
 
-import jdk.internal.org.objectweb.asm.AnnotationVisitor;
 import poli.comp.checker.SemanticException;
 import poli.comp.checker.Visitor;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ASTProgram extends AST {
@@ -31,8 +31,8 @@ public class ASTProgram extends AST {
 		return this.l_sd;
 	}
 
-	 public Object visit(Visitor v, Object o) throws SemanticException {
-         return v.visitASTProgram(this, o);
+	 public Object visit(Visitor v, ArrayList<AST> scopeTracker) throws SemanticException {
+         return v.visitASTProgram(this, scopeTracker);
      }
 
     @Override

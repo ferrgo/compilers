@@ -1,9 +1,9 @@
 package poli.comp.util.AST;
 
-import poli.comp.checker.Checker;
 import poli.comp.checker.SemanticException;
 import poli.comp.checker.Visitor;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -28,7 +28,7 @@ public class ASTMainProgram extends AST {
 	 		return this.statements;
 	 	}
 
-	public Object visit(Visitor v, Object o) throws SemanticException {
-		return v.visitASTMainProgram(this, o);
+	public Object visit(Visitor v, ArrayList<AST> scopeTracker) throws SemanticException {
+		return v.visitASTMainProgram(this, scopeTracker);
 	}
 }

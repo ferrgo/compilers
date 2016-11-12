@@ -3,6 +3,8 @@ package poli.comp.util.AST;
 import poli.comp.checker.SemanticException;
 import poli.comp.checker.Visitor;
 
+import java.util.ArrayList;
+
 /**
  * AST class
  * @version 2010-september-04
@@ -30,7 +32,7 @@ public class ASTAssignment extends ASTStatement {
 	}
 
 	@Override
-	public Object visit(Visitor v, Object o) throws SemanticException {
-		return v.visitASTAssignment(this, o);
+	public Object visit(Visitor v, ArrayList<AST> scopeTracker) throws SemanticException {
+		return v.visitASTAssignment(this, scopeTracker);
 	}
 }

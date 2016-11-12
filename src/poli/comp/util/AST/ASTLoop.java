@@ -4,6 +4,7 @@ package poli.comp.util.AST;
 import poli.comp.checker.SemanticException;
 import poli.comp.checker.Visitor;
 
+import java.util.ArrayList;
 import java.util.List;
 
 // LOOP            ::= DO WHILE LP EXPRESSION RP (STATEMENT)* END DO
@@ -26,8 +27,8 @@ public class ASTLoop extends ASTStatement{
 		}
 
     @Override
-    public Object visit(Visitor v, Object o) throws SemanticException {
-        return v.visitASTLoop(this, o);
+    public Object visit(Visitor v, ArrayList<AST> scopeTracker) throws SemanticException {
+        return v.visitASTLoop(this, scopeTracker);
     }
 
     @Override

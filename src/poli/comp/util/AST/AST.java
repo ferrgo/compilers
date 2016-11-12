@@ -4,6 +4,8 @@ package poli.comp.util.AST;
 import poli.comp.checker.SemanticException;
 import poli.comp.checker.Visitor;
 
+import java.util.ArrayList;
+
 /**
  * AST class
  * @version 2010-september-04
@@ -13,7 +15,7 @@ import poli.comp.checker.Visitor;
  */
 public abstract class AST {
 
-	public abstract Object visit(Visitor v, Object o) throws SemanticException;
+	public abstract Object visit(Visitor v, ArrayList<AST> scopeTracker) throws SemanticException;
 
 	public String getSpaces(int level) {
 		StringBuffer str = new StringBuffer();
