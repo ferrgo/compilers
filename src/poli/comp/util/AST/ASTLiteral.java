@@ -22,6 +22,6 @@ public class ASTLiteral extends ASTTerminal{
 
 	@Override
 	public Object visit(Visitor v, Object o) throws SemanticException {
-		return v.visitASTLiteral();
+		return v.visitASTLiteral(this, o);
 	}
 }

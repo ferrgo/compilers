@@ -17,4 +17,8 @@ public class ASTFactorExpression extends ASTFactor {
     public Object visit(Visitor v, Object o) throws SemanticException {
         return v.visitASTFactorExpression(this, o);
     }
+
+    public ASTExpression getExp() {
+        return exp;
+    }
 }

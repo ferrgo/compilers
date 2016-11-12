@@ -38,5 +38,7 @@ public interface Visitor{
 
 	Object visitASTLoopExit              (ASTLoopExit astLoopExit, Object o);
 
-	Object visitASTOperator              (ASTOperator astOperator, Object o);
+	Object visitASTOperator              (ASTOperator astOperator, Object o) throws SemanticException;
+
+	Object visitASTType                  (ASTType astType, Object o);
 }

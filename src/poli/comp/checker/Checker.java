@@ -100,9 +100,9 @@ public class Checker implements Visitor{
 			return null;
 	}
 
-	public Object visitASTFunctionDeclaration(ASTFunctionDeclaration fd, Object scopeTracker) throws SemanticException{
+	public Object visitASTFunctionDeclaration(ASTFunctionDeclaration fd, Object o) throws SemanticException{
 		//TODO: Check for rules:
-//		scopeTracker = (List<AST>) scopeTracker;
+		List<AST> scopeTracker=(List<AST>) o;
 		scopeTracker.add(fd); //Adding the function block to the scope tracker
 
 		ASTType functionType = fd.getType();
@@ -138,8 +138,8 @@ public class Checker implements Visitor{
 
 	//This is basically a copy of the above, without the type because its a Subprogram
 	//TODO maybe merge those two and have if statements for the functionType part and for the AST classes?
-	public Object visitASTSubprogramDeclaration(ASTSubprogramDeclaration spd, Object scopeTracker) throws SemanticException{
-		scopeTracker = (List<AST>) scopeTracker;
+	public Object visitASTSubprogramDeclaration(ASTSubprogramDeclaration spd, Object o) throws SemanticException{
+		List<AST> scopeTracker=(List<AST>) o;
 		scopeTracker.add(spd); //Adding the function block to the scope tracker
 
 		ASTIdentifier subprogramName = spd.getIdentifier();
@@ -174,9 +174,9 @@ public class Checker implements Visitor{
 	}
 
 	//Checks the main body of the program
-	public Object visitASTMainProgram(ASTMainProgram mp, Object scopeTracker) throws SemanticException{
+	public Object visitASTMainProgram(ASTMainProgram mp, Object o) throws SemanticException{
 		//TODO ter como regra extra que o main pode ter return?
-		scopeTracker=(List<AST>)scopeTracker;
+		List<AST> scopeTracker=(List<AST>) o;
 		scopeTracker.add(mp);
 		idt.openScope();
 		ASTIdentifier programName = mp.getIdentifier();
@@ -199,11 +199,16 @@ public class Checker implements Visitor{
 		return null;
 	}
 
+	@Override
+	public Object visitASTType(ASTType astType, Object o) {
+		return null;
+	}
+
 	//Checks a declaration, adding it to the idt or raising an exception if there is a prvious variable with the same id
 
 
-	public Object visitASTLoop(ASTLoop loopStt, Object scopeTracker) throws SemanticException{
-		scopeTracker=(List<AST>) scopeTracker;
+	public Object visitASTLoop(ASTLoop loopStt, Object o) throws SemanticException{
+		List<AST> scopeTracker=(List<AST>) o;
 		//check expression //TODO add return to function/sbp boolean return
 		ASTExpression condition = loopStt.getCondition();
 		String conditionType = condition.getTypeString();
@@ -265,7 +270,7 @@ public class Checker implements Visitor{
 		List<AST> cScopeTracker = (List<AST>) scopeTracker; //c for Casted
 		for(AST node : cScopeTracker){
 			if(node instanceof ASTSubprogramDeclaration){
-				node.foundReturn();
+				((ASTSubprogramDeclaration) node).foundReturn();
 				return rs; //Retorne risos (huehuebrbr)
 			}
 		}
@@ -299,7 +304,7 @@ public class Checker implements Visitor{
 			throw new SemanticException("Trying to call subroutine "+ functionId.getSpelling() +", but this identifier does not return a subroutine!");
 		}
 
-		ASTFunctionDeclaration declaration = (ASTSubroutineDeclaration) idt.retrieve(functionId.getSpelling());
+		ASTFunctionDeclaration declaration = (ASTFunctionDeclaration) idt.retrieve(functionId.getSpelling());
 		//Checking if number of call arguments matches the number from the declaration
 		List<ASTSingleDeclaration> declarationArguments = declaration.getParams();
 
@@ -362,6 +367,16 @@ public class Checker implements Visitor{
 		return null;
 	}
 
+	@Override
+	public Object visitASTLoopContinue(ASTLoopContinue astLoopContinue, Object o) throws SemanticException {
+		return null;
+	}
+
+	@Override
+	public Object visitASTLoopExit(ASTLoopExit astLoopExit, Object o) {
+		return null;
+	}
+
 	public Object visitASTAssignment(ASTAssignment asg, Object scopeTracker) throws SemanticException{
 
 		ASTIdentifier target = asg.getTarget();
@@ -371,7 +386,7 @@ public class Checker implements Visitor{
 		expression.visit(this,expression);
 		String expType = expression.getTypeString();
 
-		ASTSingleDeclaration targetDeclaration =  idt.retrieve(target.getSpelling());
+		ASTSingleDeclaration targetDeclaration = (ASTSingleDeclaration) idt.retrieve(target.getSpelling());
 		if(targetDeclaration==null){
 			throw new SemanticException("Couldnt find the variable "+target.getSpelling());
 		}else if(!(targetDeclaration instanceof ASTSingleDeclaration)){
@@ -409,15 +424,15 @@ public class Checker implements Visitor{
 	}
 
 	public Object visitASTArithmeticExpression(ASTArithmeticExpression e, Object scopeTracker) throws SemanticException{
-		String term1Type = e.getTerm().visit(this,scopeTracker);
+		String term1Type = (String) e.getTerm().visit(this,scopeTracker);
 
 		for(Map.Entry<ASTOperatorArit,ASTTerm> entry : e.getOpTerms().entrySet()){
-			String opSpelling = entry.getKey().visit(this,scopeTracker);
+			String opSpelling = (String) entry.getKey().visit(this,scopeTracker);
 			if(!(opSpelling.equals("+") || opSpelling.equals("-"))){
 				throw new SemanticException("Youre using a wrong operator here. A + or a - is expected");
 			}
 
-			String currentTermType = entry.getValue().visit(this,scopeTracker);
+			String currentTermType = (String) entry.getValue().visit(this,scopeTracker);
 			if(!currentTermType.equals("INT")){
 				throw new SemanticException("Youre trying to do an arithmetic operation with a non-int value");
 			}
@@ -452,24 +467,29 @@ public class Checker implements Visitor{
 		return a;
 	}
 
+	@Override
+	public Object visitASTReturnStatement(ASTReturnStatement rs, Object o) throws SemanticException {
+		return null;
+	}
+
 
 	public Object visitASTTerm(ASTTerm t, Object scopeTracker) throws SemanticException{
 		String factorType = (String) t.getFactor().visit(this,scopeTracker);
 
-		for(Map.Entry<ASTOperatorArit,ASTFactor> entry : e.getOpFactors().entrySet()){
-			String opSpelling = entry.getKey().visit(this,scopeTracker);
+		for(Map.Entry<ASTOperatorArit,ASTFactor> entry : t.getOpFactors().entrySet()){
+			String opSpelling = (String) entry.getKey().visit(this,scopeTracker);
 			if(!(opSpelling.equals("*") || opSpelling.equals("/"))){
 				throw new SemanticException("Youre using a wrong operator here. A * or a / is expected");
 			}
 
-			String currentFactorType = entry.getValue().visit(this,scopeTracker);
+			String currentFactorType = (String) entry.getValue().visit(this,scopeTracker);
 			if(!currentFactorType.equals("INT")){
 				throw new SemanticException("Youre trying to do an arithmetic operation with a void or logical value");
 			}
 		}
 
 		if ( factorType.equals("LOGICAL")){
-			if (e.getOpFactors().size()==0 ){
+			if (t.getOpFactors().size()==0 ){
 				return "LOGICAL";
 			}else{
 				throw new SemanticException("Doing arithmetic operations with a boolean value");
@@ -482,10 +502,10 @@ public class Checker implements Visitor{
 
 
 	@Override
-	public Object visitASTFactorExpression(ASTFactorExpression fe, Object o) throws SemanticException {
+	public Object visitASTFactorExpression(ASTFactorExpression fe, Object scopeTracker) throws SemanticException {
 		fe.visit(this,scopeTracker);
 
-		return fe.getTypeString();
+		return fe.getExp().visit(this, scopeTracker);
 
 	}
 
@@ -495,12 +515,12 @@ public class Checker implements Visitor{
 		return l.getTypeString();
 	}
 
-	public Object visitASTFactorSubroutineCall(ASTFactorSubroutineCall fsc, Object o) throws SemanticException {
-		ASTSubroutineDeclaration dec = fsc.visit(this,scopeTracker);
+	public Object visitASTFactorSubroutineCall(ASTFactorSubroutineCall fsc, Object scopeTracker) throws SemanticException {
+		ASTSubroutineDeclaration dec = (ASTSubroutineDeclaration) fsc.visit(this,scopeTracker);
 		if (dec instanceof ASTSubprogramDeclaration){
 			return "VOID";
 		}else{
-			return dec.getTypeString();
+			return ((ASTFunctionDeclaration) dec).getType().getSpelling();
 		}
 	}
 
@@ -521,7 +541,7 @@ public class Checker implements Visitor{
 		}
 
 		//Returnig type so we can check for correctness
-		return idt.retrieve(id.getSpelling()).getTypeString();
+		return idt.retrieve(id.getSpelling());
 	}
 
 }
