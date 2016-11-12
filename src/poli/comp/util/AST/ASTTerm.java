@@ -13,7 +13,7 @@ public class ASTTerm extends AST{
     private ASTFactor factor;
     private Map<ASTOperatorArit,ASTFactor> l_opfactors;
 
-	 public ASTTerm getFactor(){
+	 public ASTFactor getFactor(){
 		 return this.factor;
 	 }
 	 public Map<ASTOperatorArit,ASTFactor> getOpFactors(){

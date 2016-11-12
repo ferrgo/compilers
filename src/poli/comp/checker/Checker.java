@@ -102,7 +102,7 @@ public class Checker implements Visitor{
 
 	public Object visitASTFunctionDeclaration(ASTFunctionDeclaration fd, Object scopeTracker) throws SemanticException{
 		//TODO: Check for rules:
-		scopeTracker = (List<AST>) scopeTracker;
+//		scopeTracker = (List<AST>) scopeTracker;
 		scopeTracker.add(fd); //Adding the function block to the scope tracker
 
 		ASTType functionType = fd.getType();
@@ -199,14 +199,6 @@ public class Checker implements Visitor{
 		return null;
 	}
 
-	@Override
-	public Object visitASTOperatorComp(ASTOperatorComp opc, Object o) throws SemanticException {
-		return null;
-	}
-
-
-
-
 	//Checks a declaration, adding it to the idt or raising an exception if there is a prvious variable with the same id
 
 
@@ -259,7 +251,7 @@ public class Checker implements Visitor{
 				if(!returnValueType.equals(functionType)){
 					throw new SemanticException("Returning an expression of type "+returnValueType+" in a function of type "+functionType);
 				}
-				node.foundReturn();
+				tmp.foundReturn();
 				return rs; //Retorne risos (huehuebrbr)
 			}else if (node instanceof ASTMainProgram){
 				return rs; //Our rule 10: MainProgram is allowed to return an expression.
@@ -292,7 +284,7 @@ public class Checker implements Visitor{
 
 	public Object visitASTFunctionCall(ASTFunctionCall fc, Object scopeTracker) throws SemanticException{
 		//TODO (low priority): We named this SubroutineCall but it also works for subprogarms. Perhaps we
-		// should refactor this ot SubroutineCall?
+		// should refactor this to SubroutineCall?
 		//TODO (low priority): arent they called params when we call and args on the declaration?
 		// Maybe we switched the right names. This is just an "readability/maintenance" problem tho, cause the
 		// compiler will work either way as long as we're consistent.
@@ -304,7 +296,7 @@ public class Checker implements Visitor{
 		if(idt.retrieve(functionId.getSpelling())==null){
 			throw new SemanticException("Trying to call subroutine "+ functionId.getSpelling() +", but it was not declared yet!");
 		}else if(! (idt.retrieve(functionId.getSpelling()) instanceof ASTSubroutineDeclaration )){
-			throw new SemanticException("Trying to call subroutine "+ functionId.getSpelling() +", but this identifier does not return a subroutine!")
+			throw new SemanticException("Trying to call subroutine "+ functionId.getSpelling() +", but this identifier does not return a subroutine!");
 		}
 
 		ASTFunctionDeclaration declaration = (ASTSubroutineDeclaration) idt.retrieve(functionId.getSpelling());
@@ -383,7 +375,7 @@ public class Checker implements Visitor{
 		if(targetDeclaration==null){
 			throw new SemanticException("Couldnt find the variable "+target.getSpelling());
 		}else if(!(targetDeclaration instanceof ASTSingleDeclaration)){
-			throw new SemanticException(target.getSpelling()+" is not a variable!")
+			throw new SemanticException(target.getSpelling()+" is not a variable!");
 		}else{
 			targetDeclaration =(ASTSingleDeclaration) targetDeclaration;
 
@@ -420,7 +412,7 @@ public class Checker implements Visitor{
 		String term1Type = e.getTerm().visit(this,scopeTracker);
 
 		for(Map.Entry<ASTOperatorArit,ASTTerm> entry : e.getOpTerms().entrySet()){
-			Strig opSpelling = entry.getKey().visit(this,scopeTracker);
+			String opSpelling = entry.getKey().visit(this,scopeTracker);
 			if(!(opSpelling.equals("+") || opSpelling.equals("-"))){
 				throw new SemanticException("Youre using a wrong operator here. A + or a - is expected");
 			}
@@ -461,11 +453,11 @@ public class Checker implements Visitor{
 	}
 
 
-	public Object visitASTTerm(ASTFactor t, Object scopeTracker) throws SemanticException{
-		String factorType = e.getFactor().visit(this,scopeTracker);
+	public Object visitASTTerm(ASTTerm t, Object scopeTracker) throws SemanticException{
+		String factorType = (String) t.getFactor().visit(this,scopeTracker);
 
 		for(Map.Entry<ASTOperatorArit,ASTFactor> entry : e.getOpFactors().entrySet()){
-			Strig opSpelling = entry.getKey().visit(this,scopeTracker);
+			String opSpelling = entry.getKey().visit(this,scopeTracker);
 			if(!(opSpelling.equals("*") || opSpelling.equals("/"))){
 				throw new SemanticException("Youre using a wrong operator here. A * or a / is expected");
 			}

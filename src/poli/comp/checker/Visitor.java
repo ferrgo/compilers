@@ -1,5 +1,6 @@
 package poli.comp.checker;
 
+import com.thoughtworks.xstream.converters.reflection.ObjectAccessException;
 import poli.comp.util.AST.*;
 
 public interface Visitor{
@@ -23,7 +24,7 @@ public interface Visitor{
 	Object visitASTLoop                  (ASTLoop                  l   ,Object o) throws SemanticException;
 
 	Object visitASTMainProgram           (ASTMainProgram           mp  ,Object o) throws SemanticException;
-	Object visitASTOperatorArit          (ASTOperatorArit              opa  ,Object o) throws SemanticException;
+//	Object visitASTOperatorArit          (ASTOperatorArit              opa  ,Object o) throws SemanticException;
 	Object visitASTOperatorComp          (ASTOperatorComp          opc ,Object o) throws SemanticException;
 	Object visitASTReturnStatement       (ASTReturnStatement       rs  ,Object o) throws SemanticException;
 	Object visitASTSingleDeclaration     (ASTSingleDeclaration astSingleDeclaration, Object o) throws SemanticException;
@@ -31,4 +32,11 @@ public interface Visitor{
 	Object visitASTTerm                  (ASTTerm                  t   ,Object o) throws SemanticException;
 
 
+	Object visitASTLiteral               (ASTLiteral l, Object o) throws SemanticException;
+
+	Object visitASTLoopContinue          (ASTLoopContinue astLoopContinue, Object o) throws SemanticException;
+
+	Object visitASTLoopExit              (ASTLoopExit astLoopExit, Object o);
+
+	Object visitASTOperator              (ASTOperator astOperator, Object o);
 }

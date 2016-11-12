@@ -424,6 +424,7 @@ public class Parser {
 		ASTType t = null;
 		ASTIdentifier subroutineName;
 		List<ASTSingleDeclaration> l_params = null;
+		HashMap<ASTType, ASTIdentifier> map_params;
 
 		ArrayList<ASTStatement> l_s   = new ArrayList<ASTStatement>();
 
@@ -441,11 +442,10 @@ public class Parser {
 
 
 		subroutineName = new ASTIdentifier(currentToken.getSpelling());
-		accept(ID); //TODO sempre dar accept no terminal dps q ler ele pra ast
+		accept(ID);
 		accept(LP);
 
 		//If we have params...
-		//TODO fix this to use a flag on the comma thingy and a single loop.
 		if(currentToken.getKind()==TYPE){
 			map_params = new HashMap<ASTType,ASTIdentifier>();
 
