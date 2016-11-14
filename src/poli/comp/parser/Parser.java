@@ -423,8 +423,8 @@ public class Parser {
 
 		ASTType t = null;
 		ASTIdentifier subroutineName;
-		List<ASTSingleDeclaration> l_params = null;
-		HashMap<ASTType, ASTIdentifier> map_params;
+		List<ASTSingleDeclaration> l_params = new ArrayList<ASTSingleDeclaration>();
+//		HashMap<ASTType, ASTIdentifier> map_params;
 
 		ArrayList<ASTStatement> l_s   = new ArrayList<ASTStatement>();
 
@@ -447,7 +447,7 @@ public class Parser {
 
 		//If we have params...
 		if(currentToken.getKind()==TYPE){
-			map_params = new HashMap<ASTType,ASTIdentifier>();
+//			map_params = new HashMap<ASTType,ASTIdentifier>();
 
 			ASTType currentParamType = new ASTType(currentToken.getSpelling());
 			accept(TYPE);

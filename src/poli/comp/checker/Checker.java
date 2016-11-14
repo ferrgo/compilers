@@ -88,7 +88,7 @@ public class Checker implements Visitor{
 					currentExpression = assignmentMap.get(dec); //exp can be null
 					currentExpression.visit(this,scopeTracker);
 
-					if (currentExpression.getTypeString()!=dgType){
+					if (!currentExpression.getTypeString().equals(dgType)){
 						throw new SemanticException("Assigning an expresson with return type "+
 								currentExpression.getTypeString()+
 								" to the variable"+

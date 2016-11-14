@@ -1,7 +1,9 @@
-   LOGICAL :: c = 4, f
+   LOGICAL :: c = .true., f
 
 
-   FUNCTION INTEGER sqarea (INTEGER :: d, INTEGER :: b) RETURN (a * b) END FUNCTION
+   FUNCTION INTEGER sqarea (INTEGER :: d, INTEGER :: b)
+   RETURN a * b
+   END FUNCTION
 
 
 

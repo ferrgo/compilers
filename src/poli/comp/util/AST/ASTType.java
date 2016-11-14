@@ -7,7 +7,6 @@ import java.util.ArrayList;
 
 public class ASTType extends ASTTerminal {
 
-    private String spelling;
 
     public ASTType(String s) {
         super(s);
@@ -23,7 +22,4 @@ public class ASTType extends ASTTerminal {
         return null;
     }
 
-    public String getSpelling() {
-        return spelling;
-    }
 }
