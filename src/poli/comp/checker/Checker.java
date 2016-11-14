@@ -512,11 +512,12 @@ public class Checker implements Visitor{
 	}
 
 	public Object visitASTFactorSubroutineCall(ASTFactorSubroutineCall fsc, ArrayList<AST> scopeTracker) throws SemanticException {
-		ASTSubroutineDeclaration dec = (ASTSubroutineDeclaration) fsc.visit(this,scopeTracker);
-		if (dec instanceof ASTSubprogramDeclaration){
+//		ASTSubroutineDeclaration dec = (ASTSubroutineDeclaration) fsc.visit(this,scopeTracker);
+		ASTSubroutineDeclaration dec = (ASTSubroutineDeclaration) idt.retrieve(fsc.getId().getSpelling());
+		if (dec.getType()==null){
 			return "VOID";
 		}else{
-			return ((ASTFunctionDeclaration) dec).getType().getSpelling();
+			return dec.getType().getSpelling();
 		}
 	}
 

@@ -6,9 +6,21 @@ package poli.comp.util.AST;
  // SUBROUTINE_DECL ::= FUNCTION_DECL | SUBPROGRAM_DECL
 public abstract class ASTSubroutineDeclaration extends AST{
 
+	private ASTType tp;
 	private boolean returnFound;
-	public ASTSubroutineDeclaration(){
+
+	public ASTSubroutineDeclaration(ASTType tp){
+		this.tp=tp;
 		this.returnFound=false;
+
+	}
+
+	public ASTType getType(){
+		return this.tp;
+	}
+
+	public String getTypeString(){
+		return this.tp.getSpelling();
 	}
 
 	public boolean hasReturn(){

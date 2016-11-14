@@ -18,6 +18,14 @@ public class ASTFactorSubroutineCall extends ASTFactor {
 		 this.l_args=l_args;
 	}
 
+	public ASTFunctionArgs getASTFunctionArgs (){
+		return l_args;
+	}
+
+	public ASTIdentifier getId(){
+		return id;
+	}
+
     @Override
     public Object visit(Visitor v, ArrayList<AST> scopeTracker) throws SemanticException {
         return v.visitASTFactorSubroutineCall(this, scopeTracker);

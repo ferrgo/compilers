@@ -16,7 +16,7 @@ public class ASTSubprogramDeclaration extends ASTSubroutineDeclaration{
 	private List<ASTStatement> statements;
 
 	public ASTSubprogramDeclaration( ASTIdentifier subroutineName, List<ASTSingleDeclaration> l_par, List<ASTStatement> l_s) {
-       super();
+       super(null);
 		 this.id = subroutineName;
 		 this.l_params = l_par;
 		 this.statements = l_s;
