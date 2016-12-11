@@ -360,8 +360,9 @@ public class Parser {
 			ASTFunctionArgs l_args = null;
 			if(currentToken.getKind()==LP){
 				l_args = parseFunctionArgs();
+				return new ASTFactorSubroutineCall (id, l_args);
 			}
-			return new ASTFactorSubroutineCall (id, l_args);
+			return new ASTFactorIdentifier(id);
 		} else if (currentToken.getKind()==LIT_INTEGER || currentToken.getKind()==LIT_LOGICAL){
 			ASTLiteral l = new ASTLiteral(currentToken.getSpelling());
 			acceptIt();

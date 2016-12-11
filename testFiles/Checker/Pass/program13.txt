@@ -1,20 +1,25 @@
 LOGICAL :: A
-INTEGER :: B
+INTEGER :: B, ISID = 3, ANOTHERID = 5
 
 FUNCTION INTEGER CMD (INTEGER :: HERE, LOGICAL :: PARAM )
         !NOTHING
+        RETURN HERE
 END FUNCTION
 
 SUBPROGRAM THING ()
-    CMD (STUFF, HERE)
-    IF (TRUE) THEN EXIT ELSE CONTINUE END IF
-
+    CMD (1, .true.)
+    IF (.true.) THEN EXIT ELSE CONTINUE END IF
+    RETURN
 END SUBPROGRAM
 
 PROGRAM name
+    INTEGER :: WITH = 1
+    LOGICAL :: arg = .false.
+    LOGICAL :: CONDITION = arg
+    INTEGER :: EXP = 3 * 2 / 1
     IF ( CONDITION ) THEN
-        CMD (WITH, ARGS)
-        INTEGER :: ID = EXP * (EXP + B) - A
+        CMD (WITH, arg)
+        INTEGER :: ID = EXP * (EXP + B) - 3
         LOGICAL :: BOOL = ISID>ANOTHERID
     END IF
 

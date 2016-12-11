@@ -1,6 +1,7 @@
 package poli.comp.checker;
 
 import org.codehaus.groovy.runtime.ArrayUtil;
+import org.codehaus.groovy.runtime.StringBufferWriter;
 import poli.comp.util.AST.*; //importing all AST node classes
 import poli.comp.util.symbolsTable.IdentificationTable;
 
@@ -109,7 +110,7 @@ public class Checker implements Visitor{
 		ASTIdentifier functionName = fd.getIdentifier();
 		List<ASTSingleDeclaration> l_params = fd.getParams();
 		List<ASTStatement> functionStatements = fd.getStatements();
-
+		boolean hasReturn = false;
 
 		//Checking name and putting it on global scope
 		idt.enter(functionName.getSpelling(),fd);
@@ -125,9 +126,11 @@ public class Checker implements Visitor{
 		//Checking statements, have an if / else ifs with types, check return etc
 		for( ASTStatement stt : functionStatements ){
 			stt.visit(this,scopeTracker);
-
+			if (stt instanceof ASTReturnStatement) {
+				hasReturn = true;
+			}
 		}
-		if(!fd.hasReturn()){
+		if(!hasReturn){
 			throw new SemanticException("Function "+functionName.getSpelling()+" has no return statement!");
 		}
 		idt.closeScope();
@@ -144,6 +147,7 @@ public class Checker implements Visitor{
 		ASTIdentifier subprogramName = spd.getIdentifier();
 		List<ASTSingleDeclaration> l_params = spd.getParams();
 		List<ASTStatement> subprogramStatements = spd.getStatements();
+//		boolean hasReturn = false;
 
 		//Checking name and putting it on global scope
 		idt.enter(subprogramName.getSpelling(),spd);
@@ -160,11 +164,14 @@ public class Checker implements Visitor{
 		//Checking statements, have an if / else ifs with types, check return etc
 		for( ASTStatement stt : subprogramStatements ){
 			stt.visit(this,scopeTracker);
+//			if (stt instanceof ASTReturnStatement) {
+//				hasReturn = true;
+//			}
 
 		}
-		if(!spd.hasReturn()){
-			throw new SemanticException("Subprogram "+subprogramName.getSpelling()+" has no return statement!");
-		}
+//		if(!hasReturn){
+//			throw new SemanticException("Subprogram "+subprogramName.getSpelling()+" has no return statement!");
+//		}
 
 		idt.closeScope();
 		scopeTracker.remove(spd);
@@ -194,7 +201,7 @@ public class Checker implements Visitor{
 
 	@Override
 	public Object visitASTOperator(ASTOperator op, ArrayList<AST> scopeTracker) throws SemanticException {
-		return null;
+		return op.getSpelling();
 	}
 
 	@Override
@@ -429,8 +436,8 @@ public class Checker implements Visitor{
 			}
 
 			String currentTermType = (String) entry.getValue().visit(this,scopeTracker);
-			if(!currentTermType.equals("INT")){
-				throw new SemanticException("Youre trying to do an arithmetic operation with a non-int value");
+			if(!currentTermType.equals("INTEGER")){
+				throw new SemanticException("Youre trying to do an arithmetic operation with a " +currentTermType + " value.");
 			}
 		}
 
@@ -441,7 +448,7 @@ public class Checker implements Visitor{
 				throw new SemanticException("Doing arithmetic operations with a boolean value");
 			}
 		}else{
-			return "INT";
+			return "INTEGER";
 		}
 	}
 
@@ -479,7 +486,7 @@ public class Checker implements Visitor{
 			}
 
 			String currentFactorType = (String) entry.getValue().visit(this,scopeTracker);
-			if(!currentFactorType.equals("INT")){
+			if(!currentFactorType.equals("INTEGER")){
 				throw new SemanticException("Youre trying to do an arithmetic operation with a void or logical value");
 			}
 		}
@@ -491,7 +498,7 @@ public class Checker implements Visitor{
 				throw new SemanticException("Doing arithmetic operations with a boolean value");
 			}
 		}else{
-			return "INT";
+			return "INTEGER";
 		}
 	}
 
@@ -499,9 +506,29 @@ public class Checker implements Visitor{
 
 	@Override
 	public Object visitASTFactorExpression(ASTFactorExpression fe, ArrayList<AST> scopeTracker) throws SemanticException {
-		fe.visit(this,scopeTracker);
+		String ae1, ae2, op;
+		String resultType;
 
-		return fe.getExp().visit(this, scopeTracker);
+		ae1 = (String) fe.getExp().getExp1().visit(this, scopeTracker);
+
+		if(fe.getExp().getExp2() != null){
+			ae2 = (String) fe.getExp().getExp2().visit(this, scopeTracker);
+			op = (String) fe.getExp().getOpComp().visit(this, scopeTracker);
+			//TODO
+			//REGRA 7
+			if(!ae1.equals(ae2)){
+				throw new SemanticException("Cannot do operation between two different types");
+			}
+			if(ae1.equals("LOGICAL") || ae2.equals("LOGICAL")){
+				throw new SemanticException("This operation ("+ fe.getExp().getOpComp().getSpelling() + ") is not defined between Bool expressions");
+			}
+			resultType = "LOGICAL";
+		} else {
+			resultType = ae1;
+		}
+
+		fe.getExp().setTypeString(resultType);
+		return fe.getExp().getTypeString();
 
 	}
 
@@ -513,7 +540,16 @@ public class Checker implements Visitor{
 
 	public Object visitASTFactorSubroutineCall(ASTFactorSubroutineCall fsc, ArrayList<AST> scopeTracker) throws SemanticException {
 //		ASTSubroutineDeclaration dec = (ASTSubroutineDeclaration) fsc.visit(this,scopeTracker);
-		ASTSubroutineDeclaration dec = (ASTSubroutineDeclaration) idt.retrieve(fsc.getId().getSpelling());
+		//Checking if function was declared
+		ASTIdentifier subroutineId = fsc.getId();
+		subroutineId.visit(this,scopeTracker);
+
+		if(idt.retrieve(subroutineId.getSpelling())==null){
+			throw new SemanticException("Trying to call subroutine "+ subroutineId.getSpelling() +", but it was not declared yet!");
+		}else if(! (idt.retrieve(subroutineId.getSpelling()) instanceof ASTSubroutineDeclaration )){
+			throw new SemanticException("Trying to call subroutine "+ subroutineId.getSpelling() +", but this identifier does not return a subroutine!");
+		}
+		ASTSubroutineDeclaration dec = (ASTSubroutineDeclaration) idt.retrieve(subroutineId.getSpelling());
 		if (dec.getType()==null){
 			return "VOID";
 		}else{
@@ -531,14 +567,29 @@ public class Checker implements Visitor{
 
 	//Checks an ID that was found in the code. Doesn't add it to IDT - this is done on visitSingleDeclaration.
 	public Object visitASTIdentifier(ASTIdentifier id, ArrayList<AST> scopeTracker) throws SemanticException{
+		ASTSingleDeclaration sDec = null;
+		String idSpelling = id.getSpelling();
 
 		if(!idt.containsKey(id.getSpelling())){
 			throw new SemanticException("Trying to refer to identifier "+id.getSpelling()
 			+",which is not declared within that scope");
 		}
 
+
+		// Recupera a declaração do id na tabela de símbolos
+		// Decora a AST de ID com declaração
+		AST declaration = idt.retrieve(id.getSpelling());
+		id.setDec(declaration);
+
+		// Checa se o id proveio de uma declaração de variável ou de função
+		// Decora a AST de ID com o tipo
+		if (declaration instanceof ASTSingleDeclaration) {
+			sDec = (ASTSingleDeclaration) idt.retrieve(id.getSpelling());
+			id.setType(sDec.getType().getSpelling());
+		}
+
 		//Returnig type so we can check for correctness
-		return idt.retrieve(id.getSpelling());
+		return id.getType();
 	}
 
 }

@@ -41,6 +41,7 @@ class CheckerTest extends GroovyTestCase {
     void testCheck() {
         Checker checker = new Checker();
         Parser p;
+//        String t = "./testFiles/Checker/Pass/program13.txt"
 
         String result = pass;
         for(String t : listOfTestsOk){
@@ -54,7 +55,7 @@ class CheckerTest extends GroovyTestCase {
 
                 checker.check(root);
             }catch (Exception e){
-                result = fail + "\nParser result at: "+t.toString()+"\n"+e.toString();
+                result = fail + "\nParser result at: "+t.toString()+"\n"+e;
                 System.out.println("This test failed for this program... bad program bad program");
             }
         }

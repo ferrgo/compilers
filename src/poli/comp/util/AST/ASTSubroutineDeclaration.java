@@ -12,7 +12,6 @@ public abstract class ASTSubroutineDeclaration extends AST{
 	public ASTSubroutineDeclaration(ASTType tp){
 		this.tp=tp;
 		this.returnFound=false;
-
 	}
 
 	public ASTType getType(){

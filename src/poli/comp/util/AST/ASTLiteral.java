@@ -17,7 +17,7 @@ public class ASTLiteral extends ASTTerminal{
 		 if (this.spelling.equals(".true.") || this.spelling.equals(".false.")){
 			 return "LOGICAL";
 		 }else{
-			 return "INT";
+			 return "INTEGER";
 		 }
 	 }
 
