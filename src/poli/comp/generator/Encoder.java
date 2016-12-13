@@ -36,18 +36,20 @@ public class Encoder implements Visitor{
 		emit("\nglobal _WinMain@16", TEXT) //Here to help windows do its thing, like in the example ASM file
 	}
 
+	// Helpers for the local vartables. Silly, I know, but its more readable ¯\_(ツ)_/¯
 	private void initializeVarTable(){
 		currentVarTable= new HashMap<String,Integer>();
 	}
-
 	private void cleanVarTable(){
 		currentVarTable= null;
 	}
-
 	private void addLocalVar(String name){
 		currentVarTable.put(name, new Integer(4*currentVarTable.size())  );
 	}
 
+	//Emit method that appends instructions to the code in the correct places.
+	//So far ive split these things manually into data and text. We might need to split
+	//things in runtime though. TODO find out if we need and if thats the case refactor below.
 	private void emit(String s, int section){
 
 		Instruction i = new Instruction(s);
@@ -138,9 +140,6 @@ public class Encoder implements Visitor{
 		}
 	}
 
-	Object visitASTSingleDeclaration     (ASTSingleDeclaration astSingleDeclaration, ArrayList<AST> scopeTracker) throws SemanticException{
-		return null;
-	}
 
 
 	Object visitASTArithmeticExpression  (ASTArithmeticExpression ae  , ArrayList<AST> scopeTracker) throws SemanticException{
@@ -249,8 +248,13 @@ public class Encoder implements Visitor{
 	Object visitASTOperator              (ASTOperator astOperator, ArrayList<AST> scopeTracker) throws SemanticException{
 
 	}
-	Object visitASTType                  (ASTType astType, ArrayList<AST> scopeTracker) throws SemanticException{
 
+	//We wont use the methods below on the encoder, but we need them to implement visitor
+	Object visitASTType                  (ASTType astType, ArrayList<AST> scopeTracker) throws SemanticException{
+		return null;
+	}
+	Object visitASTSingleDeclaration     (ASTSingleDeclaration astSingleDeclaration, ArrayList<AST> scopeTracker) throws SemanticException{
+		return null;
 	}
 
 
