@@ -37,9 +37,9 @@ public interface Visitor{
 
 	Object visitASTLoopContinue          (ASTLoopContinue astLoopContinue, ArrayList<AST> scopeTracker) throws SemanticException;
 
-	Object visitASTLoopExit              (ASTLoopExit astLoopExit, ArrayList<AST> scopeTracker);
+	Object visitASTLoopExit              (ASTLoopExit astLoopExit, ArrayList<AST> scopeTracker) throws SemanticException;
 
 	Object visitASTOperator              (ASTOperator astOperator, ArrayList<AST> scopeTracker) throws SemanticException;
 
-	Object visitASTType                  (ASTType astType, ArrayList<AST> scopeTracker);
+	Object visitASTType                  (ASTType astType, ArrayList<AST> scopeTracker) throws SemanticException;
 }

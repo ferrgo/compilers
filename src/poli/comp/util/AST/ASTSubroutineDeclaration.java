@@ -9,11 +9,13 @@ public abstract class ASTSubroutineDeclaration extends AST{
 	private ASTType tp;
 	private boolean returnFound;
 
+
 	public ASTSubroutineDeclaration(ASTType tp){
 		this.tp=tp;
 		this.returnFound=false;
 	}
 
+	//For checker:
 	public ASTType getType(){
 		return this.tp;
 	}
@@ -29,4 +31,6 @@ public abstract class ASTSubroutineDeclaration extends AST{
 	public void foundReturn(){
 		this.returnFound=true;
 	}
+
+
 }
