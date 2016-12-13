@@ -8,11 +8,13 @@ public abstract class ASTSubroutineDeclaration extends AST{
 
 	private ASTType tp;
 	private boolean returnFound;
+	private List<ASTStatement> statements;
 
 
-	public ASTSubroutineDeclaration(ASTType tp){
+	public ASTSubroutineDeclaration(ASTType tp, List<ASTStatement> stts){
 		this.tp=tp;
 		this.returnFound=false;
+		this.statements=stts;
 	}
 
 	//For checker:
@@ -31,6 +33,9 @@ public abstract class ASTSubroutineDeclaration extends AST{
 	public void foundReturn(){
 		this.returnFound=true;
 	}
-
+	
+	public List<ASTStatement> getStatements() {
+		return statements;
+	}
 
 }

@@ -79,22 +79,24 @@ public class Checker implements Visitor{
 
 			List<ASTSingleDeclaration> declarations = dg.getDeclarations();
 			Map<ASTSingleDeclaration,ASTExpression> assignmentMap = dg.getAssignmentMap();
-			ASTExpression currentExpression=null;
 
+			ASTExpression currentExpression=null;
 			for (ASTSingleDeclaration dec: declarations){
 				dec.visit(this, scopeTracker);
 
 				//Checking the assigned expression (if appicable)
 				if(assignmentMap.containsKey(dec)){
 					currentExpression = assignmentMap.get(dec); //exp can be null
-					currentExpression.visit(this,scopeTracker);
+					if(currentExpression!=null){
+						currentExpression.visit(this,scopeTracker);
 
-					if (!currentExpression.getTypeString().equals(dgType)){
-						throw new SemanticException("Assigning an expresson with return type "+
-								currentExpression.getTypeString()+
-								" to the variable"+
-								dec.getIdentifier().getSpelling()+
-								", which is of type "+dgType);
+						if (!currentExpression.getTypeString().equals(dgType)){
+							throw new SemanticException("Assigning an expresson with return type "+
+							currentExpression.getTypeString()+
+							" to the variable"+
+							dec.getIdentifier().getSpelling()+
+							", which is of type "+dgType);
+						}
 					}
 
 				}

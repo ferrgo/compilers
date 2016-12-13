@@ -13,13 +13,11 @@ public class ASTSubprogramDeclaration extends ASTSubroutineDeclaration{
 
 	private ASTIdentifier id;
 	private List<ASTSingleDeclaration> l_params;
-	private List<ASTStatement> statements;
 
 	public ASTSubprogramDeclaration( ASTIdentifier subroutineName, List<ASTSingleDeclaration> l_par, List<ASTStatement> l_s) {
-       super(null);
+       super(null,l_s);
 		 this.id = subroutineName;
 		 this.l_params = l_par;
-		 this.statements = l_s;
 	}
 
     @Override
@@ -35,7 +33,5 @@ public class ASTSubprogramDeclaration extends ASTSubroutineDeclaration{
 		return l_params;
 	}
 
-	public List<ASTStatement> getStatements() {
-		return statements;
-	}
+
 }

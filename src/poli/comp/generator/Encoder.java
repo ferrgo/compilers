@@ -14,10 +14,9 @@ public class Encoder implements Visitor{
 	private List<Instruction> mcData; //mc for machine code
 	private List<Instruction> mcText; //mc for machine code
 
-
-
-	private Map<String,Integer> currentVarTable;
-
+	private Map<String,Integer> currentVarTable; //Map local variable names to their offset (times 4)
+	private int loopCounter; //Counting loops to avoid repeated label names
+	private int ifCounter;   //Counting if blocks to avoid repeated label names
 
 	//Constants for the emit method
 	public static final int DATA = 1;
@@ -98,6 +97,7 @@ public class Encoder implements Visitor{
 	//	Object visitASTOperatorArit          (ASTOperatorArit              opa  ,Object o) throws SemanticException;
 
 	Object visitASTProgram (ASTProgram p , ArrayList<AST> scopeTracker) throws SemanticException{
+
 		//Encodes globals TODO apply a fix to global checking and encoding. Force globals to be only assigned to literals from start.
 		for (ASTDeclarationGroup dg : p.getGlobalDeclarationGroups()){
 			dg.visit(this, scopeTracker);
@@ -115,6 +115,7 @@ public class Encoder implements Visitor{
 
 		//Encodes main program
 		return p.getMainProgram().visit(this,scopeTracker);
+
 	}
 
 
@@ -141,33 +142,40 @@ public class Encoder implements Visitor{
 	}
 
 
-
-	Object visitASTArithmeticExpression  (ASTArithmeticExpression ae  , ArrayList<AST> scopeTracker) throws SemanticException{
-
-	}
 	Object visitASTAssignment            (ASTAssignment a   , ArrayList<AST> scopeTracker) throws SemanticException{
 
-	}
-	Object visitASTExpression            (ASTExpression e   , ArrayList<AST> o) throws SemanticException{
+		//TODO Treat for globals
+			ASTExpression exp = a.getExpression();
+			exp.visit(this,scopeTracker); //puts value on stack top
 
+			String varName=a.getTarget().getSpelling();
+			emit("pop [ebp-"+currentVarTable.get(varName).toString()+"]",TEXT);
 	}
-	Object visitASTFactorExpression      (ASTFactorExpression      fe  , ArrayList<AST> scopeTracker) throws SemanticException{
 
-	}
-	Object visitASTFactorLiteral         (ASTFactorLiteral         fl  , ArrayList<AST> scopeTracker) throws SemanticException{
 
-	}
-	Object visitASTFactorSubroutineCall  (ASTFactorSubroutineCall  fsc , ArrayList<AST> scopeTracker) throws SemanticException{
+	//-------------- Function declaration, calling, args etc--------------------//
 
-	}
 	Object visitASTFunctionArgs          (ASTFunctionArgs          fa  , ArrayList<AST> scopeTracker) throws SemanticException{
-
+		//every visitASTExpression here ends with the result being pushed to the stack, so
+		//visitASTFunctionArgs pushes all args to the stack already.
+		for (ASTExpression exp : fa.getArgumentList()){
+			exp.visit(this,scopeTracker);
+		}
 	}
-	Object visitASTFunctionCall          (ASTFunctionCall          fc  , ArrayList<AST> scopeTracker) throws SemanticException{
-		//get list of params
-		//push them all accordingly, from vartable
-		//emit call
-		//remove params (i.e. call add on sp and 4*amt of params)
+
+	Object visitASTFunctionCall (ASTFunctionCall          fc  , ArrayList<AST> scopeTracker) throws SemanticException{
+		ASTFunctionArgs args = fc.getFunctionArgs();
+		args.visit(this,scopeTracker); //They will all be pushed in the stack here
+
+		emit("call _"+fc.getFunctionId().getSpelling(),TEXT);
+		amtParams = args.getArgumentList().size();
+		emit("add esp, "+Integer.toString(amtParams*4));
+
+		//If we're being used in an exp or assigned to something:
+		if(scopeTracker.get(scopeTracker.size()-1) instanceof Factor){
+			emit("push eax",TEXT); //so that we can pop it on the caller
+		}
+		return null;
 		//find out from idt if thats a subprogram or function, if its a function then return the contents of eax here?
 	}
 
@@ -182,9 +190,10 @@ public class Encoder implements Visitor{
 	}
 	Object subroutineDeclarationHelper(ASTSubroutineDeclaration srd,  ArrayList<AST> scopeTracker){
 
-		int amtParams = fd.getParams().size();
+		initializeVarTable();
+		//TODO add params to vartable for acess within
 
-		emit("_"+fd.getIdentifier().getSpelling()+":",TEXT);
+		emit("\n_"+srd.getIdentifier().getSpelling()+":\n",TEXT);
 		emit("push ebp",TEXT);
 		emit("move ebp, esp",TEXT);
 
@@ -192,40 +201,113 @@ public class Encoder implements Visitor{
 		//because if we do this right, at the end of every command ST will point to the last LV to be declared.
 		//What we need to do here is to declare some counter that counts the amount of LVs already declared,
 		//so that we can use the right offset when we find a new one.
-		initializeVarTable();
-		scopeTracker.add(srd);
-		for( ASTStatement stt : fd.getStatements() ){
+		for( ASTStatement stt : srd.getStatements() ){
 			stt.visit(this,scopeTracker);
 		}
-		scopeTracker.remove(srd);
-		cleanVarTable();
 
+		cleanVarTable();
 		emit("move esp, ebp",TEXT);
 		emit("pop ebp",TEXT);
 		emit("ret",TEXT);
+		return null;
 	}
 
-	Object visitASTIdentifier            (ASTIdentifier            id  , ArrayList<AST> scopeTracker) throws SemanticException{
+	Object visitASTMainProgram           (ASTMainProgram           mp  , ArrayList<AST> scopeTracker) throws SemanticException{
+		initializeVarTable();
+
+		emit("\n_"+srd.getIdentifier().getSpelling()+":\n",TEXT);
+		emit("push ebp",TEXT);
+		emit("move ebp, esp",TEXT);
+
+		//We dont have to encode local variables here, they can be encoded on-demand as we find declarations,
+		//because if we do this right, at the end of every command ST will point to the last LV to be declared.
+		//What we need to do here is to declare some counter that counts the amount of LVs already declared,
+		//so that we can use the right offset when we find a new one.
+		for( ASTStatement stt : srd.getStatements() ){
+			stt.visit(this,scopeTracker);
+		}
+
+		cleanVarTable();
+		emit("move esp, ebp",TEXT);
+		emit("pop ebp",TEXT);
+		emit("ret",TEXT);
+		return null;
+	}
+
+	Object visitASTReturnStatement       (ASTReturnStatement       rs  , ArrayList<AST> scopeTracker) throws SemanticException{
+
+		if (rs instanceof ASTFunctionReturnStatement){
+			frs = (ASTFunctionReturnStatement) rs;
+			exp = frs.getExpression();
+			exp.visit(this,scopeTracker);
+
+			emit("pop eax",TEXT);
+		}
+		emit("mov esp, ebp",TEXT);
+		emit("pop ebp",TEXT);
+		emit("ret",TEXT);
 
 	}
+
+	//--------------------------//
+
+
+
+	//------- Control flow ---------------//
+
 	Object visitASTIfStatement           (ASTIfStatement           s   , ArrayList<AST> scopeTracker) throws SemanticException{
 
 	}
 	Object visitASTLoop                  (ASTLoop                  l   , ArrayList<AST> scopeTracker) throws SemanticException{
 
+		// TODO Have this counting happen transparently on emit
+		// TODO Have a string with the current function so that we can go to the right while labels
+		// TODO OR use scopetracker for that.
+		
+		loopCounter++;
+		String condLabel = "\n_while_condition_"+Integer.toString(loopCounter)+":\n";
+		String codeLabel = "\n_while_body_"+Integer.toString(loopCounter)+":\n";
+		String endLabel  = "\n_while_end_"+Integer.toString(loopCounter)+":\n";
+
+		// Here we visit the condition (which, assuming the checker is working,
+		// is an expression that evaluates to a boolean).
+		// The visitASTExpression method pushes the result to the stack.
+		// We then compare it to true(1) and jmp to endwhile accordingly.
+		emit(condLabel,TEXT);
+		ASTExpression condExp = l.getCondition();
+		condExp.visit(this,scopeTracker);
+		emit("push dword 1",TEXT);
+		emit("pop eax",TEXT);
+		emit("pop ebx",TEXT);
+		emit("cmp eax,ebx",TEXT);
+		emit("jne "+endLabel,TEXT);
+
+		//Now we visit every statement
+		emit(codeLabel,TEXT);
+		List<ASTStatement> statements = l.getStatements();
+		for(ASTSTtatement s : statements){
+			s.visit(this,scopeTracker);
+		}
+
+		//Now we go back to the condition. If it is false, it will jmp
+		//to the endLabel and we're out of the loop.
+		emit("jmp "+condLabel,TEXT);
+		emit(endLabel,TEXT);
+
+		return null;
 	}
-	Object visitASTMainProgram           (ASTMainProgram           mp  , ArrayList<AST> scopeTracker) throws SemanticException{
+
+	Object visitASTLoopContinue          (ASTLoopContinue astLoopContinue, ArrayList<AST> scopeTracker) throws SemanticException{
 
 	}
-	Object visitASTOperatorComp          (ASTOperatorComp          opc , ArrayList<AST> scopeTracker) throws SemanticException{
+	Object visitASTLoopExit              (ASTLoopExit astLoopExit, ArrayList<AST> scopeTracker) throws SemanticException{
 
 	}
-	Object visitASTReturnStatement       (ASTReturnStatement       rs  , ArrayList<AST> scopeTracker) throws SemanticException{
 
-	}
-	Object visitASTTerm                  (ASTTerm                  t   , ArrayList<AST> scopeTracker) throws SemanticException{
+	//-------------------------------------//
 
-	}
+
+	//------------Expressions and Terminals -------------------//
 
 	//Whenever we get to a literal as we evaluate some expression, we simply push it to the
 	Object visitASTLiteral               (ASTLiteral l, ArrayList<AST> scopeTracker) throws SemanticException{
@@ -239,12 +321,35 @@ public class Encoder implements Visitor{
 		}
 		return null;
 	}
-	Object visitASTLoopContinue          (ASTLoopContinue astLoopContinue, ArrayList<AST> scopeTracker) throws SemanticException{
+
+	Object visitASTIdentifier            (ASTIdentifier            id  , ArrayList<AST> scopeTracker) throws SemanticException{
 
 	}
-	Object visitASTLoopExit              (ASTLoopExit astLoopExit, ArrayList<AST> scopeTracker) throws SemanticException{
+
+
+	Object visitASTArithmeticExpression  (ASTArithmeticExpression ae  , ArrayList<AST> scopeTracker) throws SemanticException{
 
 	}
+	Object visitASTExpression            (ASTExpression e   , ArrayList<AST> o) throws SemanticException{
+
+	}
+	Object visitASTFactorExpression      (ASTFactorExpression      fe  , ArrayList<AST> scopeTracker) throws SemanticException{
+
+	}
+	Object visitASTFactorLiteral         (ASTFactorLiteral         fl  , ArrayList<AST> scopeTracker) throws SemanticException{
+
+	}
+	Object visitASTFactorSubroutineCall  (ASTFactorSubroutineCall  fsc , ArrayList<AST> scopeTracker) throws SemanticException{
+
+	}
+
+	Object visitASTOperatorComp          (ASTOperatorComp          opc , ArrayList<AST> scopeTracker) throws SemanticException{
+
+	}
+	Object visitASTTerm                  (ASTTerm                  t   , ArrayList<AST> scopeTracker) throws SemanticException{
+
+	}
+
 	Object visitASTOperator              (ASTOperator astOperator, ArrayList<AST> scopeTracker) throws SemanticException{
 
 	}
