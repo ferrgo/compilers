@@ -256,15 +256,17 @@ public class Encoder implements Visitor{
 	//------- Control flow ---------------//
 
 	Object visitASTIfStatement           (ASTIfStatement           s   , ArrayList<AST> scopeTracker) throws SemanticException{
-
+		
 	}
-	Object visitASTLoop                  (ASTLoop                  l   , ArrayList<AST> scopeTracker) throws SemanticException{
+	Object visitASTLoop  (ASTLoop                  l   , ArrayList<AST> scopeTracker) throws SemanticException{
 
 		// TODO Have this counting happen transparently on emit
 		// TODO Have a string with the current function so that we can go to the right while labels
 		// TODO OR use scopetracker for that.
-		
+		// TODO or after each visit statement update currentLoop?
 		loopCounter++;
+		currentLoop=loopCounter; //TODO declare
+
 		String condLabel = "\n_while_condition_"+Integer.toString(loopCounter)+":\n";
 		String codeLabel = "\n_while_body_"+Integer.toString(loopCounter)+":\n";
 		String endLabel  = "\n_while_end_"+Integer.toString(loopCounter)+":\n";
