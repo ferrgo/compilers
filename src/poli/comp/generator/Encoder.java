@@ -14,9 +14,13 @@ public class Encoder implements Visitor{
 	private List<Instruction> mcData; //mc for machine code
 	private List<Instruction> mcText; //mc for machine code
 
+	private Map<String,String> globalVarTable;
 	private Map<String,Integer> currentVarTable; //Map local variable names to their offset (times 4)
+	private Map<ASTLoop,Integer> loopMap; //Maps loop nodes to an index that we can use on visitASTContinue/Break
 	private int loopCounter; //Counting loops to avoid repeated label names
 	private int ifCounter;   //Counting if blocks to avoid repeated label names
+
+	private int expEvalCounter;
 
 	//Constants for the emit method
 	public static final int DATA = 1;
@@ -24,9 +28,13 @@ public class Encoder implements Visitor{
 
 
 	public CodeGenerator(){
-		//TODO maybe encapsulate the instruction list into something and hide all the technicals below from this class
+		//TODO after treating globals, just use the table over there for addressing and you
+		//wont need the DATA and TEXT bullshit on emit.
 		mcData = new LinkedList<Instruction>();
 		mcText = new LinkedList<Instruction>();
+		expEvalCounter=0;
+		loopCounter=0;
+		ifCounter=0;
 
 		emit("extern  _printf" , DATA );     //In order to allow printing, like in the example ASM file
 		emit("SECTION .data"   , DATA );       //For globals
@@ -119,7 +127,7 @@ public class Encoder implements Visitor{
 	}
 
 
-	Object visitASTDeclarationGroup  (ASTDeclarationGroup dg  , ArrayList<AST> scopeTracker) throws SemanticException{
+	Object visitASTDeclarationGroup (ASTDeclarationGroup dg, ArrayList<AST> scopeTracker) throws SemanticException{
 		if (scopeTracker.size()==0){
 			//In this case, these are global vars.
 			//TODO (we can simply treat it as local vars before calling main, i guess)
@@ -142,7 +150,7 @@ public class Encoder implements Visitor{
 	}
 
 
-	Object visitASTAssignment            (ASTAssignment a   , ArrayList<AST> scopeTracker) throws SemanticException{
+	Object visitASTAssignment (ASTAssignment a, ArrayList<AST> scopeTracker) throws SemanticException{
 
 		//TODO Treat for globals
 			ASTExpression exp = a.getExpression();
@@ -155,7 +163,7 @@ public class Encoder implements Visitor{
 
 	//-------------- Function declaration, calling, args etc--------------------//
 
-	Object visitASTFunctionArgs          (ASTFunctionArgs          fa  , ArrayList<AST> scopeTracker) throws SemanticException{
+	Object visitASTFunctionArgs (ASTFunctionArgs fa, ArrayList<AST> scopeTracker) throws SemanticException{
 		//every visitASTExpression here ends with the result being pushed to the stack, so
 		//visitASTFunctionArgs pushes all args to the stack already.
 		for (ASTExpression exp : fa.getArgumentList()){
@@ -163,7 +171,7 @@ public class Encoder implements Visitor{
 		}
 	}
 
-	Object visitASTFunctionCall (ASTFunctionCall          fc  , ArrayList<AST> scopeTracker) throws SemanticException{
+	Object visitASTFunctionCall (ASTFunctionCall fc, ArrayList<AST> scopeTracker) throws SemanticException{
 		ASTFunctionArgs args = fc.getFunctionArgs();
 		args.visit(this,scopeTracker); //They will all be pushed in the stack here
 
@@ -208,7 +216,9 @@ public class Encoder implements Visitor{
 		cleanVarTable();
 		emit("move esp, ebp",TEXT);
 		emit("pop ebp",TEXT);
-		emit("ret",TEXT);
+		if (srd instanceof ASTSubprogramDeclaration) {
+			emit("ret",TEXT);
+		}
 		return null;
 	}
 
@@ -255,21 +265,50 @@ public class Encoder implements Visitor{
 
 	//------- Control flow ---------------//
 
-	Object visitASTIfStatement           (ASTIfStatement           s   , ArrayList<AST> scopeTracker) throws SemanticException{
+	Object visitASTIfStatement(ASTIfStatement s, ArrayList<AST> scopeTracker) throws SemanticException{
+		this.ifCounter++;
+		currentIfStatementIndex=this.ifCounter;
+		ifMap.put(s,new Integer(ifMap.size())); //Finding ourselves a number for this AST node.
+
+		s.getCondition().visit(this,scopeTracker); // pushes condition (true or false)
+		//TODO setup the counter (have a field in astif that i can set for using here?)
+		emit("push dword 1",TEXT);
+		emit("pop ebx",TEXT);
+		emit("pop eax",TEXT);
+		emit("cmp eax,ebx",TEXT);
+
+		//If theres only an if block
+		if(s.getElseBlockStatements()==null){
+		emit("jne _endif"+Integer.toString(currentIfStatementIndex),TEXT);
+		for(ASTStatement current_stt : s.getIfBlockStatements()){
+			current_stt.visit(this,scopeTracker);
+		}
+		emit("_endif"+Integer.toString(currentIfStatementIndex)+":",TEXT);
+		//If theres an else block
+		}else{
+			emit("jne _elseBlock"+Integer.toString(currentIfStatementIndex),TEXT);
+			for(ASTStatement current_stt : s.getIfBlockStatements()){
+				current_stt.visit(this,scopeTracker);
+			}
+			emit("jne _endif"+Integer.toString(currentIfStatementIndex),TEXT);
+			emit("_elseBlock"+Integer.toString(currentIfStatementIndex)+":",TEXT);
+			for(ASTStatement current_stt : s.getIfBlockStatements()){
+				current_stt.visit(this,scopeTracker);
+			}
+			emit("_endif"+Integer.toString(currentIfStatementIndex)+":",TEXT);
+		}
 
 	}
-	Object visitASTLoop  (ASTLoop                  l   , ArrayList<AST> scopeTracker) throws SemanticException{
 
-		// TODO Have this counting happen transparently on emit
-		// TODO Have a string with the current function so that we can go to the right while labels
-		// TODO OR use scopetracker for that.
-		// TODO or after each visit statement update currentLoop?
-		loopCounter++;
-		currentLoop=loopCounter; //TODO declare
+	Object visitASTLoop  (ASTLoop    l   , ArrayList<AST> scopeTracker) throws SemanticException{
 
-		String condLabel = "\n_while_condition_"+Integer.toString(loopCounter)+":\n";
-		String codeLabel = "\n_while_body_"+Integer.toString(loopCounter)+":\n";
-		String endLabel  = "\n_while_end_"+Integer.toString(loopCounter)+":\n";
+		this.loopCounter++;
+		currentLoopIndex=this.loopCounter;
+		loopMap.put(l,new Integer(loopCounter));
+
+		String condLabel = "\n_while_condition"+Integer.toString(currentLoopIndex)+":\n";
+		String codeLabel = "\n_while_body"+Integer.toString(currentLoopIndex)+":\n";
+		String endLabel  = "\n_while_end"+Integer.toString(currentLoopIndex)+":\n";
 
 		// Here we visit the condition (which, assuming the checker is working,
 		// is an expression that evaluates to a boolean).
@@ -287,10 +326,11 @@ public class Encoder implements Visitor{
 		//Now we visit every statement
 		emit(codeLabel,TEXT);
 		List<ASTStatement> statements = l.getStatements();
+		scopeTracker.add(l);
 		for(ASTSTtatement s : statements){
 			s.visit(this,scopeTracker);
 		}
-
+		scopeTracker.remove(l);
 		//Now we go back to the condition. If it is false, it will jmp
 		//to the endLabel and we're out of the loop.
 		emit("jmp "+condLabel,TEXT);
@@ -300,10 +340,26 @@ public class Encoder implements Visitor{
 	}
 
 	Object visitASTLoopContinue          (ASTLoopContinue astLoopContinue, ArrayList<AST> scopeTracker) throws SemanticException{
+		//Finding innermost loop. TODO find a method that does this in one line, if there such a thing in the java library
+		ASTLoop innermostLoop=null;
+		for (AST node : scopeTracker){
+			if(node instanceof ASTLoop){
+				innermostLoop = node;
+			}
+		}
 
+		emit("jmp _while_condition"+loopMap.get(innermostLoop).toString(),TEXT);
 	}
 	Object visitASTLoopExit              (ASTLoopExit astLoopExit, ArrayList<AST> scopeTracker) throws SemanticException{
+		//Finding innermost loop. TODO find a method that does this in one line, if there such a thing in the java library
+		ASTLoop innermostLoop=null;
+		for (AST node : scopeTracker){
+			if(node instanceof ASTLoop){
+				innermostLoop = node;
+			}
+		}
 
+		emit("jmp while_end"+loopMap.get(innermostLoop).toString(),TEXT);
 	}
 
 	//-------------------------------------//
@@ -333,10 +389,78 @@ public class Encoder implements Visitor{
 
 
 	Object visitASTArithmeticExpression  (ASTArithmeticExpression ae  , ArrayList<AST> scopeTracker) throws SemanticException{
+		ASTTerm term1 = ae.getTerm();
+      Map<ASTOperatorArit,ASTTerm> opTerms = ae.getOpTerms();
 
+		//If its only 1 operand
+		if(opTerms.size()==0){
+			factor1.visit(this,scopeTracker);
+		//If there are multiple operands
+		}else{
+			term1.visit(this,scopeTracker); // pushes result to stack
+
+			//In every iteration, we have the accumulated result of the previous terms on stack,
+			//then we push the current term on stack, pull both, operate on them and push the result.
+			for (Map.Entry<ASTOperatorArit, ASTTerm> entry : map.entrySet()) {
+
+				entry.getValue().visit(this,scopeTracker) //pushes result to stack
+
+				String opString = (entry.getKey().getSpelling()).equals("+")?"add":"sub";
+
+				emit("pop eax",TEXT);
+				emit("pop ebx",TEXT);
+				emit(opString+" eax, ebx",TEXT);
+				emit("push eax",TEXT);
+
+			}
+		}
+		return null;
 	}
 	Object visitASTExpression            (ASTExpression e   , ArrayList<AST> o) throws SemanticException{
+		//If only 1 operand
+		if(e.getExp2()==null){
+			e.getExp1().visit(this,scopeTracker); // pushes to stack
 
+		//If 2 operands
+		}else{
+
+			//Visit and push e1
+			e.getExp1().visit(this,scopeTracker);
+
+			//For every possible operator, we generate the jump string that
+			//
+			String op = e.getOpComp().getSpelling();
+			String jumpString;
+			if(op.equals("==")){
+				jumpString="je";
+			}else if(op.equals("!=")){
+				jumpString="jne";
+			}else if(op.equals(">")){
+				jumpString="jg";
+			}else if(op.equals("<")){
+				jumpString="jl";
+			}else if(op.equals(">=")){
+				jumpString="jge";
+			}else if(op.equals("<=")){
+				jumpString="jle";
+			}
+
+			//visit and push e2
+			e.getExp2().visit(this,scopeTracker);
+
+			//emits
+			this.expEvalCounter++;
+			emit("pop eax",TEXT);
+			emit("pop ebx",TEXT);
+			emit("cmp eax,ebx",TEXT);
+			emit(jumpString+" _evalsToTrue"+Integer.toString(expEvalCounter),TEXT);
+			emit("push dword 0",TEXT);
+			emit("jmp _endExpEval"+Integer.toString(expEvalCounter),TEXT);
+			emit("_evalsToTrue"+Integer.toString(expEvalCounter)+":",TEXT);
+			emit("push dword 1",TEXT);
+			emit("_endExpEval"+Integer.toString(expEvalCounter)+":",TEXT);
+		}
+		return null;
 	}
 
 	Object visitASTFactorExpression      (ASTFactorExpression      fe  , ArrayList<AST> scopeTracker) throws SemanticException{
@@ -358,15 +482,41 @@ public class Encoder implements Visitor{
 		//ASTFunctionCall fc =
 	}
 
-	Object visitASTOperatorComp          (ASTOperatorComp          opc , ArrayList<AST> scopeTracker) throws SemanticException{
-
-	}
 	Object visitASTTerm                  (ASTTerm                  t   , ArrayList<AST> scopeTracker) throws SemanticException{
+		ASTFactor factor1 = t.getFactor();
+      Map<ASTOperatorArit,ASTFactor> opFactors = t.getOpFactors();
 
+		//If its only 1 operand
+		if(opFactors.size()==0){
+			factor1.visit(this,scopeTracker);
+		//If there are multiple operands
+		}else{
+			factor1.visit(this,scopeTracker); // pushes result to stack
+
+			//In every iteration, we have the accumulated result of the previous factors on stack,
+			//then we push the current factor on stack, pull both, operate on them and push the result.
+			for (Map.Entry<ASTOperatorArit, ASTFactor> entry : map.entrySet()) {
+
+				entry.getValue().visit(this,scopeTracker) //pushes result to stack
+
+				String opString = (entry.getKey().getSpelling()).equals("*")?"imul":"div";
+
+				emit("pop eax",TEXT);
+				emit("pop ebx",TEXT);
+				emit(opString+" eax, ebx",TEXT);
+				emit("push eax",TEXT);
+
+			}
+		}
+		return null;
 	}
 
-	Object visitASTOperator              (ASTOperator astOperator, ArrayList<AST> scopeTracker) throws SemanticException{
 
+	Object visitASTOperatorComp          (ASTOperatorComp          opc , ArrayList<AST> scopeTracker) throws SemanticException{
+		return null;
+	}
+	Object visitASTOperator              (ASTOperator astOperator, ArrayList<AST> scopeTracker) throws SemanticException{
+		return null;
 	}
 
 	//We wont use the methods below on the encoder, but we need them to implement visitor
