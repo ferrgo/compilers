@@ -1,6 +1,6 @@
 package poli.comp.compiler;
 
-//import poli.comp.parser.Parser;
+import poli.comp.generator.Encoder;
 import poli.comp.checker.Checker;
 import poli.comp.checker.SemanticException;
 import poli.comp.parser.Parser;
@@ -17,8 +17,6 @@ import poli.comp.util.symbolsTable.IdentificationTable;
  * @email gustavohpcarvalho@ecomp.poli.br
  */
 public class Compiler {
-
-	//TODO call checker
 
 	// Compiler identification table TODO is this useless? We make a new on in the Checker so i think it is.
 	public static IdentificationTable identificationTable = null;
@@ -58,8 +56,9 @@ public class Compiler {
 		// Runs a semantic analysis, returning a decorated AST
 		AST decoratedAST = c.check(astRoot);
 
-		//TODO code generation and output a .s file?
-
+		Encoder e = new Encoder();
+		String code = e.encode(decoratedAST);
+		System.out.println(code);
 	}
 
 

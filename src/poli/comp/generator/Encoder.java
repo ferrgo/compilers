@@ -256,7 +256,7 @@ public class Encoder implements Visitor{
 	//------- Control flow ---------------//
 
 	Object visitASTIfStatement           (ASTIfStatement           s   , ArrayList<AST> scopeTracker) throws SemanticException{
-		
+
 	}
 	Object visitASTLoop  (ASTLoop                  l   , ArrayList<AST> scopeTracker) throws SemanticException{
 
@@ -325,7 +325,10 @@ public class Encoder implements Visitor{
 	}
 
 	Object visitASTIdentifier            (ASTIdentifier            id  , ArrayList<AST> scopeTracker) throws SemanticException{
-
+		//TODO treat globals differently?
+		Integer i = currentVarTable.get(id.getSpelling());
+		emit("push dword [ebp+"+i.toString()+"]",TEXT);
+		return null;
 	}
 
 
@@ -335,14 +338,24 @@ public class Encoder implements Visitor{
 	Object visitASTExpression            (ASTExpression e   , ArrayList<AST> o) throws SemanticException{
 
 	}
+
 	Object visitASTFactorExpression      (ASTFactorExpression      fe  , ArrayList<AST> scopeTracker) throws SemanticException{
+
+		ASTExpression exp = fe.getExp(); // TODO refactor method to getExpression
+		exp.visit(this,scopeTracker);
+		return null;
 
 	}
 	Object visitASTFactorLiteral         (ASTFactorLiteral         fl  , ArrayList<AST> scopeTracker) throws SemanticException{
 
+		ASTLiteral lit = fl.getLiteral();
+		lit.visit(this,scopeTracker);
+		return null;
+
 	}
 	Object visitASTFactorSubroutineCall  (ASTFactorSubroutineCall  fsc , ArrayList<AST> scopeTracker) throws SemanticException{
-
+		//TODO refactor ASTFactorSubroutineCall to have a functioncall node.
+		//ASTFunctionCall fc =
 	}
 
 	Object visitASTOperatorComp          (ASTOperatorComp          opc , ArrayList<AST> scopeTracker) throws SemanticException{
