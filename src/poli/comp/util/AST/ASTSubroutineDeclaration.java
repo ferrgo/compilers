@@ -1,5 +1,7 @@
 package poli.comp.util.AST;
 
+import java.util.List;
+
 /**
  * Created by hgferr on 30/09/16.
  */

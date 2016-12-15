@@ -20,7 +20,7 @@ public class ASTFactorExpression extends ASTFactor {
         return v.visitASTFactorExpression(this, scopeTracker);
     }
 
-    public ASTExpression getExp() {
+    public ASTExpression getExpression() {
         return exp;
     }
 }

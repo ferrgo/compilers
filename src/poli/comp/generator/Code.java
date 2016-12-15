@@ -1,0 +1,61 @@
+package poli.comp.generator;
+
+import java.util.ArrayList;
+
+/**
+ * Created by hgferr on 15/12/16.
+ */
+public class Code {
+    private ArrayList<Instruction> extern, data, text;
+
+    public Code(){
+        extern = new ArrayList<>();
+        data = new ArrayList<>();
+        text = new ArrayList<>();
+    }
+
+    public void add(Instruction i) {
+        switch (i.getSection()) {
+            case 1:
+                extern.add(i);
+            case 2:
+                data.add(i);
+            case 3:
+                text.add(i);
+            default:
+                text.add(i); // When you like... who am I... You're text sectioned. DEAL WITH IT
+        }
+    }
+
+    public String generate(){ //TODO modify to BufferedWriter(FileWriter(output.asm))
+        StringBuilder asm = new StringBuilder();
+        //--------- Extern section for "imports" from C -----------
+        for (Instruction i : extern){
+            asm.append("extern " + i.toString() + "\n");
+        }
+        asm.append("\n;;;;;;;;;;;;;;;;;;;;;;;END OF EXTERN;;;;;;;;;;;;;;;;;;;\n");
+        //--------- Data section
+        asm.append("SECTION .data");
+        for (Instruction i : data){
+            if(i.toString().charAt(0)!='_'){
+                asm.append("\t\t"+ i.toString() + "\n");
+            } else {
+                asm.append("\t"+ i.toString() + "\n");
+            }
+        }
+        asm.append("\t\tintFormat: db \"%d\", 10, 0");
+        asm.append("\n;;;;;;;;;;;;;;;;;;;;;;;;END OF DATA;;;;;;;;;;;;;;;;;;;;\n");
+        //--------- Text section
+        asm.append("SECTION .text");
+        for (Instruction i : text){
+            if(i.toString().charAt(0)!='_'){
+                asm.append("\t\t"+ i.toString() + "\n");
+            } else {
+                asm.append("\t"+ i.toString() + "\n");
+            }
+        }
+
+        return asm.toString();
+    }
+
+}

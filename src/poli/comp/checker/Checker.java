@@ -1,7 +1,5 @@
 package poli.comp.checker;
 
-import org.codehaus.groovy.runtime.ArrayUtil;
-import org.codehaus.groovy.runtime.StringBufferWriter;
 import poli.comp.util.AST.*; //importing all AST node classes
 import poli.comp.util.symbolsTable.IdentificationTable;
 
@@ -511,26 +509,26 @@ public class Checker implements Visitor{
 		String ae1, ae2, op;
 		String resultType;
 
-		ae1 = (String) fe.getExp().getExp1().visit(this, scopeTracker);
+		ae1 = (String) fe.getExpression().getExp1().visit(this, scopeTracker);
 
-		if(fe.getExp().getExp2() != null){
-			ae2 = (String) fe.getExp().getExp2().visit(this, scopeTracker);
-			op = (String) fe.getExp().getOpComp().visit(this, scopeTracker);
+		if(fe.getExpression().getExp2() != null){
+			ae2 = (String) fe.getExpression().getExp2().visit(this, scopeTracker);
+			op = (String) fe.getExpression().getOpComp().visit(this, scopeTracker);
 			//TODO
 			//REGRA 7
 			if(!ae1.equals(ae2)){
 				throw new SemanticException("Cannot do operation between two different types");
 			}
 			if(ae1.equals("LOGICAL") || ae2.equals("LOGICAL")){
-				throw new SemanticException("This operation ("+ fe.getExp().getOpComp().getSpelling() + ") is not defined between Bool expressions");
+				throw new SemanticException("This operation ("+ fe.getExpression().getOpComp().getSpelling() + ") is not defined between Bool expressions");
 			}
 			resultType = "LOGICAL";
 		} else {
 			resultType = ae1;
 		}
 
-		fe.getExp().setTypeString(resultType);
-		return fe.getExp().getTypeString();
+		fe.getExpression().setTypeString(resultType);
+		return fe.getExpression().getTypeString();
 
 	}
 
