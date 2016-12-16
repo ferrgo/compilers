@@ -14,12 +14,14 @@ public class Encoder implements Visitor {
 	private List<Instruction> mcData; //mc for machine code
 	private List<Instruction> mcText; //mc for machine code
 
-	private Map<String,String> globalVarTable; //TODO what we really need here? <ID, Value> Maybe?
-	private Map<String,Integer> currentVarTable; //Map local variable names to their offset (times 4)
+	private List<String> globalVarList; //List with the names of the declared global variables.
+	private Map<String,Integer> localVarTable; //Map local variable names to their offset (times 4)
+	private Map<String,Integer> localParamTable; //Map local param names to their offset (times 4) (plus 4 because of PC)
 	private Map<ASTLoop,Integer> loopMap; //Maps loop nodes to an index that we can use on visitASTContinue/Break
 	private int loopCounter; //Counting loops to avoid repeated label names
 	private int ifCounter;   //Counting if blocks to avoid repeated label names
 	private boolean globalVarDec; //Its me GlobalVar
+											//(a wild globalvar appears)
 
 	private int expEvalCounter;
 
@@ -30,13 +32,15 @@ public class Encoder implements Visitor {
 
 
 	public Encoder(){
-		//TODO after treating globals, just use the table over there for addressing and you
-		//wont need the DATA and TEXT bullshit on emit.
 		mcData = new LinkedList<>();
 		mcText = new LinkedList<>();
 		expEvalCounter=0;
 		loopCounter=0;
 		ifCounter=0;
+
+		private List<String> globalVarList   = new ArrayList<String>();
+		private Map<ASTLoop,Integer> loopMap = new HashMap<ASTLoop,Integer>();
+
 
 		code = new Code();
 
@@ -48,18 +52,26 @@ public class Encoder implements Visitor {
 
 	// Helpers for the local vartables. Silly, I know, but its more readable ¯\_(ツ)_/¯
 	private void initializeVarTable(){
-		currentVarTable= new HashMap<String,Integer>();
+		localVarTable= new HashMap<String,Integer>();
 	}
 	private void cleanVarTable(){
-		currentVarTable= null;
+		localVarTable= null;
 	}
 	private void addLocalVar(String name){
-		currentVarTable.put(name, new Integer(4*currentVarTable.size())  );
+		localVarTable.put(name, new Integer(4*localVarTable.size())  );
+	}
+	private void initializeParamTable(){
+		localParamTable= new HashMap<String,Integer>();
+	}
+	private void cleanParamTable(){
+		localParamTable= null;
+	}
+	private void addLocalParam(String name){
+		//Plus 4 because of the program counter on the stack.
+		localParamTable.put(name, new Integer( 4+(4*localParamTable.size())  ) );
 	}
 
 	//Emit method that appends instructions to the code in the correct places.
-	//So far ive split these things manually into data and text. We might need to split
-	//things in runtime though. TODO find out if we need and if thats the case refactor below.
 	private void emit(int section, String s){
 
 		Instruction i = new Instruction(s, section);
@@ -81,7 +93,6 @@ public class Encoder implements Visitor {
 		emit(TEXT, s);
 	}
 
-	//TODO maybe work with a stringbuffer because performance?
 	public String encode(AST a){
 		ArrayList<AST> scopeTracker = new ArrayList<AST>();
 		String asm = "";//Should be a file mayb
@@ -114,7 +125,7 @@ public class Encoder implements Visitor {
 
 	public Object visitASTProgram(ASTProgram p, ArrayList<AST> scopeTracker) throws SemanticException {
 
-		//Encodes globals TODO apply a fix to global checking and encoding. Force globals to be only assigned to literals from start.
+		//Encodes globals
 		for (ASTDeclarationGroup dg : p.getGlobalDeclarationGroups()){
 			globalVarDec = true;
 			dg.visit(this, scopeTracker);
@@ -142,7 +153,7 @@ public class Encoder implements Visitor {
 			for (ASTSingleDeclaration dec : dg.getDeclarations()){
 				if( dg.getAssignmentMap().get(dec) == null){
 					emit(DATA, dec.getIdentifier().getSpelling() + ": dd 0");
-					globalVarTable.put(dec.getIdentifier().getSpelling(), Integer.toString(0)); //TODO Refactor globalVarTable signature to receive id,value
+					globalVarList.add(dec.getIdentifier().getSpelling());
 				}else {
 					ASTFactorLiteral fl = (ASTFactorLiteral) dg.getAssignmentMap().get(dec).getExp1().getTerm().getFactor();
 					ASTLiteral lit = (ASTLiteral) fl.getLiteral();
@@ -150,11 +161,11 @@ public class Encoder implements Visitor {
 						//If its bool:
 						String value = (lit.getSpelling().equals(".true.")) ? "1" : "0";
 						emit(DATA, dec.getIdentifier().getSpelling() + ": dd " + value);
-						globalVarTable.put(dec.getIdentifier().getSpelling(), value);
+						globalVarList.add(dec.getIdentifier().getSpelling());
 					} else {
 						//If its int:
 						emit(DATA, dec.getIdentifier().getSpelling() + ": dd " + lit.getSpelling());
-						globalVarTable.put(dec.getIdentifier().getSpelling(), lit.getSpelling());
+						globalVarList.add(dec.getIdentifier().getSpelling());
 					}
 				}
 			}
@@ -166,10 +177,10 @@ public class Encoder implements Visitor {
 				addLocalVar(currentName);
 				if(currentExpression!=null){
 					currentExpression.visit(this,scopeTracker); //visitExpression will push the final result, so we just have to pop here.
-					emit("pop [ebp-"+currentVarTable.get(currentName).toString()+"]");
+					emit("pop [ebp-"+localVarTable.get(currentName).toString()+"]");
 				}else{
 					emit("push 0");
-					emit("pop [ebp-"+currentVarTable.get(currentName).toString()+"]");
+					emit("pop [ebp-"+localVarTable.get(currentName).toString()+"]");
 				}
 			}
 		}
@@ -178,14 +189,19 @@ public class Encoder implements Visitor {
 
 
 	public Object visitASTAssignment(ASTAssignment a, ArrayList<AST> scopeTracker) throws SemanticException{
-		//TODO Treat for globals
-		//Treated In declarationGroup
-		//Please check it
-			ASTExpression exp = a.getExpression();
-			exp.visit(this,scopeTracker); //puts value on stack top
+		ASTExpression exp = a.getExpression();
+		String varName=a.getTarget().getSpelling();
 
-//			String varName=a.getTarget().getSpelling();
+		exp.visit(this,scopeTracker); //puts value on stack top
 
+		if (localVarTable.containsKey(varName)){
+			emit("pop [ebp-"+localVarTable.get(currentName).toString()+"]");
+		}else if (localParamTable.containsKey(varName)){
+			emit("pop [ebp+"+localParamTable.get(currentName).toString()+"]");
+		}else{
+			//We have ourselves a global. How exquisite.
+			emit("pop ["+varName+"]");
+		}
 			return null;
 	}
 
@@ -232,13 +248,12 @@ public class Encoder implements Visitor {
 	private Object subroutineDeclarationHelper(ASTSubroutineDeclaration srd, ArrayList<AST> scopeTracker) throws SemanticException {
 
 		initializeVarTable();
-		//TODO add params to vartable for acess within
-		//TODO read todos
+		initializeParamTable();
 
 		List<ASTSingleDeclaration> args = srd.getParams();
 
 		for(ASTSingleDeclaration sd: args){
-			addLocalVar(sd.getIdentifier().getSpelling());
+			addLocalParam(sd.getIdentifier().getSpelling());
 		}
 
 		emit("_"+srd.getIdentifier().getSpelling()+":");
@@ -254,6 +269,7 @@ public class Encoder implements Visitor {
 		}
 
 		cleanVarTable();
+		cleanParamTable();
 		emit("move esp, ebp");
 		emit("pop ebp");
 		if (srd instanceof ASTSubprogramDeclaration) {
@@ -310,10 +326,9 @@ public class Encoder implements Visitor {
 	public Object visitASTIfStatement(ASTIfStatement s, ArrayList<AST> scopeTracker) throws SemanticException{
 		this.ifCounter++;
 		int currentIfStatementIndex = this.ifCounter;
-//		ifMap.put(s,new Integer(ifMap.size())); //Finding ourselves a number for this AST node.
 
 		s.getCondition().visit(this,scopeTracker); // pushes condition (true or false)
-		//TODO setup the counter (have a field in astif that i can set for using here?)
+
 		emit("push dword 1");
 		emit("pop ebx");
 		emit("pop eax");
@@ -382,7 +397,7 @@ public class Encoder implements Visitor {
 	}
 
 	public Object visitASTLoopContinue(ASTLoopContinue astLoopContinue, ArrayList<AST> scopeTracker) throws SemanticException{
-		//Finding innermost loop. TODO find a method that does this in one line, if there such a thing in the java library
+		//Finding innermost loop.
 		ASTLoop innermostLoop=null;
 		for (AST node : scopeTracker){
 			if(node instanceof ASTLoop){
@@ -395,7 +410,7 @@ public class Encoder implements Visitor {
 	}
 
 	public Object visitASTLoopExit(ASTLoopExit astLoopExit, ArrayList<AST> scopeTracker) throws SemanticException{
-		//Finding innermost loop. TODO find a method that does this in one line, if there such a thing in the java library
+		//Finding innermost loop.
 		ASTLoop innermostLoop=null;
 		for (AST node : scopeTracker){
 			if(node instanceof ASTLoop){
@@ -426,13 +441,17 @@ public class Encoder implements Visitor {
 	}
 
 	public Object visitASTIdentifier(ASTIdentifier id, ArrayList<AST> scopeTracker) throws SemanticException{
-		//TODO treat globals differently?
-		Integer i = currentVarTable.get(id.getSpelling());
-		if(i==null){ //Assuming its not in the current table of var, should be globaç
-			String var = globalVarTable.get(id.getSpelling());
-			emit("push dword ["+var+"]");
-		}else{
-			emit("push dword [ebp+"+i.toString()+"]");
+
+		if(localVarTable.containsKey(id.getSpelling())){
+			String offset = (localVarTable.get(id.getSpelling())).toString();
+			emit("push dword [ebp-"+offset+"]");
+		}else if(localParamTable.containsKey(id.getSpelling())){
+			String offset = (localParamTable.get(id.getSpelling())).toString();
+			emit("push dword [ebp+"+offset+"]");
+		}else{//Assuming its not in the current table of local vars, it should be global
+			//TODO In theory, the checker should guarantee that if there isnt a local with
+			// this name, there is certainly a global, so I dont know if we have to check for errors here.
+			emit("push dword ["+id.getSpelling()+"]");
 		}
 		return null;
 	}
@@ -491,7 +510,7 @@ public class Encoder implements Visitor {
 				jumpString="jl";
 			}else if(op.equals(">=")){
 				jumpString="jge";
-			}else{// if(op.equals("<=")){ //TODO marking change, unsure, but guess here the only option is this one
+			}else{// <=
 				jumpString="jle";
 			}
 
