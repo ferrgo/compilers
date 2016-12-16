@@ -31,7 +31,7 @@ public class Compiler {
 		Compiler.initIdentificationTable();
 
 		// Creates the parser object
-		Parser p = new Parser("./testFiles/Checker/Pass/program17.txt");
+		Parser p = new Parser("./testFiles/Checker/Pass/program15.txt");
 
 		// Creates the AST object
 		AST astRoot = null;

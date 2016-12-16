@@ -32,14 +32,15 @@ public class Encoder implements Visitor {
 
 
 	public Encoder(){
-		mcData = new LinkedList<>();
-		mcText = new LinkedList<>();
+//		mcData = new LinkedList<>();
+//		mcText = new LinkedList<>();
+		globalVarList = new LinkedList<>();
 		expEvalCounter=0;
 		loopCounter=0;
 		ifCounter=0;
 
-		private List<String> globalVarList   = new ArrayList<String>();
-		private Map<ASTLoop,Integer> loopMap = new HashMap<ASTLoop,Integer>();
+		List<String> globalVarList   = new ArrayList<String>();
+		Map<ASTLoop,Integer> loopMap = new HashMap<ASTLoop,Integer>();
 
 
 		code = new Code();
@@ -161,6 +162,7 @@ public class Encoder implements Visitor {
 						//If its bool:
 						String value = (lit.getSpelling().equals(".true.")) ? "1" : "0";
 						emit(DATA, dec.getIdentifier().getSpelling() + ": dd " + value);
+						System.out.print(dec.getIdentifier().getSpelling());
 						globalVarList.add(dec.getIdentifier().getSpelling());
 					} else {
 						//If its int:
@@ -195,9 +197,9 @@ public class Encoder implements Visitor {
 		exp.visit(this,scopeTracker); //puts value on stack top
 
 		if (localVarTable.containsKey(varName)){
-			emit("pop [ebp-"+localVarTable.get(currentName).toString()+"]");
+			emit("pop [ebp-"+localVarTable.get(varName).toString()+"]");
 		}else if (localParamTable.containsKey(varName)){
-			emit("pop [ebp+"+localParamTable.get(currentName).toString()+"]");
+			emit("pop [ebp+"+localParamTable.get(varName).toString()+"]");
 		}else{
 			//We have ourselves a global. How exquisite.
 			emit("pop ["+varName+"]");

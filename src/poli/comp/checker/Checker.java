@@ -355,9 +355,10 @@ public class Checker implements Visitor{
 		for(ASTStatement stt : ifBlockStatements){
 			stt.visit(this,scopeTracker);
 		}
-
-		for(ASTStatement stt : elseBlockStatements){
-			stt.visit(this,scopeTracker);
+		if(elseBlockStatements !=null) {
+			for (ASTStatement stt : elseBlockStatements) {
+				stt.visit(this, scopeTracker);
+			}
 		}
 
 		return null;
