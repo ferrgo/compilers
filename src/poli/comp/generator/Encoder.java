@@ -547,8 +547,8 @@ public class Encoder implements Visitor {
 
 	}
 	public Object visitASTFactorSubroutineCall(ASTFactorSubroutineCall fsc, ArrayList<AST> scopeTracker) throws SemanticException{
-		//TODO refactor ASTFactorSubroutineCall to have a functioncall node.
-		//ASTFunctionCall fc =
+		ASTFunctionCall fc = fsc.getFC();
+		fc.visit(this,scopeTracker);
 		return null;
 	}
 
