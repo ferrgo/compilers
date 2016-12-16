@@ -12,12 +12,15 @@ public abstract class ASTSubroutineDeclaration extends AST{
 	private boolean returnFound;
 	private List<ASTStatement> statements;
 
+	private List<ASTSingleDeclaration> l_params;
 
-	public ASTSubroutineDeclaration(ASTIdentifier id, ASTType tp, List<ASTStatement> stts){
+
+	public ASTSubroutineDeclaration (List<ASTSingleDeclaration> l_par, ASTIdentifier id, ASTType tp, List<ASTStatement> stts){
 		this.id = id;
 		this.tp=tp;
 		this.returnFound=false;
 		this.statements=stts;
+		this.l_params = l_par;
 	}
 
 	//For checker:
@@ -44,6 +47,11 @@ public abstract class ASTSubroutineDeclaration extends AST{
 	public ASTIdentifier getIdentifier() {
 		return id;
 	}
+
+	public List<ASTSingleDeclaration> getParams() {
+		return l_params;
+	}
+
 
 
 }

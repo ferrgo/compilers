@@ -14,12 +14,12 @@ public class Encoder implements Visitor {
 	private List<Instruction> mcData; //mc for machine code
 	private List<Instruction> mcText; //mc for machine code
 
-	private Map<String,String> globalVarTable;
+	private Map<String,String> globalVarTable; //TODO what we really need here? <ID, Value> Maybe?
 	private Map<String,Integer> currentVarTable; //Map local variable names to their offset (times 4)
 	private Map<ASTLoop,Integer> loopMap; //Maps loop nodes to an index that we can use on visitASTContinue/Break
 	private int loopCounter; //Counting loops to avoid repeated label names
 	private int ifCounter;   //Counting if blocks to avoid repeated label names
-	private boolean globalVarDec;
+	private boolean globalVarDec; //Its me GlobalVar
 
 	private int expEvalCounter;
 
@@ -43,7 +43,7 @@ public class Encoder implements Visitor {
 		emit(EXTERN, "_printf");     //In order to allow printing, like in the example ASM file
 //		emit(DATA, "SECTION .data");       //For globals
 //		emit("SECTION .text");       //For code
-		emit(DATA,"global _WinMain@16\n"); //Here to help windows do its thing, like in the example ASM file
+		emit("global _WinMain@16"); //Here to help windows do its thing, like in the example ASM file
 	}
 
 	// Helpers for the local vartables. Silly, I know, but its more readable ¯\_(ツ)_/¯
@@ -141,18 +141,20 @@ public class Encoder implements Visitor {
 		if (globalVarDec){ //If we can only have asg to literals for globals...
 			for (ASTSingleDeclaration dec : dg.getDeclarations()){
 				if( dg.getAssignmentMap().get(dec) == null){
-					emit(DATA, dec + ": dd 0");
-
+					emit(DATA, dec.getIdentifier().getSpelling() + ": dd 0");
+					globalVarTable.put(dec.getIdentifier().getSpelling(), Integer.toString(0)); //TODO Refactor globalVarTable signature to receive id,value
 				}else {
 					ASTFactorLiteral fl = (ASTFactorLiteral) dg.getAssignmentMap().get(dec).getExp1().getTerm().getFactor();
 					ASTLiteral lit = (ASTLiteral) fl.getLiteral();
 					if (lit.getTypeString().equals("LOGICAL")) {
 						//If its bool:
 						String value = (lit.getSpelling().equals(".true.")) ? "1" : "0";
-						emit(DATA, dec + ": dd " + value);
+						emit(DATA, dec.getIdentifier().getSpelling() + ": dd " + value);
+						globalVarTable.put(dec.getIdentifier().getSpelling(), value);
 					} else {
 						//If its int:
-						emit(DATA, dec + ": dd " + lit.getSpelling());
+						emit(DATA, dec.getIdentifier().getSpelling() + ": dd " + lit.getSpelling());
+						globalVarTable.put(dec.getIdentifier().getSpelling(), lit.getSpelling());
 					}
 				}
 			}
@@ -182,7 +184,7 @@ public class Encoder implements Visitor {
 			ASTExpression exp = a.getExpression();
 			exp.visit(this,scopeTracker); //puts value on stack top
 
-			String varName=a.getTarget().getSpelling();
+//			String varName=a.getTarget().getSpelling();
 
 			return null;
 	}
@@ -227,10 +229,17 @@ public class Encoder implements Visitor {
 		return null;
 	}
 
-	Object subroutineDeclarationHelper(ASTSubroutineDeclaration srd,  ArrayList<AST> scopeTracker) throws SemanticException {
+	private Object subroutineDeclarationHelper(ASTSubroutineDeclaration srd, ArrayList<AST> scopeTracker) throws SemanticException {
 
 		initializeVarTable();
 		//TODO add params to vartable for acess within
+		//TODO read todos
+
+		List<ASTSingleDeclaration> args = srd.getParams();
+
+		for(ASTSingleDeclaration sd: args){
+			addLocalVar(sd.getIdentifier().getSpelling());
+		}
 
 		emit("_"+srd.getIdentifier().getSpelling()+":");
 		emit("push ebp");
@@ -323,7 +332,7 @@ public class Encoder implements Visitor {
 			for(ASTStatement current_stt : s.getIfBlockStatements()){
 				current_stt.visit(this,scopeTracker);
 			}
-			emit("jne _endif"+Integer.toString(currentIfStatementIndex));
+			emit("jmp _endif"+Integer.toString(currentIfStatementIndex));//jmp out of if else
 			emit("_elseBlock"+Integer.toString(currentIfStatementIndex)+":");
 			for(ASTStatement current_stt : s.getIfBlockStatements()){
 				current_stt.visit(this,scopeTracker);
@@ -337,7 +346,7 @@ public class Encoder implements Visitor {
 
 		this.loopCounter++;
 		int currentLoopIndex = this.loopCounter;
-		loopMap.put(l,new Integer(loopCounter));
+		loopMap.put(l, loopCounter);
 
 		String condLabel = "\n_while_condition"+Integer.toString(currentLoopIndex)+":\n";
 		String codeLabel = "\n_while_body"+Integer.toString(currentLoopIndex)+":\n";
@@ -419,7 +428,12 @@ public class Encoder implements Visitor {
 	public Object visitASTIdentifier(ASTIdentifier id, ArrayList<AST> scopeTracker) throws SemanticException{
 		//TODO treat globals differently?
 		Integer i = currentVarTable.get(id.getSpelling());
-		emit("push dword [ebp+"+i.toString()+"]");
+		if(i==null){ //Assuming its not in the current table of var, should be globaç
+			String var = globalVarTable.get(id.getSpelling());
+			emit("push dword ["+var+"]");
+		}else{
+			emit("push dword [ebp+"+i.toString()+"]");
+		}
 		return null;
 	}
 

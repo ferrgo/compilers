@@ -11,11 +11,10 @@ import java.util.List;
  */
 public class ASTSubprogramDeclaration extends ASTSubroutineDeclaration{
 
-	private List<ASTSingleDeclaration> l_params;
+//	private List<ASTSingleDeclaration> l_params;
 
 	public ASTSubprogramDeclaration( ASTIdentifier subroutineName, List<ASTSingleDeclaration> l_par, List<ASTStatement> l_s) {
-       super(subroutineName,null,l_s);
-		 this.l_params = l_par;
+       super(l_par, subroutineName,null,l_s);
 	}
 
     @Override
@@ -27,9 +26,9 @@ public class ASTSubprogramDeclaration extends ASTSubroutineDeclaration{
 //		return id;
 //	}
 
-	public List<ASTSingleDeclaration> getParams() {
-		return l_params;
-	}
+//	public List<ASTSingleDeclaration> getParams() {
+//		return l_params;
+//	}
 
 
 }

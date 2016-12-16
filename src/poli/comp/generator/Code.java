@@ -35,24 +35,24 @@ public class Code {
         StringBuilder asm = new StringBuilder();
         //--------- Extern section for "imports" from C -----------
         for (Instruction i : extern){
-            asm.append("extern " + i.toString() + "\n");
+            asm.append("extern " + i.toString());
         }
-        asm.append("\n;;;;;;;;;;;;;;;;;;;;;;;END OF EXTERN;;;;;;;;;;;;;;;;;;;\n");
+        asm.append("\n");
+        asm.append(";;;;;;;;;;;;;;;;;;;;;;;END OF EXTERN;;;;;;;;;;;;;;;;;;;\n");
         //--------- Data section
         asm.append("SECTION .data\n");
         for (Instruction i : data){
-            if(i.toString().charAt(0)!='_'){
-                asm.append("\t\t"+ i.toString() + "\n");
-            } else {
-                asm.append("\t"+ i.toString() + "\n");
-            }
+            asm.append("\t"+ i.toString() + "\n");
         }
         asm.append("\tintFormat: db \"%d\", 10, 0");
         asm.append("\n;;;;;;;;;;;;;;;;;;;;;;;;END OF DATA;;;;;;;;;;;;;;;;;;;;\n");
         //--------- Text section
         asm.append("SECTION .text\n");
         for (Instruction i : text){
-            if(i.toString().charAt(0)!='_'){
+            if(i.toString().contains("global")){
+                asm.append("\t"+ i.toString() + "\n");
+            }
+            else if(i.toString().charAt(0)!='_'){
                 asm.append("\t\t"+ i.toString() + "\n");
             } else {
                 asm.append("\t"+ i.toString() + "\n");

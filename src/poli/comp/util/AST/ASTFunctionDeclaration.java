@@ -12,17 +12,16 @@ import java.util.List;
  // FUNCTION_DECL   ::= FUNCTION TYPE ID LP (DECLARATION (, DECLARATION*))? RP (STATEMENT)* END FUNCTION
 public class ASTFunctionDeclaration extends ASTSubroutineDeclaration{
 
-   private List<ASTSingleDeclaration> l_params;
+//   private List<ASTSingleDeclaration> l_params;
    private List<ASTStatement> l_stt;
 
      public ASTFunctionDeclaration(ASTType tp, ASTIdentifier id, List<ASTSingleDeclaration> l_par, List<ASTStatement> statements) {
-         super(id, tp,statements);
-         this.l_params = l_par;
+         super(l_par,id, tp,statements);
      }
 
- 	public List<ASTSingleDeclaration> getParams(){
- 		return this.l_params;
- 	}
+// 	public List<ASTSingleDeclaration> getParams(){
+// 		return this.l_params;
+// 	}
 
 
 
