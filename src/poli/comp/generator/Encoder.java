@@ -395,8 +395,6 @@ public class Encoder implements Visitor {
 		}
 
 		emit("jmp while_end"+loopMap.get(innermostLoop).toString());
-
-		emit("jmp _while_condition"+loopMap.get(innermostLoop).toString());
 		return null;
 	}
 
