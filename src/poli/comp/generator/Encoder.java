@@ -88,7 +88,7 @@ public class Encoder implements Visitor{
 				output+=i.getContents();
 			}
 
-			return output; //TODO modify compiler class to spit this to a file.
+			return output;
 
 		}catch(SemanticException se){
 			throw new RuntimeException("We shouldn't even be here. Conceptually, the Code generator
@@ -271,7 +271,6 @@ public class Encoder implements Visitor{
 		ifMap.put(s,new Integer(ifMap.size())); //Finding ourselves a number for this AST node.
 
 		s.getCondition().visit(this,scopeTracker); // pushes condition (true or false)
-		//TODO setup the counter (have a field in astif that i can set for using here?)
 		emit("push dword 1",TEXT);
 		emit("pop ebx",TEXT);
 		emit("pop eax",TEXT);
@@ -465,7 +464,7 @@ public class Encoder implements Visitor{
 
 	Object visitASTFactorExpression      (ASTFactorExpression      fe  , ArrayList<AST> scopeTracker) throws SemanticException{
 
-		ASTExpression exp = fe.getExp(); // TODO refactor method to getExpression
+		ASTExpression exp = fe.getExp();
 		exp.visit(this,scopeTracker);
 		return null;
 
@@ -478,8 +477,9 @@ public class Encoder implements Visitor{
 
 	}
 	Object visitASTFactorSubroutineCall  (ASTFactorSubroutineCall  fsc , ArrayList<AST> scopeTracker) throws SemanticException{
-		//TODO refactor ASTFactorSubroutineCall to have a functioncall node.
-		//ASTFunctionCall fc =
+		ASTFunctionCall fc = fsc.getFC();
+		fc.visit(this,scopeTracker);
+		return null;
 	}
 
 	Object visitASTTerm                  (ASTTerm                  t   , ArrayList<AST> scopeTracker) throws SemanticException{

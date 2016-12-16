@@ -10,12 +10,14 @@ import java.util.ArrayList;
  */
 public class ASTFactorSubroutineCall extends ASTFactor {
 
-	private final ASTIdentifier id;
-	private final ASTFunctionArgs l_args;
+	private ASTIdentifier id;
+	private ASTFunctionArgs l_args;
+	private ASTFunctionCall fc; //Gambiarra. TODO ajeitar
 
 	public ASTFactorSubroutineCall(ASTIdentifier id, ASTFunctionArgs l_args) {
 		 this.id=id;
 		 this.l_args=l_args;
+		 this.fc=new ASTFunctionCall(id,l_args);
 	}
 
 	public ASTFunctionArgs getASTFunctionArgs (){
@@ -24,6 +26,10 @@ public class ASTFactorSubroutineCall extends ASTFactor {
 
 	public ASTIdentifier getId(){
 		return id;
+	}
+
+	public ASTFunctionCall getFC(){
+		return fc;
 	}
 
     @Override

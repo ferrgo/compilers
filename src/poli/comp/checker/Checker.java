@@ -543,6 +543,7 @@ public class Checker implements Visitor{
 	public Object visitASTFactorSubroutineCall(ASTFactorSubroutineCall fsc, ArrayList<AST> scopeTracker) throws SemanticException {
 //		ASTSubroutineDeclaration dec = (ASTSubroutineDeclaration) fsc.visit(this,scopeTracker);
 		//Checking if function was declared
+		//TODO check the FunctionCall node
 		ASTIdentifier subroutineId = fsc.getId();
 		subroutineId.visit(this,scopeTracker);
 
