@@ -7,13 +7,14 @@ import java.util.List;
  */
  // SUBROUTINE_DECL ::= FUNCTION_DECL | SUBPROGRAM_DECL
 public abstract class ASTSubroutineDeclaration extends AST{
-
+	private ASTIdentifier id;
 	private ASTType tp;
 	private boolean returnFound;
 	private List<ASTStatement> statements;
 
 
-	public ASTSubroutineDeclaration(ASTType tp, List<ASTStatement> stts){
+	public ASTSubroutineDeclaration(ASTIdentifier id, ASTType tp, List<ASTStatement> stts){
+		this.id = id;
 		this.tp=tp;
 		this.returnFound=false;
 		this.statements=stts;
@@ -39,5 +40,10 @@ public abstract class ASTSubroutineDeclaration extends AST{
 	public List<ASTStatement> getStatements() {
 		return statements;
 	}
+
+	public ASTIdentifier getIdentifier() {
+		return id;
+	}
+
 
 }

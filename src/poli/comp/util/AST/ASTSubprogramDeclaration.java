@@ -11,12 +11,10 @@ import java.util.List;
  */
 public class ASTSubprogramDeclaration extends ASTSubroutineDeclaration{
 
-	private ASTIdentifier id;
 	private List<ASTSingleDeclaration> l_params;
 
 	public ASTSubprogramDeclaration( ASTIdentifier subroutineName, List<ASTSingleDeclaration> l_par, List<ASTStatement> l_s) {
-       super(null,l_s);
-		 this.id = subroutineName;
+       super(subroutineName,null,l_s);
 		 this.l_params = l_par;
 	}
 
@@ -24,10 +22,10 @@ public class ASTSubprogramDeclaration extends ASTSubroutineDeclaration{
     public Object visit(Visitor v, ArrayList<AST> scopeTracker) throws SemanticException {
         return v.visitASTSubprogramDeclaration(this, scopeTracker);
     }
-
-	public ASTIdentifier getIdentifier() {
-		return id;
-	}
+//
+//	public ASTIdentifier getIdentifier() {
+//		return id;
+//	}
 
 	public List<ASTSingleDeclaration> getParams() {
 		return l_params;

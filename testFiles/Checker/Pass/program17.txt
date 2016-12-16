@@ -2,7 +2,7 @@
 
 
    FUNCTION INTEGER sqarea (INTEGER :: d, INTEGER :: b)
-   RETURN a * b
+   RETURN d * b
    END FUNCTION
 
 

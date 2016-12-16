@@ -6,10 +6,14 @@ public class Instruction{
 
 	public Instruction(String s, int section){
 		this.section = section;
-		this.contents=s+"\n";
+		this.contents=s;
 	}
 
 	public String getContents(){
+		return this.contents;
+	}
+
+	public String toString(){
 		return this.contents;
 	}
 

@@ -19,6 +19,7 @@ import poli.comp.util.symbolsTable.IdentificationTable;
 public class Compiler {
 
 	// Compiler identification table TODO is this useless? We make a new on in the Checker so i think it is.
+										//ans: I guess I can be useful, it could be the same for both Checker and Encoder...
 	public static IdentificationTable identificationTable = null;
 
 	/**
@@ -30,7 +31,7 @@ public class Compiler {
 		Compiler.initIdentificationTable();
 
 		// Creates the parser object
-		Parser p = new Parser();
+		Parser p = new Parser("./testFiles/Checker/Pass/program17.txt");
 
 		// Creates the AST object
 		AST astRoot = null;

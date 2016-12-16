@@ -18,12 +18,16 @@ public class Code {
         switch (i.getSection()) {
             case 1:
                 extern.add(i);
+                break;
             case 2:
                 data.add(i);
+                break;
             case 3:
                 text.add(i);
+                break;
             default:
                 text.add(i); // When you like... who am I... You're text sectioned. DEAL WITH IT
+                break;
         }
     }
 
@@ -35,7 +39,7 @@ public class Code {
         }
         asm.append("\n;;;;;;;;;;;;;;;;;;;;;;;END OF EXTERN;;;;;;;;;;;;;;;;;;;\n");
         //--------- Data section
-        asm.append("SECTION .data");
+        asm.append("SECTION .data\n");
         for (Instruction i : data){
             if(i.toString().charAt(0)!='_'){
                 asm.append("\t\t"+ i.toString() + "\n");
@@ -43,10 +47,10 @@ public class Code {
                 asm.append("\t"+ i.toString() + "\n");
             }
         }
-        asm.append("\t\tintFormat: db \"%d\", 10, 0");
+        asm.append("\tintFormat: db \"%d\", 10, 0");
         asm.append("\n;;;;;;;;;;;;;;;;;;;;;;;;END OF DATA;;;;;;;;;;;;;;;;;;;;\n");
         //--------- Text section
-        asm.append("SECTION .text");
+        asm.append("SECTION .text\n");
         for (Instruction i : text){
             if(i.toString().charAt(0)!='_'){
                 asm.append("\t\t"+ i.toString() + "\n");

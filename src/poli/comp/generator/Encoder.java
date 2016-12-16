@@ -43,7 +43,7 @@ public class Encoder implements Visitor {
 		emit(EXTERN, "_printf");     //In order to allow printing, like in the example ASM file
 //		emit(DATA, "SECTION .data");       //For globals
 //		emit("SECTION .text");       //For code
-		emit("\nglobal _WinMain@16"); //Here to help windows do its thing, like in the example ASM file
+		emit(DATA,"global _WinMain@16\n"); //Here to help windows do its thing, like in the example ASM file
 	}
 
 	// Helpers for the local vartables. Silly, I know, but its more readable ¯\_(ツ)_/¯
@@ -140,17 +140,21 @@ public class Encoder implements Visitor {
 	public Object visitASTDeclarationGroup(ASTDeclarationGroup dg, ArrayList<AST> scopeTracker) throws SemanticException{
 		if (globalVarDec){ //If we can only have asg to literals for globals...
 			for (ASTSingleDeclaration dec : dg.getDeclarations()){
-				ASTFactorLiteral fl = (ASTFactorLiteral) dg.getAssignmentMap().get(dec).getExp1().getTerm().getFactor();
-				ASTLiteral lit = (ASTLiteral) fl.getLiteral();
-				if(lit.getTypeString().equals("LOGICAL")){
-					//If its bool:
-					String value = (lit.getSpelling().equals(".true."))?"1":"0";
-					emit(DATA,  dec + ": dd " + value);
-				}else{
-					//If its int:
-					emit(DATA,  dec + ": dd " + lit.getSpelling());
-				}
+				if( dg.getAssignmentMap().get(dec) == null){
+					emit(DATA, dec + ": dd 0");
 
+				}else {
+					ASTFactorLiteral fl = (ASTFactorLiteral) dg.getAssignmentMap().get(dec).getExp1().getTerm().getFactor();
+					ASTLiteral lit = (ASTLiteral) fl.getLiteral();
+					if (lit.getTypeString().equals("LOGICAL")) {
+						//If its bool:
+						String value = (lit.getSpelling().equals(".true.")) ? "1" : "0";
+						emit(DATA, dec + ": dd " + value);
+					} else {
+						//If its int:
+						emit(DATA, dec + ": dd " + lit.getSpelling());
+					}
+				}
 			}
 		}else{
 			//in this case, these are local vars.
@@ -223,7 +227,7 @@ public class Encoder implements Visitor {
 		return null;
 	}
 
-	Object subroutineDeclarationHelper(ASTSubroutineDeclaration srd,  ArrayList<AST> scopeTracker){
+	Object subroutineDeclarationHelper(ASTSubroutineDeclaration srd,  ArrayList<AST> scopeTracker) throws SemanticException {
 
 		initializeVarTable();
 		//TODO add params to vartable for acess within
@@ -252,7 +256,8 @@ public class Encoder implements Visitor {
 	public Object visitASTMainProgram(ASTMainProgram mp, ArrayList<AST> scopeTracker) throws SemanticException{
 		initializeVarTable();
 
-		emit("\n_"+srd.getIdentifier().getSpelling()+":\n");
+//		emit("\n_"+mp.getIdentifier().getSpelling()+":\n");
+		emit("_" + "WinMain@16" + ":");//If we set global _WinMain@16 then I guess so has to be this one
 		emit("push ebp");
 		emit("move ebp, esp");
 
@@ -260,7 +265,7 @@ public class Encoder implements Visitor {
 		//because if we do this right, at the end of every command ST will point to the last LV to be declared.
 		//What we need to do here is to declare some counter that counts the amount of LVs already declared,
 		//so that we can use the right offset when we find a new one.
-		for( ASTStatement stt : srd.getStatements() ){
+		for( ASTStatement stt : mp.getStatements() ){
 			stt.visit(this,scopeTracker);
 		}
 
@@ -272,7 +277,8 @@ public class Encoder implements Visitor {
 	}
 
 	public Object visitASTReturnStatement(ASTReturnStatement rs, ArrayList<AST> scopeTracker) throws SemanticException{
-
+		ASTFunctionReturnStatement frs;
+		ASTExpression exp;
 		if (rs instanceof ASTFunctionReturnStatement){
 			frs = (ASTFunctionReturnStatement) rs;
 			exp = frs.getExpression();
@@ -283,7 +289,7 @@ public class Encoder implements Visitor {
 		emit("mov esp, ebp");
 		emit("pop ebp");
 		emit("ret");
-
+		return null;
 	}
 
 	//--------------------------//
@@ -294,8 +300,8 @@ public class Encoder implements Visitor {
 
 	public Object visitASTIfStatement(ASTIfStatement s, ArrayList<AST> scopeTracker) throws SemanticException{
 		this.ifCounter++;
-		currentIfStatementIndex=this.ifCounter;
-		ifMap.put(s,new Integer(ifMap.size())); //Finding ourselves a number for this AST node.
+		int currentIfStatementIndex = this.ifCounter;
+//		ifMap.put(s,new Integer(ifMap.size())); //Finding ourselves a number for this AST node.
 
 		s.getCondition().visit(this,scopeTracker); // pushes condition (true or false)
 		//TODO setup the counter (have a field in astif that i can set for using here?)
@@ -324,13 +330,13 @@ public class Encoder implements Visitor {
 			}
 			emit("_endif"+Integer.toString(currentIfStatementIndex)+":");
 		}
-
+		return null;
 	}
 
 	public Object visitASTLoop(ASTLoop l, ArrayList<AST> scopeTracker) throws SemanticException{
 
 		this.loopCounter++;
-		currentLoopIndex=this.loopCounter;
+		int currentLoopIndex = this.loopCounter;
 		loopMap.put(l,new Integer(loopCounter));
 
 		String condLabel = "\n_while_condition"+Integer.toString(currentLoopIndex)+":\n";
@@ -371,22 +377,27 @@ public class Encoder implements Visitor {
 		ASTLoop innermostLoop=null;
 		for (AST node : scopeTracker){
 			if(node instanceof ASTLoop){
-				innermostLoop = node;
+				innermostLoop = (ASTLoop) node;
 			}
 		}
 
 		emit("jmp _while_condition"+loopMap.get(innermostLoop).toString());
+		return null;
 	}
+
 	public Object visitASTLoopExit(ASTLoopExit astLoopExit, ArrayList<AST> scopeTracker) throws SemanticException{
 		//Finding innermost loop. TODO find a method that does this in one line, if there such a thing in the java library
 		ASTLoop innermostLoop=null;
 		for (AST node : scopeTracker){
 			if(node instanceof ASTLoop){
-				innermostLoop = node;
+				innermostLoop = (ASTLoop) node;
 			}
 		}
 
 		emit("jmp while_end"+loopMap.get(innermostLoop).toString());
+
+		emit("jmp _while_condition"+loopMap.get(innermostLoop).toString());
+		return null;
 	}
 
 	//-------------------------------------//
